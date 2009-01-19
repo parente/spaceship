@@ -1,0 +1,31 @@
+/**
+ * Spaceship! styling for the StatusView widget.
+ *
+ * Copyright (c) 2008 Peter Parente under the terms of the BSD license.
+ * http://creativecommons.org/licenses/BSD/
+ */
+.ssStatusView {
+    display: table; 
+    position: relative; 
+    overflow: hidden;
+}
+
+.ssStatusViewBox {
+    text-align: center;
+    display: table-cell; 
+    vertical-align: middle;
+}
+
+.ssStatusViewMessages {
+    margin: 0px auto;
+    font-size: 2.5em;
+    border: 1px solid white;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 500px;
+    padding: 20px;
+}
+
+.ssStatusViewText {
+    padding: 0px;
+}

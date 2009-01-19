@@ -1,0 +1,23 @@
+/**
+ * Spaceship! styling for the HUDView widget.
+ *
+ * Copyright (c) 2008 Peter Parente under the terms of the BSD license.
+ * http://creativecommons.org/licenses/BSD/
+ */
+.ssHUDView {
+    color: white;
+    font-size: 24px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid #303030;
+}
+
+.ssHUDViewCell {
+    padding-right: 1.5em;
+    width: 75px;
+}
+
+.ssHUDViewLabel {
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+}

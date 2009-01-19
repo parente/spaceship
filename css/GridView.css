@@ -1,0 +1,56 @@
+/**
+ * Spaceship! styling for the GridView widget.
+ *
+ * Copyright (c) 2008 Peter Parente under the terms of the BSD license.
+ * http://creativecommons.org/licenses/BSD/
+ */
+.ssGridView {
+    margin: 1px;
+    width: 100%;
+    height: 100%;
+}
+
+.ssGridViewTable {
+    position: absolute;
+    border-collapse: collapse;
+    border: 1px solid white;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.ssGridViewTable .ssGridViewCell {
+    border: 1px solid white;
+    opacity: 0.25;
+    padding: 0em;
+    margin: 0em;
+}
+
+.ssGridViewTable .ssGridViewCellSelected {
+    opacity: 1.0;
+}
+
+.ssGridViewTable .ssGridViewRowHeader {
+    border: 0px solid white;
+    font-weight: bold;
+    text-align: center;
+    padding: 0px 3px;
+}
+
+.ssGridViewTable .ssGridViewColumnHeader {
+    border: 0px solid white;
+    font-weight: bold;
+    text-align: center;
+    padding: 3px 0px;
+}
+
+.ssGridViewTable .ssGridViewCell .ssGridViewCellIcon {
+    width: 100%;
+    height: 100%;
+    padding: 0em;
+    margin: 0em;
+    float: left;
+}
+
+.ssGridViewTable .ssGridViewCell .ssGridViewCellFader {
+    background-color: white;
+}

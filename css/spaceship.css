@@ -1,0 +1,56 @@
+/**
+ * Styling for the Spaceship! game.
+ *
+ * Copyright (c) 2008 Peter Parente under the terms of the BSD license.
+ * http://creativecommons.org/licenses/BSD/
+ */
+@import url("LoaderOverlay.css");
+@import url("MenuView.css");
+@import url("HUDView.css");
+@import url("StatusView.css");
+@import url("GridView.css");
+
+body, html {
+    width:100%; 
+    height:100%; 
+    margin:0; 
+    padding:0;
+}
+
+/* No focus borders, we're doing custom rendering */
+:focus { 
+    -moz-outline-style: none;
+}
+
+.spaceship {
+    background-color: black;
+    /* http://flickr.com/photos/dg_pics/2509259255/ */
+    background-image: url('../images/2509259255_73693c0f12_o.jpg');
+}
+
+.spaceship #watermark {
+    position: absolute;
+    height: 100%;
+}
+
+.spaceship .header {
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Border container */
+.spaceship .dijitBorderContainer {
+    background-color: transparent;
+    width: 100%; 
+    height: 100%;
+}
+
+.spaceship .dijitGutter {
+    display: none;
+}
+
+.spaceship .dijitBorderContainer-dijitContentPane {
+    background-color: transparent;
+    padding: 5px;
+    border-width: 0px;
+}
