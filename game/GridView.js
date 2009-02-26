@@ -14,6 +14,7 @@ dojo.require('spaceship.game.GameTopics');
 dojo.require('spaceship.utils.Subscriber');
 dojo.require('spaceship.images.GraphicsManager');
 
+// @todo: factor out grid controllers
 dojo.declare('spaceship.game.GridView', [dijit._Widget, 
                                          dijit._Templated,
                                          dijit._Contained,
@@ -44,6 +45,13 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
         this.subscribe(spaceship.game.PREPARE_SHOT_TOPIC, 'onPrepareShot');
         this.subscribe(spaceship.game.WARP_TOPIC, 'onTimeWarp');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
+    },
+    
+    uninitialize: function() {
+        this.unsubscribeAll();
+        var parent = this.getParent();
+        parent.removeChild(this);
+        console.debug('cleaning up grid view');
     },
      
     /**
@@ -129,9 +137,6 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
     },
     
     onEndGame: function() {
-        this.unsubscribeAll();
-        var parent = this.getParent();
-        parent.removeChild(this);
         this.destroyRecursive();
     },
     

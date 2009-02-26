@@ -5,27 +5,35 @@
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.game.StatusAudio');
+dojo.require('dijit._Widget');
 dojo.require('spaceship.game.GameTopics');
 dojo.require('spaceship.utils.Subscriber');
 dojo.require('spaceship.sounds.AudioManager');
 
-dojo.declare('spaceship.game.StatusAudio', spaceship.utils.Subscriber, {
+dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
+                                            spaceship.utils.Subscriber], {
     // status model
     model: null,
     // bundle of config
     config: null,
     // audio manager
     audio: spaceship.sounds.AudioManager,
-    constructor: function(args) {
-        dojo.mixin(this, args);
-        this.id = Math.random();
+    postMixInProperties: function() {
         this._barrier = null;
+    },
+
+    postCreate: function() {
         this.subscribe(spaceship.game.SHOW_STATUS_TOPIC, 'onSayMessage');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
     },
     
-    onEndGame: function() {
+    uninitialize: function() {
         this.unsubscribeAll();
+        console.debug('cleaning up status audio');
+    },
+    
+    onEndGame: function() {
+        this.destroyRecursive();
     },
     
     onSayMessage: function(bar, topic, value) {

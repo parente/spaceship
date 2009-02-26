@@ -71,7 +71,7 @@ dojo.declare('spaceship.Main', null, {
         dojo.addOnLoad(readyFunc);
         // register for when audio is ready
         var def = spaceship.sounds.AudioManager.startup();
-        def.addCallback(dojo.hitch(this, 'onLibReady'));
+        def.addCallback(readyFunc);
     },
     
     onLibReady: function() {
@@ -156,7 +156,7 @@ dojo.declare('spaceship.Main', null, {
             dojo.publish(spaceship.START_TITLE_TOPIC);
             this.startMenu(this._mainArgs, 'onChooseMain');
         }
-    },  
+    },
     
     onResizeStack: function() {
         var size = this._stackWidget._contentBox;
@@ -246,12 +246,18 @@ dojo.declare('spaceship.Main', null, {
         }
         if(this._menuModel) {
             // destroy the menu
-            this._menuModel.destroy();
+            this._menuModel.destroyRecursive();
             this._menuModel = null;
             dojo.unsubscribe(this._subs['choose']);
         }
     },
     
+    // @todo: change to put related components into contentpanes which will fire activate/deactivate events
+    //   components in the panes will listen for those events to know when they are in focus or not
+    //   - main game pane
+    //   - menu pane
+    //   - status pane
+    //   - minigame pane
     startGame: function() {
         // create a bag of common arguments
         var args = {
@@ -283,22 +289,22 @@ dojo.declare('spaceship.Main', null, {
         // create the status audio display
         var sa = new spaceship.game.StatusAudio(args);
         // start the game loop
-        this._gameModel.run();        
+        this._gameModel.run();
     },
     
     quitGame: function() {
         // throw away the last panel to prevent errors reactivating
         this._lastPanel = null;
         // destroy the game model which should notify all the views
-        this._gameModel.destroy();
+        this._gameModel.destroyRecursive();
         // clean up references
         this._gameModel = null;
         // show the logo again
         dojo.byId('logo').style.display = '';
         // reflow the border layout
         this._layoutWidget.resize();
-        // show the main menu again
-        this.startMenu(this._mainArgs, 'onChooseMain');
+        // show the main menu immediately
+        dojo.publish(spaceship.SHOW_MAIN_MENU_TOPIC)
     }
 });
 

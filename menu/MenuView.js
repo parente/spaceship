@@ -11,6 +11,7 @@ dojo.require('dijit._Container');
 dojo.require('spaceship.menu.MenuTopics');
 dojo.require('spaceship.utils.Subscriber');
 
+// @todo: factor out menu controller
 dojo.declare('spaceship.menu.MenuView', [dijit._Widget, 
                                          dijit._Templated,
                                          dijit._Contained,
@@ -53,10 +54,14 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
         this.subscribe(spaceship.menu.END_MENU_TOPIC, 'onEndMenu');
     },
     
-    onEndMenu: function() {
+    uninitialize: function() {
         this.unsubscribeAll();
         var parent = this.getParent();
         parent.removeChild(this);
+        console.debug('cleaning up menu view');
+    },
+    
+    onEndMenu: function() {
         this.destroyRecursive();
     },
     

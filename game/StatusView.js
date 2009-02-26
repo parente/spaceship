@@ -34,10 +34,14 @@ dojo.declare('spaceship.game.StatusView', [dijit._Widget,
         dojo.marginBox(this.domNode, size);
     },
     
-    onEndGame: function() {
+    uninitialize: function() {
         this.unsubscribeAll();
         var parent = this.getParent();
         parent.removeChild(this);
+        console.debug('cleaning up status view');
+    },
+    
+    onEndGame: function() {
         this.destroyRecursive();
     },
      

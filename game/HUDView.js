@@ -43,9 +43,13 @@ dojo.declare('spaceship.game.HUDView', [dijit._Widget,
         this.subscribe(spaceship.game.LAND_SHOT_TOPIC, 'onUpdateDisplay');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
     },
+    
+    uninitialize: function() {
+        this.unsubscribeAll();
+        console.debug('cleaning up hud view');
+    },
 
     onEndGame: function() {
-        this.unsubscribeAll();
         this.destroyRecursive();
     },
     

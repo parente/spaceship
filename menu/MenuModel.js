@@ -5,9 +5,10 @@
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.menu.MenuModel');
+dojo.require('dijit._Widget');
 dojo.require('spaceship.menu.MenuTopics');
 
-dojo.declare('spaceship.menu.MenuModel', null, {
+dojo.declare('spaceship.menu.MenuModel', dijit._Widget, {
     // array of menu option labels
     labels: null,
     // optional menu title / prompt
@@ -15,12 +16,9 @@ dojo.declare('spaceship.menu.MenuModel', null, {
     // currently selected menu item index
     selectedItem: 0,
     // can cancel menu and return to main
-    cancelable: false,
-    constructor: function(args) {
-        dojo.mixin(this, args);
-    },
-    
-    destroy: function() {
+    cancelable: false,    
+    uninitialize: function() {
+        console.debug('cleaning up menu model');
         dojo.publish(spaceship.menu.END_MENU_TOPIC);
     },
     

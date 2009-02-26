@@ -5,20 +5,22 @@
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.game.StatusModel');
+dojo.require('dijit._Widget');
 dojo.require('spaceship.game.GameTopics');
 dojo.require('spaceship.utils.Subscriber');
 
-dojo.declare('spaceship.game.StatusModel', spaceship.utils.Subscriber, {
+dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
+                                            spaceship.utils.Subscriber], {
     // bundle of locale strings
     labels: null,
     // bundle of game config
     config: null,
-    constructor: function(args) {
-        // mixin the args
-        dojo.mixin(this, args);
+    postMixInProperties: function() {
         // result of the last action
         this._lastResult = null;
-
+    },
+    
+    postCreate: function() {
         // start listening for requests to show messages
         this.subscribe(spaceship.game.HIT_SHIP_TOPIC, 'onHitShip');
         this.subscribe(spaceship.game.CHANGE_SHIELDS_TOPIC, 'onChangeShields');
@@ -28,9 +30,14 @@ dojo.declare('spaceship.game.StatusModel', spaceship.utils.Subscriber, {
         this.subscribe(spaceship.game.WARP_TOPIC, 'onTimeWarp');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
     },
+    
+    uninitialize: function() {
+        this.unsubscribeAll();
+        console.debug('cleaning up status model');
+    },
 
     onEndGame: function() {
-        this.unsubscribeAll();
+        this.destroyRecursive();
     },
     
     getShotMessage: function(ammo) {

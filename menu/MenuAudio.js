@@ -5,19 +5,20 @@
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.menu.MenuAudio');
+dojo.require('dijit._Widget');
 dojo.require('spaceship.menu.MenuTopics');
 dojo.require('spaceship.sounds.AudioManager');
 dojo.require('spaceship.utils.Subscriber');
 
-dojo.declare('spaceship.menu.MenuAudio', spaceship.utils.Subscriber, {
+dojo.declare('spaceship.menu.MenuAudio', [dijit._Widget,
+                                          spaceship.utils.Subscriber], {
     // menu model
     model: null,
     // bundle of config
     config: null,
     // audio manager
     audio: spaceship.sounds.AudioManager,
-    constructor: function(args) {
-        dojo.mixin(this, args);
+    postCreate: function() {
         this.subscribe(spaceship.menu.SELECT_ITEM_TOPIC, 'onSelectItem');
         this.subscribe(spaceship.menu.CANCEL_MENU_TOPIC, 'onCancelMenu');
         this.subscribe(spaceship.menu.END_MENU_TOPIC, 'onEndMenu');
@@ -34,9 +35,14 @@ dojo.declare('spaceship.menu.MenuAudio', spaceship.utils.Subscriber, {
         var label = this.model.getSelectedLabel();
         this.audio.say(label, spaceship.sounds.SPEECH_CHANNEL, label);
     },
+    
+    uninitialize: function() {
+        this.unsubscribeAll();
+        console.debug('cleaning up menu audio');
+    },
 
     onEndMenu: function() {
-        this.unsubscribeAll();
+        this.destroyRecursive();
     },
     
     onCancelMenu: function() {

@@ -5,12 +5,14 @@
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.game.GridAudio');
+dojo.require('dijit._Widget');
 dojo.require('spaceship.game.GameTopics');
 dojo.require('spaceship.utils.Subscriber');
 dojo.require('spaceship.sounds.AudioManager');
 dojo.require('dojo.string');
 
-dojo.declare('spaceship.game.GridAudio', spaceship.utils.Subscriber, {
+dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
+                                          spaceship.utils.Subscriber], {
     // status model
     model: null,
     // bundle of labels
@@ -19,19 +21,27 @@ dojo.declare('spaceship.game.GridAudio', spaceship.utils.Subscriber, {
     config: null,
     // audio manager
     audio: spaceship.sounds.AudioManager,
-    constructor: function(args) {
-        dojo.mixin(this, args);
-        this.id = Math.random();
+    postMixInProperties: function() {
         this._barrier = null;
-        
+    },
+    
+    /**
+     * Register for dojo.publish topics.
+     */
+    postCreate: function() {
         this.subscribe(spaceship.game.TARGET_TILE_TOPIC, 'onTargetTile');
         this.subscribe(spaceship.game.PREPARE_SHOT_TOPIC, 'onPrepareShot');
         this.subscribe(spaceship.game.LAND_SHOT_TOPIC, 'onHitTile');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
     },
     
-    onEndGame: function() {
+    uninitialize: function() {
+        console.debug('cleaning up grid audio');
         this.unsubscribeAll();
+    },
+    
+    onEndGame: function() {
+        this.destroyRecursive();
     },
     
     onPrepareShot: function(bar) {
@@ -57,7 +67,8 @@ dojo.declare('spaceship.game.GridAudio', spaceship.utils.Subscriber, {
     
     onHitTile: function(tile) {
         var snd = tile.getSoundUrl();
-        // stop current sound
+        // stop current speech and sound
+        this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
         this.audio.stop(spaceship.sounds.SOUND_CHANNEL);
         // register observer
         var token = this.audio.addObserver(dojo.hitch(this, function() {

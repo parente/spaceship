@@ -5,19 +5,18 @@
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.game.GameModel');
+dojo.require('dijit._Widget');
 dojo.require('spaceship.game.GameTopics');
 dojo.require('spaceship.game.Tile');
 dojo.require('spaceship.minigame.Outcome');
 dojo.require('spaceship.utils.Barrier');
 
-dojo.declare('spaceship.game.GameModel', null, {
+dojo.declare('spaceship.game.GameModel', dijit._Widget, {
     // bundle of locale strings
     labels: null,
     // bundle of game config
     config: null,
-    constructor: function(args) {
-        // mixin given arguments (not a dijit)
-        dojo.mixin(this, args);
+    postMixInProperties: function() {
         // number of shots left
         this._ammo = this.config.initialAmmo;
         // number of hits player can take before player loses
@@ -37,7 +36,8 @@ dojo.declare('spaceship.game.GameModel', null, {
     /**
      * Notify all listeners that the game is ending as a loss.
      */
-    destroy: function() {
+    uninitialize: function() {
+        console.debug('cleaning up game model');
         dojo.publish(spaceship.game.END_GAME_TOPIC);
     },
     
