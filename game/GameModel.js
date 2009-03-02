@@ -187,6 +187,11 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         dojo.publish(this._state, args);
     },
     
+    pause: function() {
+        dojo.publish(spaceship.game.PAUSE_GAME_TOPIC, 
+            [spaceship.game.RESUME_GAME_TOPIC]);
+    },
+    
     targetTile: function(index) {
         if(index == this._targetIndex) return false;
         dojo.publish(spaceship.game.UNTARGET_TILE_TOPIC, [this._targetIndex]);

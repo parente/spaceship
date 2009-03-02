@@ -15,7 +15,7 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
         // current track
         this._currentTrack = null;
         // listen for certain events which will dictate the sound track
-        this.subscribe(spaceship.START_TITLE_TOPIC, 'onStartTitle');
+        this.subscribe(spaceship.START_MAIN_MENU_TOPIC, 'onStartTitle');
         this.subscribe(spaceship.game.START_GAME_TOPIC, 'onStartGame');
     },
     

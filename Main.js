@@ -7,15 +7,16 @@
 dojo.provide('spaceship.Main');
 dojo.require('spaceship.utils.LoaderOverlay');
 
-// define all topics
-spaceship.SHOW_MAIN_MENU_TOPIC = 'ss-showMainMenu';
-spaceship.START_TITLE_TOPIC = 'ss-startTitle';
+// sent by the main loop after the main menu shows
+spaceship.START_MAIN_MENU_TOPIC = 'ss-startMainMenu';
 
 dojo.declare('spaceship.Main', null, {
+    /**
+     * Shows a loading overlay. Imports all required modules.
+     */
     constructor: function() {
         // show the loading overlay immediately
         this._overlayNode = spaceship.utils.LoaderOverlay.show();
-        var readyFunc = dojo.hitch(this, 'onLibReady');
 
         // require modules now
         dojo.require('dojo.i18n');
@@ -68,12 +69,16 @@ dojo.declare('spaceship.Main', null, {
         // register for when the page unloads
         dojo.addOnUnload(dojo.hitch(this, this.uninitialize));        
         // register for when all modules load
+        var readyFunc = dojo.hitch(this, 'onLibReady');
         dojo.addOnLoad(readyFunc);
         // register for when audio is ready
-        var def = spaceship.sounds.AudioManager.startup();
-        def.addCallback(readyFunc);
+        spaceship.sounds.AudioManager.startup().addCallback(readyFunc);
     },
     
+    
+    /**
+     * Called when all libraries are loaded. Initializes the game.
+     */
     onLibReady: function() {
         ++this._readyCount;
         if(this._readyCount == 2) {
@@ -90,6 +95,10 @@ dojo.declare('spaceship.Main', null, {
         }
     },
     
+    /**
+     * Creates all of the necessary game framework objects. 
+     * Hides the loading overlay.
+     */
     initialize: function() {
         // parse the inline page widgets
         dojo.parser.parse();
@@ -118,46 +127,41 @@ dojo.declare('spaceship.Main', null, {
         };
         this._returnArgs = {
             labels: [this._labels.RESUME_GAME_ITEM, this._labels.OPTIONS_ITEM, 
-                     this._labels.QUIT_GAME_ITEM]
+                     this._labels.QUIT_GAME_ITEM],
+            cancelable: true
         };
         this._difficultyArgs = {
             labels: dojo.map(spaceship.game.Config, function(cfg) {
                 return cfg.label;
             }),
-            cancelable: true,
-            title: this._labels.DIFFICULTY_TITLE
+            title: this._labels.DIFFICULTY_TITLE,
+            cancelable: true
         };
         this._quitArgs = {
             labels: [this._labels.NO_QUIT_ITEM, this._labels.YES_QUIT_ITEM],
-            title: this._labels.QUIT_TITLE
+            title: this._labels.QUIT_TITLE,
+            cancelable: true
         };
         
         // build a jukebox for music
         this._jukebox = new spaceship.sounds.Jukebox();
         
         // start listening for menu related events
-        var func = dojo.hitch(this, 'onActivateMenu');
-        this._subs['mainmenu'] = dojo.subscribe(spaceship.SHOW_MAIN_MENU_TOPIC, func);
+        this._subs['pause-game'] = dojo.subscribe(
+            spaceship.game.PAUSE_GAME_TOPIC, dojo.hitch(this, 'pauseGame'));
+        this._subs['pause-minigame'] = dojo.subscribe(
+            spaceship.game.PAUSE_MINIGAME_TOPIC, dojo.hitch(this, 'pauseGame'));
         // show the main menu immediately
-        dojo.publish(spaceship.SHOW_MAIN_MENU_TOPIC)
+        this.startMain();
 
         // hide the busy overlay
         spaceship.utils.LoaderOverlay.hide(this._overlayNode);
         this._overlayNode = null;
     },
     
-    onActivateMenu: function() {
-        // destroy any existing menu
-        this.endMenu();
-        if(this._gameModel) {
-            this.startMenu(this._returnArgs, 'onChooseMain');
-        } else {
-            // indicate title screen is started
-            dojo.publish(spaceship.START_TITLE_TOPIC);
-            this.startMenu(this._mainArgs, 'onChooseMain');
-        }
-    },
-    
+    /**
+     * Called when the browser resizes. Adjusts the watermark background size.
+     */
     onResizeStack: function() {
         var size = this._stackWidget._contentBox;
         // center the background graphic
@@ -170,13 +174,17 @@ dojo.declare('spaceship.Main', null, {
         dojo.style(img, box);
     },
             
+    /**
+     * Called in response to CHOOSE_ITEM_TOPIC from the main menu.
+     */
     onChooseMain: function(index, label) {
         // destroy the menu immediately
-        this.endMenu();
+        this._endMenu();
         switch(label) {
         case this._labels.NEW_GAME_ITEM:
             // pick a difficulty
-            this.startMenu(this._difficultyArgs, 'onChooseDifficulty');
+            this._startMenu(this._difficultyArgs, 'onChooseDifficulty',
+                'startMain');
             break;
         case this._labels.RESUME_GAME_ITEM:
             // nothing to do
@@ -190,17 +198,18 @@ dojo.declare('spaceship.Main', null, {
         case this._labels.HELP_ITEM:
             break;
         case this._labels.QUIT_GAME_ITEM:
-            if(this._gameModel) {
-               // make sure we want to quit the current game
-               this.startMenu(this._quitArgs, 'onChooseQuit');
-            }
+            // make sure we want to quit the current game
+            this._startMenu(this._quitArgs, 'onChooseQuit', 'pauseGame');
             break;
         }
     },
     
+    /**
+     * Called in response to CHOOSE_ITEM_TOPIC from the difficulty menu.
+     */
     onChooseDifficulty: function(index, label) {
         // destroy the menu immediately
-        this.endMenu();
+        this._endMenu();
         for(var i=0; i < spaceship.game.Config.length; i++) {
             var config = spaceship.game.Config[i];
             if(config.label == label) {
@@ -211,24 +220,41 @@ dojo.declare('spaceship.Main', null, {
         this.startGame();
     },
     
+    /**
+     * Called in response to CHOOSE_ITEM_TOPIC from the confirm quit menu.
+     */
     onChooseQuit: function(index, label) {
         // destroy the menu immediately
-        this.endMenu();
+        this._endMenu();
         if(label == this._labels.YES_QUIT_ITEM) {
             // quit the game
+            console.debug('chose quit');
             this.quitGame();
         } else {
             // restart the resume menu
-            this.startMenu(this._returnArgs, 'onChooseMain');
+            this._startMenu(this._returnArgs, 'onChooseMain');
         }
     },
     
-    startMenu: function(args, cb) {
+    /**
+     * Starts a new menu.
+     * 
+     * @param args Arguments to pass to the menu MVC components
+     * @param choose String name of method to handle item choice
+     * @param cancel String name of method to handle menu cancel
+     */
+    _startMenu: function(args, choose, cancel) {
         // store the last active panel
         this._lastPanel = this._stackWidget.selectedChildWidget;
+        
         // let the menu options drive this controller
-        this._subs['choose'] = dojo.subscribe(spaceship.menu.CHOOSE_ITEM_TOPIC, 
-            this, cb);
+        this._subs['menu-choose'] = dojo.subscribe(spaceship.menu.CHOOSE_ITEM_TOPIC, 
+            this, choose);
+        if(cancel) {
+            this._subs['menu-cancel'] = dojo.subscribe(
+                spaceship.menu.CANCEL_MENU_TOPIC, this, cancel);
+        }
+        
         // create the menu model and add it to the bag
         this._menuModel = new spaceship.menu.MenuModel(args);
         var vargs = {model: this._menuModel};
@@ -238,7 +264,10 @@ dojo.declare('spaceship.Main', null, {
         this._stackWidget.selectChild(mv);
     },
     
-    endMenu: function() {
+    /**
+     * Ends a menu by destroying the menu model.
+     */
+    _endMenu: function() {
         // show the last active panel
         if(this._lastPanel) {
             this._stackWidget.selectChild(this._lastPanel);
@@ -248,16 +277,28 @@ dojo.declare('spaceship.Main', null, {
             // destroy the menu
             this._menuModel.destroyRecursive();
             this._menuModel = null;
-            dojo.unsubscribe(this._subs['choose']);
+            dojo.unsubscribe(this._subs['menu-choose']);
+            dojo.unsubscribe(this._subs['menu-cancel']);
+            delete this._subs['menu-choose'];
+            delete this._subs['menu-cancel'];
         }
-    },
+    }, 
     
-    // @todo: change to put related components into contentpanes which will fire activate/deactivate events
-    //   components in the panes will listen for those events to know when they are in focus or not
-    //   - main game pane
-    //   - menu pane
-    //   - status pane
-    //   - minigame pane
+    /**
+     * Starts the main menu.
+     */
+    startMain: function() {
+        console.debug('starting main menu');
+        // destroy any existing menu
+        this._endMenu();
+        // indicate title screen started
+        dojo.publish(spaceship.START_MAIN_MENU_TOPIC);
+        this._startMenu(this._mainArgs, 'onChooseMain');
+    },
+     
+    /**
+     * Starts a new game.
+     */
     startGame: function() {
         // create a bag of common arguments
         var args = {
@@ -292,7 +333,36 @@ dojo.declare('spaceship.Main', null, {
         this._gameModel.run();
     },
     
+    /**
+     * Pauses a game. Shows the pause menu.
+     *
+     * @param resumeTopic
+     */
+    pauseGame: function(resumeTopic) {
+        // destroy any existing menu
+        this._endMenu();
+        // store resume topic
+        this._resumeTopic = resumeTopic;
+        this._startMenu(this._returnArgs, 'onChooseMain', 'resumeGame');
+    },
+    
+    /**
+     * Resumes a game
+     */
+    resumeGame: function() {
+        // destroy any existing menu
+        console.debug('resuming game');
+        this._endMenu();
+        dojo.publish(this._resumeTopic);
+        this._resumeTopic = null;
+        console.debug('resumed game');
+    },
+    
+    /**
+     * Ends a game by destroying the game model and returning to the main menu.
+     */
     quitGame: function() {
+        console.debug('quit game');
         // throw away the last panel to prevent errors reactivating
         this._lastPanel = null;
         // destroy the game model which should notify all the views
@@ -304,7 +374,7 @@ dojo.declare('spaceship.Main', null, {
         // reflow the border layout
         this._layoutWidget.resize();
         // show the main menu immediately
-        dojo.publish(spaceship.SHOW_MAIN_MENU_TOPIC)
+        this.startMain();
     }
 });
 

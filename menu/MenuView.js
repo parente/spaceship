@@ -94,10 +94,7 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
             this.model.chooseCurrent();
             break;
         case dojo.keys.ESCAPE:
-            if(this.model.cancel()) {
-                // return to the main menu
-                dojo.publish(spaceship.SHOW_MAIN_MENU_TOPIC);
-            }
+            this.model.cancel();
             break;
         }
     },

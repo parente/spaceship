@@ -234,8 +234,8 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
             }
             return;
         case dojo.keys.ESCAPE:
-            // ask to show the main menu
-            dojo.publish(spaceship.SHOW_MAIN_MENU_TOPIC);
+            // pause the game
+            this.model.pause();
             break;
         }
         // target the new tile
