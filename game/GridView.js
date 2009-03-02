@@ -39,6 +39,8 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
      */
     postCreate: function() {
         this.subscribe(spaceship.game.START_GAME_TOPIC, 'onStartGame');
+        this.subscribe(spaceship.game.PAUSE_GAME_TOPIC, 'onPauseGame');
+        this.subscribe(spaceship.game.RESUME_GAME_TOPIC, 'onResumeGame');
         this.subscribe(spaceship.game.UNTARGET_TILE_TOPIC, 'onUntargetTile');
         this.subscribe(spaceship.game.TARGET_TILE_TOPIC, 'onTargetTile');
         this.subscribe(spaceship.game.LAND_SHOT_TOPIC, 'onHitTile');
@@ -136,6 +138,16 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
         }
     },
     
+    onPauseGame: function() {
+        this._frozen = true;
+    },
+    
+    onResumeGame: function() {
+        if(this.model.getState() == spaceship.game.PREPARE_SHOT_TOPIC) {
+            this._frozen = false;
+        }
+    },
+    
     onEndGame: function() {
         this.destroyRecursive();
     },
@@ -180,7 +192,7 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
     onTimeWarp: function(indices) {
         var icons = dojo.query('img', this._tableNode);
         var text = this.labels.HIDDEN_TILE;
-        var url = dojo.moduleUrl('spaceship', 'images/hidden.png');
+        var url = spaceship.images.HIDDEN_TILE_IMAGE;
         dojo.forEach(indices, function(index) {
             var icon = icons[index];
             icon.src = url;

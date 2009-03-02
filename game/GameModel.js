@@ -187,9 +187,16 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         dojo.publish(this._state, args);
     },
     
+    /**
+     * Sends a PAUSE_GAME_TOPIC with the resume topic to fire.
+     */
     pause: function() {
         dojo.publish(spaceship.game.PAUSE_GAME_TOPIC, 
             [spaceship.game.RESUME_GAME_TOPIC]);
+    },
+    
+    getState: function() {
+        return this._state;
     },
     
     targetTile: function(index) {

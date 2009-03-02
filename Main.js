@@ -187,7 +187,7 @@ dojo.declare('spaceship.Main', null, {
                 'startMain');
             break;
         case this._labels.RESUME_GAME_ITEM:
-            // nothing to do
+            this.resumeGame();
             break;
         case this._labels.NEWS_ITEM:
             break;        

@@ -24,10 +24,17 @@ dojo.declare('spaceship.game.HUDAudio', [dijit._Widget,
      * Register for dojo.publish topics.
      */
     postCreate: function(args) {
+        // flag set when user cannot give commands to the HUD
+        this._frozen = true;
+        
         // register for key presses on the body
         var node = dojo.body();
         dojo.connect(node, 'onkeypress', this, 'onKeyPress')
 
+        this.subscribe(spaceship.game.LAND_SHOT_TOPIC, 'onLandShot');
+        this.subscribe(spaceship.game.PREPARE_SHOT_TOPIC, 'onPrepareShot');
+        this.subscribe(spaceship.game.PAUSE_GAME_TOPIC, 'onPauseGame');
+        this.subscribe(spaceship.game.RESUME_GAME_TOPIC, 'onResumeGame');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
     },
     
@@ -36,11 +43,31 @@ dojo.declare('spaceship.game.HUDAudio', [dijit._Widget,
         console.debug('cleaning up hud audio');
     },
     
+    onPauseGame: function() {
+        console.debug('HUD FROZEN');
+        this._frozen = true;
+    },
+    
+    onResumeGame: function() {
+        if(this.model.getState() == spaceship.game.PREPARE_SHOT_TOPIC) {
+            this._frozen = false;
+        }
+    },
+    
     onEndGame: function() {
         this.destroyRecursive();
     },
     
+    onLandShot: function() {
+        this._frozen = true;
+    },
+    
+    onPrepareShot: function() {
+        this._frozen = false;
+    },
+    
     onKeyPress: function(event) {
+        if(this._frozen) return;
         if(event.charOrCode == 'i') {
             this.speakStatus();
         }
