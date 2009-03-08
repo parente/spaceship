@@ -178,10 +178,10 @@ dojo.declare('spaceship.Main', null, {
      * Called in response to CHOOSE_ITEM_TOPIC from the main menu.
      */
     onChooseMain: function(index, label) {
-        // destroy the menu immediately
-        this._endMenu();
         switch(label) {
         case this._labels.NEW_GAME_ITEM:
+            // destroy the menu immediately
+            this._endMenu(false);
             // pick a difficulty
             this._startMenu(this._difficultyArgs, 'onChooseDifficulty',
                 'startMain');
@@ -198,6 +198,8 @@ dojo.declare('spaceship.Main', null, {
         case this._labels.HELP_ITEM:
             break;
         case this._labels.QUIT_GAME_ITEM:
+            // destroy the menu immediately
+            this._endMenu(false);
             // make sure we want to quit the current game
             this._startMenu(this._quitArgs, 'onChooseQuit', 'pauseGame');
             break;
@@ -209,7 +211,7 @@ dojo.declare('spaceship.Main', null, {
      */
     onChooseDifficulty: function(index, label) {
         // destroy the menu immediately
-        this._endMenu();
+        this._endMenu(false);
         for(var i=0; i < spaceship.game.Config.length; i++) {
             var config = spaceship.game.Config[i];
             if(config.label == label) {
@@ -225,14 +227,13 @@ dojo.declare('spaceship.Main', null, {
      */
     onChooseQuit: function(index, label) {
         // destroy the menu immediately
-        this._endMenu();
+        this._endMenu(false);
         if(label == this._labels.YES_QUIT_ITEM) {
             // quit the game
-            console.debug('chose quit');
             this.quitGame();
         } else {
             // restart the resume menu
-            this._startMenu(this._returnArgs, 'onChooseMain');
+            this._startMenu(this._returnArgs, 'onChooseMain', 'resumeGame');
         }
     },
     
@@ -266,13 +267,15 @@ dojo.declare('spaceship.Main', null, {
     
     /**
      * Ends a menu by destroying the menu model.
+     *
+     * @param restore True to show previous active panel
      */
-    _endMenu: function() {
+    _endMenu: function(restore) {
         // show the last active panel
-        if(this._lastPanel) {
+        if(restore && this._lastPanel) {
             this._stackWidget.selectChild(this._lastPanel);
-            this._lastPanel = null;
         }
+        this._lastPanel = null;
         if(this._menuModel) {
             // destroy the menu
             this._menuModel.destroyRecursive();
@@ -290,7 +293,7 @@ dojo.declare('spaceship.Main', null, {
     startMain: function() {
         console.debug('starting main menu');
         // destroy any existing menu
-        this._endMenu();
+        this._endMenu(false);
         // indicate title screen started
         dojo.publish(spaceship.START_MAIN_MENU_TOPIC);
         this._startMenu(this._mainArgs, 'onChooseMain');
@@ -336,13 +339,15 @@ dojo.declare('spaceship.Main', null, {
     /**
      * Pauses a game. Shows the pause menu.
      *
-     * @param resumeTopic
+     * @param resumeTopic Topic to publish when resuming game
      */
     pauseGame: function(resumeTopic) {
         // destroy any existing menu
-        this._endMenu();
+        this._endMenu(false);
         // store resume topic
-        this._resumeTopic = resumeTopic;
+        if(resumeTopic) {
+            this._resumeTopic = resumeTopic;
+        }
         this._startMenu(this._returnArgs, 'onChooseMain', 'resumeGame');
     },
     
@@ -350,12 +355,11 @@ dojo.declare('spaceship.Main', null, {
      * Resumes a game
      */
     resumeGame: function() {
+        console.debug('resume topic', this._resumeTopic);
         // destroy any existing menu
-        console.debug('resuming game');
-        this._endMenu();
+        this._endMenu(true);
         dojo.publish(this._resumeTopic);
         this._resumeTopic = null;
-        console.debug('resumed game');
     },
     
     /**

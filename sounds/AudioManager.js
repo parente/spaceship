@@ -10,7 +10,7 @@ dojo.require('spaceship.game.Preferences');
 
 // catalog of sound files
 spaceship.sounds = (function() {
-    var path = window.location.protocol + '//' + window.location.hostname + window.location.pathname + 'sounds/mp3/';
+    var path = 'sounds/mp3/';
     return {
         // short sounds
         MENU_CHOOSE_SOUND : path+'50565__broumbroum__sf3_sfx_menu_validate.mp3',

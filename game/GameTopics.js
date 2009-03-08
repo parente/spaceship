@@ -13,8 +13,12 @@ spaceship.game.START_GAME_TOPIC = 'ss-startGame';
 spaceship.game.SHOW_STATUS_TOPIC = 'ss-showStatus';
 // sent by the GameModel when the user should aim a shot
 spaceship.game.PREPARE_SHOT_TOPIC = 'ss-targetShot';
+// sent by the GameModel when the user should play a series of minigames
+spaceship.game.START_MINIGAME_SERIES_TOPIC = 'ss-startMinigameSeries';
 // sent by the GameModel when the user should play a minigame
 spaceship.game.PLAY_MINIGAME_TOPIC = 'ss-playMinigame';
+// sent by the GameModel when the user stop playing a series of minigames
+spaceship.game.END_MINIGAME_SERIES_TOPIC = 'ss-endMinigameSeries';
 // sent by the GameModel after the game is over
 spaceship.game.END_GAME_TOPIC = 'ss-endGame';
 // sent by the GameModel before the game is interrupted by a menu

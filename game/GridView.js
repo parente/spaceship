@@ -143,6 +143,7 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
     },
     
     onResumeGame: function() {
+        console.debug('grid resume game state', this.model.getState());
         if(this.model.getState() == spaceship.game.PREPARE_SHOT_TOPIC) {
             this._frozen = false;
         }

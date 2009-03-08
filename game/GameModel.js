@@ -31,6 +31,8 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         this._state = null;
         // outcome for the next minigame
         this._minigameOutcome = null;
+        // number of minigames left to play in this series
+        this._minigameSeries = 0;
     },
     
     /**
@@ -101,7 +103,7 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
     /**
      * Creates all game tiles in the grid.
      */
-    createGridTiles: function() {
+    _createGridTiles: function() {
         var total = this.config.rows * this.config.columns;
         this._createShipTiles(total);
         this._createOtherTiles(total);
@@ -112,7 +114,7 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
      */
     run: function() {
         // initialize the tiles
-        this.createGridTiles();
+        this._createGridTiles();
         // publish start game topic to allow other components to initialize
         dojo.publish(spaceship.game.START_GAME_TOPIC);
         // iterate the loop immediately
@@ -139,24 +141,30 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         for(var j=0; j < arr.length; j++) {
             var obj = arr[j];
             if(x < obj.cumProb) {
-                args.index = i;
                 return new obj.klass(args);
             }
         }
     },
     
     /**
-     * Publishes the next game topic for views and controllers to hande.
+     * Publishes the next game topic.
      */
     iterate: function() {
         // @todo: handle win and lose events
         var bar = new spaceship.utils.Barrier();
         bar.addCallback(this, 'iterate');
         var args;
+        
+        if(this._state == spaceship.game.PLAY_MINIGAME_TOPIC && 
+        this._minigameSeries == 0) {
+            // ending a minigame series
+            dojo.publish(spaceship.game.END_MINIGAME_SERIES_TOPIC);
+        }
+        
         if(this._state != spaceship.game.SHOW_STATUS_TOPIC) {
             var topic, value;
             // just performed an action, report status
-            if(this._ammo > 0) {
+            if(this._ammo > 0 && this._minigameSeries == 0) {
                 // next event will be shot to fire
                 topic = spaceship.game.PREPARE_SHOT_TOPIC;
                 value = this._ammo;
@@ -172,15 +180,21 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
             args = [bar, topic, value];
         } else {
             // just showed status, proceed with next action
-            args = [bar];
-            if(this._ammo > 0) {
+            if(this._ammo > 0 && this._minigameSeries == 0) {
                 // fire a shot
                 this._state = spaceship.game.PREPARE_SHOT_TOPIC;
                 // reduce the count immediately
                 this.changeAmmo(-1);
+                args = [bar];
             } else {
+                if(this._minigameSeries == 0) {
+                    // starting a new series
+                    dojo.publish(spaceship.game.START_MINIGAME_SERIES_TOPIC);
+                    this._minigameSeries = this.config.requiredMinigames;
+                }
                 // start a minigame
                 this._state = spaceship.game.PLAY_MINIGAME_TOPIC;
+                args = [bar, this._minigameOutcome];
             }
         }
         // publish the topic

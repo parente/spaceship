@@ -28,7 +28,8 @@ spaceship.game.Config = (function(){
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
             ],
             maxBonusTileValue: 3,
-            maxHazardTileValue: 3
+            maxHazardTileValue: 3,
+            requiredMinigames: 3
         },
         
         {
@@ -48,7 +49,8 @@ spaceship.game.Config = (function(){
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
             ],
             maxBonusTileValue: 3,
-            maxHazardTileValue: 3
+            maxHazardTileValue: 3,
+            requiredMinigames: 4
         },
 
         {
@@ -68,7 +70,8 @@ spaceship.game.Config = (function(){
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
             ],
             maxBonusTileValue: 1,
-            maxHazardTileValue: 3
+            maxHazardTileValue: 3,
+            requiredMinigames: 5
         }
     ];
 })();
