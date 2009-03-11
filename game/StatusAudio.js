@@ -29,7 +29,6 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
     
     uninitialize: function() {
         this.unsubscribeAll();
-        console.debug('cleaning up status audio');
     },
     
     onEndGame: function() {

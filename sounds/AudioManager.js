@@ -6,7 +6,8 @@
  */
 dojo.provide('spaceship.sounds.AudioManager');
 dojo.require('spaceship.utils.Subscriber');
-dojo.require('spaceship.game.Preferences');
+dojo.require('spaceship.game.GameTopics');
+dojo.require('spaceship.game.UserPreferences');
 
 // catalog of sound files
 spaceship.sounds = (function() {
@@ -27,7 +28,8 @@ spaceship.sounds = (function() {
         WARP_TILE_SOUND : path+'3380__patchen__Rhino_05.mp3',
         // music tracks
         TITLE_MUSIC : path+'173680_Entering_the_Stronghold.mp3',
-        GAME_MUSIC : path+'180154_Trial_One.mp3'
+        GAME_MUSIC : path+'180154_Trial_One.mp3',
+        WIN_MUSIC : path + '131207_Orion_sBelt_1st.mp3'
     };
 }());
 
@@ -39,7 +41,7 @@ spaceship.sounds.MUSIC_CHANNEL = 3;
 
 dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
     // bundle of user preferences
-    prefs: spaceship.game.Preferences,
+    prefs: spaceship.game.UserPreferences,
     startup: function() {
         // create a deferred
         var ready = new dojo.Deferred();

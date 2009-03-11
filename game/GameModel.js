@@ -39,7 +39,6 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
      * Notify all listeners that the game is ending as a loss.
      */
     uninitialize: function() {
-        console.debug('cleaning up game model');
         dojo.publish(spaceship.game.END_GAME_TOPIC);
     },
     
@@ -209,6 +208,10 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
             [spaceship.game.RESUME_GAME_TOPIC]);
     },
     
+    getTile: function() {
+        return this._tiles[this._targetIndex];
+    },
+
     getState: function() {
         return this._state;
     },

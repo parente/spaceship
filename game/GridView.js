@@ -25,6 +25,8 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
     config: null,
     // game model
     model: null,
+    // user preferences
+    prefs: spaceship.game.UserPreferences,
     // template for grid which is built dynamically for the most part
     templatePath: dojo.moduleUrl('spaceship', 'templates/GridView.html'),
     postMixInProperties: function() {
@@ -53,7 +55,6 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
         this.unsubscribeAll();
         var parent = this.getParent();
         parent.removeChild(this);
-        console.debug('cleaning up grid view');
     },
      
     /**
@@ -143,7 +144,6 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
     },
     
     onResumeGame: function() {
-        console.debug('grid resume game state', this.model.getState());
         if(this.model.getState() == spaceship.game.PREPARE_SHOT_TOPIC) {
             this._frozen = false;
         }
@@ -263,7 +263,7 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
      * @param event Event object
      */
     onHover: function(index, event) {
-        if(event.target == event.currentTarget) return;
+        if(!this.prefs.mouse || event.target == event.currentTarget) return;
         if(this._frozen) return;
         this.model.targetTile(index);
     },
@@ -275,7 +275,7 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
      * @param event Event object
      */        
     onClick: function(index, event) {
-        if(this._frozen) return;
+        if(this._frozen || !this.prefs.mouse) return;
         // make sure the tile is selected
         this.model.targetTile(index);
         // now reveal the tile

@@ -36,7 +36,6 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
     },
     
     uninitialize: function() {
-        console.debug('cleaning up grid audio');
         this.unsubscribeAll();
     },
     
@@ -57,11 +56,18 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
         // play the selection sound
         this.audio.play(spaceship.sounds.GRID_SELECT_SOUND,
             spaceship.sounds.SOUND_CHANNEL);
+        // speak the tile state
+        var tile = this.model.getTile(index);
+        var text;
+        if(tile.isRevealed()) {
+            text = tile.getLabel();
+            this.audio.say(text, spaceship.sounds.SPEECH_CHANNEL);            
+        }
         // speak the index as row/column
         var obj = {};
         obj.row = Math.floor(index / this.config.columns) + 1;
         obj.column = (index % this.config.columns) + 1;
-        var text = dojo.string.substitute(this.labels.HINT_CELL_MESSAGE, obj);
+        text = dojo.string.substitute(this.labels.HINT_CELL_MESSAGE, obj);
         this.audio.say(text, spaceship.sounds.SPEECH_CHANNEL);
     },
     
@@ -90,7 +96,7 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
     }
 });
 
-// add icon support to tiles
+// add sound support to tiles
 (function() {
     var map = {
         'spaceship.game.ShipTile' : spaceship.sounds.SHIP_TILE_SOUND,

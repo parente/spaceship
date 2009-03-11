@@ -38,7 +38,6 @@ dojo.declare('spaceship.menu.MenuAudio', [dijit._Widget,
     
     uninitialize: function() {
         this.unsubscribeAll();
-        console.debug('cleaning up menu audio');
     },
 
     onEndMenu: function() {

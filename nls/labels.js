@@ -20,12 +20,12 @@
     // tiles
     HIDDEN_TILE : 'Hidden space',
     EMPTY_TILE : 'Empty space',
-    AMMO_TILE : 'Ammo bonus',
-    SHIELD_TILE : 'Shield bonus',
-    HINT_TILE : 'Hint bonus',
-    WARP_TILE : 'Warp trap',
+    AMMO_TILE : 'Ammo box',
+    SHIELD_TILE : 'Shield charger',
+    HINT_TILE : 'Sensor hint',
+    WARP_TILE : 'Enemy warp',
     BOMB_TILE : 'Bomb trap',
-    LEECH_TILE : 'Leech trap',
+    LEECH_TILE : 'Space leech',
     SHIP_TILE : 'Enemy ship',
     // intro messages
     INTRO_MESSAGE: 'Enemy ships sighted!',

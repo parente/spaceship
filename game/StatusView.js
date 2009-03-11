@@ -38,7 +38,6 @@ dojo.declare('spaceship.game.StatusView', [dijit._Widget,
         this.unsubscribeAll();
         var parent = this.getParent();
         parent.removeChild(this);
-        console.debug('cleaning up status view');
     },
     
     onEndGame: function() {

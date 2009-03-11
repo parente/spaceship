@@ -57,3 +57,10 @@ spaceship.game.END_MINIGAME_TOPIC = 'ss-endMinigame';
 spaceship.game.PAUSE_MINIGAME_TOPIC = 'ss-pauseMinigame';
 // sent by MiniGameManager before a minigame resumes after a menu
 spaceship.game.RESUME_MINIGAME_TOPIC = 'ss-resumeMinigame';
+// sent by MiniGame when it ends in a win
+spaceship.game.WIN_MINIGAME_TOPIC = 'ss-winMinigame';
+// sent by MiniGame when it ends in a loss
+spaceship.game.LOSE_MINIGAME_TOPIC = 'ss-loseMinigame';
+
+// define all topics
+spaceship.game.UPDATE_PREFERENCES = 'ss-updatePrefs';

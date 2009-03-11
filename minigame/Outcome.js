@@ -29,20 +29,24 @@ dojo.declare('spaceship.minigame.Outcome', null, {
         return (Math.floor(Math.random() * max) + 1) * multiplier;
     },
     
-    earn: function(model) {
+    notify: function(model) {
         // abstract method
     },
     
     getLabel: function() {
         // abstract method
+    },
+    
+    win: function() {
+        // abstract method
+    },
+    
+    lose: function() {
+        // abstract method
     }
 });
 
 dojo.declare('spaceship.minigame.AmmoReward', spaceship.minigame.Outcome, {
-    earn: function(model) {
-        
-    },
-    
     getLabel: function() {
         return this.labels.EARN_AMMO_MESSAGE;
     }

@@ -22,6 +22,8 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
     images: null,
     // array of selected image urls to use in place of text labels if available
     selectedImages: null,
+    // user preferences
+    prefs: spaceship.game.UserPreferences,
     // path to template file
     templatePath: dojo.moduleUrl('spaceship', 'templates/MenuView.html'),
     postMixInProperties: function() {
@@ -58,7 +60,6 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
         this.unsubscribeAll();
         var parent = this.getParent();
         parent.removeChild(this);
-        console.debug('cleaning up menu view');
     },
     
     onEndMenu: function() {
@@ -100,10 +101,12 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
     },
     
     onHover: function(index, event) {
+        if(!this.prefs.mouse) return;
         this.model.selectIndex(index);
     },
         
     onClick: function(index, event) {
+        if(!this.prefs.mouse) return;
         this.model.selectIndex(index);
         this.model.chooseCurrent();
     }

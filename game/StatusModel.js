@@ -33,7 +33,6 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
     
     uninitialize: function() {
         this.unsubscribeAll();
-        console.debug('cleaning up status model');
     },
 
     onEndGame: function() {

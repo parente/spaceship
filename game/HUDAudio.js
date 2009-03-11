@@ -40,11 +40,9 @@ dojo.declare('spaceship.game.HUDAudio', [dijit._Widget,
     
     uninitialize: function() {
         this.unsubscribeAll();
-        console.debug('cleaning up hud audio');
     },
     
     onPauseGame: function() {
-        console.debug('HUD FROZEN');
         this._frozen = true;
     },
     

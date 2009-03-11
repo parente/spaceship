@@ -46,7 +46,6 @@ dojo.declare('spaceship.game.HUDView', [dijit._Widget,
     
     uninitialize: function() {
         this.unsubscribeAll();
-        console.debug('cleaning up hud view');
     },
 
     onEndGame: function() {

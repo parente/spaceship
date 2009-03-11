@@ -4,11 +4,11 @@
  * Copyright (c) 2008 Peter Parente under the terms of the BSD license.
  * http://creativecommons.org/licenses/BSD/
  */
-dojo.provide('spaceship.game.Config');
+dojo.provide('spaceship.game.GameConfig');
 dojo.require('dojo.i18n');
 dojo.requireLocalization('spaceship', 'labels');
 
-spaceship.game.Config = (function(){
+spaceship.game.GameConfig = (function(){
     var labels = dojo.i18n.getLocalization('spaceship', 'labels');
     return [
         {

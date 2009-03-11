@@ -18,7 +18,6 @@ dojo.declare('spaceship.menu.MenuModel', dijit._Widget, {
     // can cancel menu and return to main
     cancelable: false,    
     uninitialize: function() {
-        console.debug('cleaning up menu model');
         dojo.publish(spaceship.menu.END_MENU_TOPIC);
     },
     
