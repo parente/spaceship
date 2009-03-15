@@ -1,7 +1,7 @@
 /**
  * Startup code for the Spaceship! game.
  *
- * Copyright (c) 2008 Peter Parente under the terms of the BSD license.
+ * Copyright (c) 2008, 2009 Peter Parente under the terms of the BSD license.
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.Main');
@@ -316,7 +316,6 @@ dojo.declare('spaceship.Main', null, {
         // create the HUD view and insert it into the footer
         var hv = new spaceship.game.HUDView(args);
         this._footerWidget.attr('content', hv);
-//        hv.startup();
         var ha = new spaceship.game.HUDAudio(args);
         // hide the logo
         dojo.byId('logo').style.display = 'none';

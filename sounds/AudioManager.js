@@ -1,7 +1,7 @@
 /**
  * Audio manager for the Spaceship! game using Outfox.
  *
- * Copyright (c) 2008 Peter Parente under the terms of the BSD license.
+ * Copyright (c) 2008, 2009 Peter Parente under the terms of the BSD license.
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.sounds.AudioManager');
@@ -28,7 +28,9 @@ spaceship.sounds = (function() {
         WARP_TILE_SOUND : path+'3380__patchen__Rhino_05.mp3',
         // music tracks
         TITLE_MUSIC : path+'173680_Entering_the_Stronghold.mp3',
-        GAME_MUSIC : path+'180154_Trial_One.mp3',
+        GAME_MUSIC : [path+'180154_Trial_One.mp3'],
+        MINIGAME_MUSIC : [path+'198890_Piano23.mp3',
+                          path+'192660_Village_Symphony.mp3'],
         WIN_MUSIC : path + '131207_Orion_sBelt_1st.mp3'
     };
 }());

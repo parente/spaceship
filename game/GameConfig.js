@@ -1,7 +1,7 @@
 /**
  * Game configuration singleton for the Spaceship! game.
  *
- * Copyright (c) 2008 Peter Parente under the terms of the BSD license.
+ * Copyright (c) 2008, 2009 Peter Parente under the terms of the BSD license.
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.game.GameConfig');
@@ -55,7 +55,7 @@ spaceship.game.GameConfig = (function(){
 
         {
             label: labels.HARD_LEVEL,
-            initialAmmo : 0,
+            initialAmmo : 1,
             initialShields : 5,
             initialShips : 20,
             rows : 10,

@@ -1,7 +1,7 @@
 /**
  * Minigame outcome for the Spaceship! game.
  *
- * Copyright (c) 2008 Peter Parente under the terms of the BSD license.
+ * Copyright (c) 2008, 2009 Peter Parente under the terms of the BSD license.
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.minigame.Outcome');
@@ -28,11 +28,7 @@ dojo.declare('spaceship.minigame.Outcome', null, {
         }
         return (Math.floor(Math.random() * max) + 1) * multiplier;
     },
-    
-    notify: function(model) {
-        // abstract method
-    },
-    
+
     getLabel: function() {
         // abstract method
     },
