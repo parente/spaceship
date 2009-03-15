@@ -154,12 +154,6 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         bar.addCallback(this, 'iterate');
         var args;
         
-        if(this._state == spaceship.game.PLAY_MINIGAME_TOPIC && 
-        this._minigameSeries == 0) {
-            // ending a minigame series
-            dojo.publish(spaceship.game.END_MINIGAME_SERIES_TOPIC);
-        }
-        
         if(this._state != spaceship.game.SHOW_STATUS_TOPIC) {
             var topic, value;
             // just performed an action, report status
@@ -167,12 +161,17 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
                 // next event will be shot to fire
                 topic = spaceship.game.PREPARE_SHOT_TOPIC;
                 value = this._ammo;
+                if(this._minigameOutcome) {
+                    // ending a minigame series
+                    dojo.publish(spaceship.game.END_MINIGAME_SERIES_TOPIC);
+                    this._minigameOutcome = null;
+                }
             } else {
                 // next event will be minigame
                 topic = spaceship.game.PLAY_MINIGAME_TOPIC;
-                // choose the reward / hazard of the upcoming minigame
-                this._minigameOutcome = this._chooseRandomOutcome();
-                value = this._minigameOutcome;
+                value = this._chooseRandomOutcome();
+                // store reward/hazard
+                this._minigameOutcome = this._minigameOutcome;
                 if(this._minigameSeries == 0) {
                     // starting a new series
                     dojo.publish(spaceship.game.START_MINIGAME_SERIES_TOPIC);
@@ -238,7 +237,8 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
             count = -this._ammo;
         }
         this._ammo += count;
-        dojo.publish(spaceship.game.CHANGE_AMMO_TOPIC, [count, this._ammo]);
+        dojo.publish(spaceship.game.CHANGE_AMMO_TOPIC, [this._state,
+            count, this._ammo]);
     },
     
     getAmmo: function(count) {
@@ -252,7 +252,7 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         }
         this._shields += count;
         dojo.publish(spaceship.game.CHANGE_SHIELDS_TOPIC, 
-            [count, this._shields]);
+            [this._state, count, this._shields]);
     },
 
     getShields: function() {
@@ -261,11 +261,13 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
     
     hitShip: function() {
         --this._ships;
-        dojo.publish(spaceship.game.HIT_SHIP_TOPIC, [this._ships]);
+        dojo.publish(spaceship.game.HIT_SHIP_TOPIC, [this._state, 
+            this._ships]);
     },
     
     missShip: function() {
-        dojo.publish(spaceship.game.MISS_SHIP_TOPIC);
+        dojo.publish(spaceship.game.MISS_SHIP_TOPIC, [this._state,
+            this._ships]);
     },
     
     getShips: function() {
@@ -280,7 +282,8 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         // pick a random tile to expose
         var index = Math.floor(Math.random() * tiles.length);
         // notify with the index of the ship tile
-        dojo.publish(spaceship.game.HINT_TOPIC, [tiles[index].index]);
+        dojo.publish(spaceship.game.HINT_TOPIC, [this._state, 
+            tiles[index].index]);
     },
     
     warpTime: function(count) {
@@ -300,6 +303,7 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
             }
         }
         // notify with the indices of the new tiles
-        dojo.publish(spaceship.game.WARP_TOPIC, [arr, this._ships]);
+        dojo.publish(spaceship.game.WARP_TOPIC, [this._state, arr, 
+            this._ships]);
     }
 });

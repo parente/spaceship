@@ -23,6 +23,8 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
     labels: null,
     // bundle of game config
     config: null,
+    // main game model
+    model: null,
     // template for grid which is built dynamically for the most part
     templatePath: dojo.moduleUrl('spaceship', 'templates/MiniGameManager.html'),
     postMixInProperties: function() {
@@ -110,6 +112,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         // pack up the game arguments
         var args = {
             audio : spaceship.sounds.AudioManager,
+            // @todo: randomize to prevent bad minigame cheating
             win_topic : 'ss-winMinigame',
             lose_topic : 'ss-loseMinigame',
         };
@@ -157,23 +160,20 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         this._game = null;
         // notify ending minigame
         dojo.publish(spaceship.game.END_MINIGAME_TOPIC); 
-    },
-    
-    onWinMiniGame: function() {
-        this._notifyGameEnd();
-        this._outcome.win();
         // notify barrier
         var bar = this._barrier;
         this._barrier = null;
         bar.notify();
     },
     
-    onLoseMiniGame: function() {
+    onWinMiniGame: function() {
+        this._outcome.win(this.model);
         this._notifyGameEnd();
-        this._outcome.lose();
-        var bar = this._barrier;
-        this._barrier = null;
-        bar.notify();
+    },
+    
+    onLoseMiniGame: function() {
+        this._outcome.lose(this.model);
+        this._notifyGameEnd();
     },
     
     /**

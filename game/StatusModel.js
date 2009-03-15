@@ -54,10 +54,11 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
     
     getMinigameMessage: function(outcome) {
         var msgs = this.getLastResult();
-        msgs.push(outcome.getLabel());
+        var template = this.labels.MINIGAME_MESSAGE;
+        msgs.push(dojo.string.substitute(template, {challenge : outcome.getLabel()}));
         return msgs;
     },
-    
+
     getLastResult: function() {
         var msgs = [];
         if(this._lastResult == null) {
@@ -73,15 +74,7 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
         }
     },
     
-    onMessageDone: function() {
-        // reset the instance barrier so we're reentrant
-        var bar = this._barrier;
-        this._barrier = null;
-        // notify the barrier
-        bar.notify(this.id);
-    },
-    
-    onHitShip: function(remain) {
+    onHitShip: function(state, remain) {
         var msgs = [this.labels.HIT_MESSAGE];
         var template = (remain == 1) ? 
             this.labels.HIT_REMAIN_MESSAGE : this.labels.HITS_REMAIN_MESSAGE;
@@ -89,12 +82,12 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
         this._lastResult = {topic: spaceship.game.HIT_SHIP_TOPIC, msgs: msgs};
     },
 
-    onMissShip: function(remain) {
+    onMissShip: function(state, remain) {
         var msgs = [this.labels.MISS_MESSAGE, ''];
         this._lastResult = {topic: spaceship.game.MISS_SHIP_TOPIC, msgs: msgs};
     },
     
-    onChangeAmmo: function(change, remain) {
+    onChangeAmmo: function(state, change, remain) {
         var msgs = [];
         var template;
         if(change > 0) {
@@ -113,7 +106,7 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
         this._lastResult = {topic: spaceship.game.CHANGE_AMMO_TOPIC, msgs: msgs};
     },
     
-    onChangeShields: function(change, remain) {
+    onChangeShields: function(state, change, remain) {
         var msgs = [];
         var template;
         if(change > 0) {
@@ -132,7 +125,7 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
         this._lastResult = {topic: spaceship.game.CHANGE_SHIELDS_TOPIC, msgs: msgs};
     },
     
-    onGetHint: function(index) {
+    onGetHint: function(state, index) {
         var msgs = [this.labels.HINT_MESSAGE];
         // compute row and column
         var row = Math.floor(index / this.config.columns) + 1;
@@ -144,7 +137,7 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
         this._lastResult = {topic: spaceship.game.HINT_TOPIC, msgs: msgs};        
     },
     
-    onTimeWarp: function(indices, remain) {
+    onTimeWarp: function(state, indices, remain) {
         var msgs = [this.labels.WARP_MESSAGE];
         var template = (remain == 1) ? 
             this.labels.GOAL_MESSAGE : this.labels.GOALS_MESSAGE;

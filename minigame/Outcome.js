@@ -33,45 +33,44 @@ dojo.declare('spaceship.minigame.Outcome', null, {
         // abstract method
     },
     
-    win: function() {
+    win: function(model) {
         // abstract method
     },
     
-    lose: function() {
+    lose: function(model) {
         // abstract method
     }
 });
 
 dojo.declare('spaceship.minigame.AmmoReward', spaceship.minigame.Outcome, {
     getLabel: function() {
-        return this.labels.EARN_AMMO_MESSAGE;
+        return this.labels.AMMO_MINIGAME_MESSAGE;
     }
 });
 
 dojo.declare('spaceship.minigame.ShieldReward', spaceship.minigame.Outcome, {
     getLabel: function() {
-        return this.labels.EARN_SHIELD_MESSAGE;
+        return this.labels.SHIELDS_MINIGAME_MESSAGE;
     }
 });
 
-dojo.declare('spaceship.minigame.FireHazard', spaceship.minigame.Outcome, {
+dojo.declare('spaceship.minigame.BombHazard', spaceship.minigame.Outcome, {
     getLabel: function() {
-        return this.labels.AVOID_FIRE_MESSAGE;
+        return this.labels.BOMBS_MINIGAME_MESSAGE;
     }    
 });
 
 dojo.declare('spaceship.minigame.WarpHazard', spaceship.minigame.Outcome, {
     getLabel: function() {
-        return this.labels.AVOID_WARP_MESSAGE;
+        return this.labels.WARPS_MINIGAME_MESSAGE;
     }
 });
 
 spaceship.minigame.GOOD_OUTCOMES = [
-    
     {klass: spaceship.minigame.AmmoReward, cumProb: 0.8},
     {klass: spaceship.minigame.ShieldReward, cumProb: 1.0}
 ];
 spaceship.minigame.BAD_OUTCOMES = [
-    {klass: spaceship.minigame.FireHazard, cumProb: 0.8},
+    {klass: spaceship.minigame.BombHazard, cumProb: 0.8},
     {klass: spaceship.minigame.WarpHazard, cumProb: 1.0},
 ];

@@ -17,8 +17,6 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
         // listen for certain events which will dictate the sound track
         this.subscribe(spaceship.START_MAIN_MENU_TOPIC, 'onStartTitle');
         this.subscribe(spaceship.game.START_GAME_TOPIC, 'onStartGame');
-        this.subscribe(spaceship.game.START_MINIGAME_SERIES_TOPIC, 
-            'onStartMiniGameSeries');
     },
     
     _randomChoice: function(arr) {
@@ -29,6 +27,8 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
     onStartTitle: function() {
         if(this._currentTrack == spaceship.sounds.TITLE_MUSIC) return;
         this.sound.stop(spaceship.sounds.MUSIC_CHANNEL);
+        // always loop the title music
+        this.sound.setPropertyNow('loop', true, spaceship.sounds.MUSIC_CHANNEL);
         this.sound.play(spaceship.sounds.TITLE_MUSIC,
             spaceship.sounds.MUSIC_CHANNEL);
         this._currentTrack = spaceship.sounds.TITLE_MUSIC;
@@ -38,14 +38,9 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
         var track = this._randomChoice(spaceship.sounds.GAME_MUSIC);
         if(this._currentTrack == track) return;
         this.sound.stop(spaceship.sounds.MUSIC_CHANNEL);
-        this.sound.play(track, spaceship.sounds.MUSIC_CHANNEL);        
-        this._currentTrack = track;
-    },
-    
-    onStartMiniGameSeries: function() {
-        var track = this._randomChoice(spaceship.sounds.MINIGAME_MUSIC);
-        if(this._currentTrack == track) return;
-        this.sound.stop(spaceship.sounds.MUSIC_CHANNEL);
+        // never loop the game music
+        this.sound.setPropertyNow('loop', false, spaceship.sounds.MUSIC_CHANNEL);
+        // @todo: observe track end so we can play another
         this.sound.play(track, spaceship.sounds.MUSIC_CHANNEL);        
         this._currentTrack = track;
     }
