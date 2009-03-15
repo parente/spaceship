@@ -14,24 +14,28 @@ spaceship.sounds = (function() {
     var path = 'sounds/mp3/';
     return {
         // short sounds
-        MENU_CHOOSE_SOUND : path+'50565__broumbroum__sf3_sfx_menu_validate.mp3',
-        MENU_CANCEL_SOUND : path+'50557__broumbroum__sf3_sfx_menu_back.mp3',
-        MENU_SELECT_SOUND : path+'50561__broumbroum__sf3_sfx_menu_select.mp3',
-        GRID_SELECT_SOUND : path+'50561__broumbroum__sf3_sfx_menu_select.mp3',
-        EMPTY_TILE_SOUND : path+'18382__inferno__hvylas.mp3',
-        SHIP_TILE_SOUND : path+'9081__tigersound__disappear.mp3',
-        AMMO_TILE_SOUND : path+'17130__NoiseCollector__ak47_chamber_round.mp3',
-        HINT_TILE_SOUND : path+'6164__NoiseCollector__jillys_sonar.mp3',
-        SHIELD_TILE_SOUND : path+'58919__mattwasser__coin_up.mp3',
-        LEECH_TILE_SOUND : path+'22788__FranciscoPadilla__Slurp.mp3',
-        BOMB_TILE_SOUND : path+'51466__smcameron__flak_hit.mp3',
-        WARP_TILE_SOUND : path+'3380__patchen__Rhino_05.mp3',
+        MENU_CHOOSE_SOUND : path+'effects/50565__broumbroum__sf3_sfx_menu_validate.mp3',
+        MENU_CANCEL_SOUND : path+'effects/50557__broumbroum__sf3_sfx_menu_back.mp3',
+        MENU_SELECT_SOUND : path+'effects/50561__broumbroum__sf3_sfx_menu_select.mp3',
+        GRID_SELECT_SOUND : path+'effects/50561__broumbroum__sf3_sfx_menu_select.mp3',
+        EMPTY_TILE_SOUND : path+'effects/18382__inferno__hvylas.mp3',
+        SHIP_TILE_SOUND : path+'effects/9081__tigersound__disappear.mp3',
+        AMMO_TILE_SOUND : path+'effects/17130__NoiseCollector__ak47_chamber_round.mp3',
+        HINT_TILE_SOUND : path+'effects/6164__NoiseCollector__jillys_sonar.mp3',
+        SHIELD_TILE_SOUND : path+'effects/58919__mattwasser__coin_up.mp3',
+        LEECH_TILE_SOUND : path+'effects/22788__FranciscoPadilla__Slurp.mp3',
+        BOMB_TILE_SOUND : path+'effects/51466__smcameron__flak_hit.mp3',
+        WARP_TILE_SOUND : path+'effects/3380__patchen__Rhino_05.mp3',
         // music tracks
-        TITLE_MUSIC : path+'173680_Entering_the_Stronghold.mp3',
-        GAME_MUSIC : [path+'180154_Trial_One.mp3'],
-        MINIGAME_MUSIC : [path+'198890_Piano23.mp3',
-                          path+'192660_Village_Symphony.mp3'],
-        WIN_MUSIC : path + '131207_Orion_sBelt_1st.mp3'
+        TITLE_MUSIC : path+'music/173680_Entering_the_Stronghold.mp3',
+        GAME_MUSIC : [path+'music/180154_Trial_One.mp3',
+                      path+'music/212992_soundtrack.mp3',
+                      path+'music/40877_newgrounds_warson.mp3'],
+        MINIGAME_MUSIC : [path+'music/139468_Paid_in_Blood.mp3',
+                          path+'music/217374_High_Sea.mp3',
+                          path+'music/196995_The_Pirates.mp3'],
+        CREDITS_MUSIC : path+'music/192660_Village_Symphony.mp3',
+        WIN_MUSIC : path + 'music/131207_Orion_sBelt_1st.mp3'
     };
 }());
 

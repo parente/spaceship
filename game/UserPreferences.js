@@ -11,7 +11,7 @@ spaceship.game.UserPreferences = (function(){
         soundVolume : 0.70,
         speechVolume: 0.90,
         musicVolume: 0.50,
-        speechRate: 400,
+        speechRate: 200,
         verboseMessages: true,
         mouse: false
     };
