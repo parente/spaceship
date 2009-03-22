@@ -26,7 +26,7 @@ spaceship.sounds = (function() {
         LEECH_TILE_SOUND : path+'effects/22788__FranciscoPadilla__Slurp.mp3',
         BOMB_TILE_SOUND : path+'effects/51466__smcameron__flak_hit.mp3',
         WARP_TILE_SOUND : path+'effects/3380__patchen__Rhino_05.mp3',
-        MINIGAME_SERIES_SOUND : path+'effects/32987__HardPCM__Alarm003.mp3',
+        TRANSITION_SOUND : path+'effects/32987__HardPCM__Alarm003.mp3',
         // music tracks
         TITLE_MUSIC : path+'music/173680_Entering_the_Stronghold.mp3',
         GAME_MUSIC : [path+'music/180154_Trial_One.mp3',

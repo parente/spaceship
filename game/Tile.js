@@ -35,7 +35,7 @@ dojo.declare('spaceship.game.Tile', null, {
     },
     
     notify: function(model) {
-        // notify listeners of index, type, and value of shot tile
+        // notify listeners of hit tile
         dojo.publish(spaceship.game.LAND_SHOT_TOPIC, [this]);
     },
 

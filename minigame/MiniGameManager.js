@@ -93,6 +93,11 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
      */
     onStartMiniGame: function(bar, outcome) {
         this._barrier = bar;
+        try {
+            this._barrier.addResponder(this.id);
+        } catch(e) {
+            // ignore if already registered
+        }
         this._outcome = outcome;
         if(!this._catalog) {
             // abort if catalog not ready yet
@@ -118,17 +123,22 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         };
 
         // register for win/lose topics
-        this._winTok = dojo.subscribe(args.win_topic, this, 'onLoseMiniGame');
-        this._loseTok = dojo.subscribe(args.lose_topic, this, 'onWinMiniGame');
+        this._winTok = dojo.subscribe(args.win_topic, this, 'onWinMiniGame');
+        this._loseTok = dojo.subscribe(args.lose_topic, this, 'onLoseMiniGame');
         
         // create the game
         var node = dojo.doc.createElement('div');
-        this._boxNode.appendChild(node);
+        this.containerNode.appendChild(node);
         var cls = spaceship.minigame[obj.module][clsName];
         this._game = new cls(args, node);
         
         // check if game wants to prefetch
-        var urls = this._game.onGetPreCache();
+        try {
+            var urls = this._game.onGetPreCache();
+        } catch(e) {
+            console.warn(e);
+            var urls = [];
+        }
         if(urls.length) {
             // @todo: precache and wait for complete before doing anything else
         } else {
@@ -144,7 +154,11 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         // notify starting minigame
         dojo.publish(spaceship.game.START_MINIGAME_TOPIC);
         // inform minigame of start
-        this._game.onStart();
+        try {
+            this._game.onStart();
+        } catch(e) {
+            console.warn(e);
+        }
     },
     
     _notifyGameEnd: function() {
@@ -154,7 +168,11 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         dojo.unsubscribe(this._winTok);
         dojo.unsubscribe(this._loseTok);
         // inform minigame of end
-        this._game.onEnd();
+        try {
+            this._game.onEnd();
+        } catch(e) {
+            console.warn(e);
+        }
         // destroy descendants
         this.destroyDescendants();
         this._game = null;
@@ -163,7 +181,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         // notify barrier
         var bar = this._barrier;
         this._barrier = null;
-        bar.notify();
+        bar.notify(this.id);
     },
     
     onWinMiniGame: function() {
@@ -184,11 +202,19 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
     },
     
     onKeyDown: function(event) {
-        if(this._game) this._game.onKeyDown(event);
+        try {
+            if(this._game) this._game.onKeyDown(event);
+        } catch(e) {
+            console.warn(e);
+        }
     },
     
     onKeyUp: function(event) {
-        if(this._game) this._game.onKeyUp(event);        
+        try {
+            if(this._game) this._game.onKeyUp(event);
+        } catch(e) {
+            console.warn(e);
+        }
     },
     
     onKeyPress : function(event) {
@@ -196,10 +222,19 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         var code = (event.isChar) ? event.charCode : event.keyCode;
         if(code == dojo.keys.ESCAPE) {
             // pause the minigame
+            try {
+                if(this._game) this._game.onPause();
+            } catch(e) {
+                console.warn(e);
+            }
             dojo.publish(spaceship.game.PAUSE_MINIGAME_TOPIC, 
                 [spaceship.game.RESUME_MINIGAME_TOPIC]);
             return;
         }
-        if(this._game) this._game.onKeyPress(event);        
+        try {
+            if(this._game) this._game.onKeyPress(event);
+        } catch(e) {
+            console.warn(e);
+        }
     }
 });

@@ -43,26 +43,60 @@ dojo.declare('spaceship.minigame.Outcome', null, {
 });
 
 dojo.declare('spaceship.minigame.AmmoReward', spaceship.minigame.Outcome, {
+    constructor: function(args) {
+        this._value = this._randomValue(1);
+    },
+
     getLabel: function() {
         return this.labels.AMMO_MINIGAME_MESSAGE;
+    },
+    
+    win: function(model) {
+        model.changeAmmo(this._value);
     }
 });
 
 dojo.declare('spaceship.minigame.ShieldReward', spaceship.minigame.Outcome, {
+    constructor: function(args) {
+        this._value = this._randomValue(1);
+    },
+    
     getLabel: function() {
         return this.labels.SHIELDS_MINIGAME_MESSAGE;
+    },
+
+    win: function(model) {
+        model.changeShields(this._value);
     }
 });
 
 dojo.declare('spaceship.minigame.BombHazard', spaceship.minigame.Outcome, {
+    constructor: function(args) {
+        this._value = this._randomValue(-1);
+    },
+
     getLabel: function() {
         return this.labels.BOMBS_MINIGAME_MESSAGE;
-    }    
+    },
+    
+    lose: function(model) {
+        console.debug('lose bomb!!!!!!!!!');
+        model.changeShields(this._value);
+    }
 });
 
 dojo.declare('spaceship.minigame.WarpHazard', spaceship.minigame.Outcome, {
+    constructor: function(args) {
+        // pick a value based on difficulty
+        this._value = Math.abs(this._randomValue(-1));
+    },
+    
     getLabel: function() {
         return this.labels.WARPS_MINIGAME_MESSAGE;
+    },
+    
+    lose: function(model) {
+        model.warpTime(this._value);
     }
 });
 

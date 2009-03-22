@@ -16,6 +16,8 @@ dojo.declare('spaceship.menu.MenuAudio', [dijit._Widget,
     model: null,
     // bundle of config
     config: null,
+    // play interrupt sound?
+    interrupt: false,
     // audio manager
     audio: spaceship.sounds.AudioManager,
     postCreate: function() {
@@ -24,6 +26,11 @@ dojo.declare('spaceship.menu.MenuAudio', [dijit._Widget,
         this.subscribe(spaceship.menu.END_MENU_TOPIC, 'onEndMenu');
         this.subscribe(spaceship.menu.CHOOSE_ITEM_TOPIC, 'onChooseItem');
 
+        if(this.interrupt) {
+            this.audio.stop(spaceship.sounds.SOUND_TRANSITION_CHANNEL);
+            this.audio.play(spaceship.sounds.MENU_CANCEL_SOUND, 
+                spaceship.sounds.SOUND_TRANSITION_CHANNEL);
+        }
         // stop all preceding speech
         this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
         // announce the title if we have one
@@ -47,7 +54,7 @@ dojo.declare('spaceship.menu.MenuAudio', [dijit._Widget,
     onCancelMenu: function() {
         this.audio.stop(spaceship.sounds.SOUND_TRANSITION_CHANNEL);
         this.audio.play(spaceship.sounds.MENU_CANCEL_SOUND, 
-            spaceship.sounds.SOUND_TRANSITION_CHANNEL);        
+            spaceship.sounds.SOUND_TRANSITION_CHANNEL);
     },
     
     onSelectItem: function(item, label) {

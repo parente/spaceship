@@ -16,8 +16,8 @@ spaceship.game.GameConfig = (function(){
             initialAmmo : 5,
             initialShields : 10,
             initialShips : 10,
-            rows : 8,
-            columns: 8,
+            rows : 6,
+            columns: 6,
             tiles : [
                 {category : 'BAD_TILES', cumProb : 0.15},
                 {category : 'NEUTRAL_TILES', cumProb : 0.6},
@@ -37,8 +37,8 @@ spaceship.game.GameConfig = (function(){
             initialAmmo : 3,
             initialShields : 5,
             initialShips : 15,
-            rows : 10,
-            columns: 12,
+            rows : 9,
+            columns: 9,
             tiles : [
                 {category : 'BAD_TILES', cumProb : 0.25},
                 {category : 'NEUTRAL_TILES', cumProb : 0.75},
@@ -59,7 +59,7 @@ spaceship.game.GameConfig = (function(){
             initialShields : 5,
             initialShips : 20,
             rows : 10,
-            columns: 20,
+            columns: 10,
             tiles : [
                 {category : 'BAD_TILES', cumProb : 0.3},
                 {category : 'NEUTRAL_TILES', cumProb : 0.8},

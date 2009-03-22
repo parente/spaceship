@@ -9,9 +9,9 @@ dojo.provide('spaceship.game.UserPreferences');
 spaceship.game.UserPreferences = (function(){
     return {
         soundVolume : 0.70,
-        speechVolume: 0.90,
-        musicVolume: 0.30,
-        speechRate: 200,
+        speechVolume: 1.0,
+        musicVolume: 0.20,
+        speechRate: 300,
         verboseMessages: true,
         mouse: false
     };

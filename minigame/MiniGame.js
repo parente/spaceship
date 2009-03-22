@@ -122,7 +122,7 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      * @param event Dojo key event
      */
     onKeyPress: function(event) {
-        
+
     },
     
     /**

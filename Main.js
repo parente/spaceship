@@ -261,7 +261,7 @@ dojo.declare('spaceship.Main', null, {
         
         // create the menu model and add it to the bag
         this._menuModel = new spaceship.menu.MenuModel(args);
-        var vargs = {model: this._menuModel};
+        var vargs = {model: this._menuModel, interrupt: cancel == 'resumeGame'};
         var mv = new spaceship.menu.MenuView(vargs);
         var ma = new spaceship.menu.MenuAudio(vargs);
         this._stackWidget.addChild(mv);

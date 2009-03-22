@@ -171,7 +171,7 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
                 topic = spaceship.game.PLAY_MINIGAME_TOPIC;
                 value = this._chooseRandomOutcome();
                 // store reward/hazard
-                this._minigameOutcome = this._minigameOutcome;
+                this._minigameOutcome = value;
                 if(this._minigameSeries == 0) {
                     // starting a new series
                     dojo.publish(spaceship.game.START_MINIGAME_SERIES_TOPIC);
@@ -179,6 +179,7 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
                 }
             }
             // store the current state
+            console.debug('showing status');
             this._state = spaceship.game.SHOW_STATUS_TOPIC;
             args = [bar, topic, value];
         } else {
@@ -189,10 +190,12 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
                 // reduce the count immediately
                 this.changeAmmo(-1);
                 args = [bar];
+                console.debug('taking shot');
             } else {
                 // start a minigame
                 this._state = spaceship.game.PLAY_MINIGAME_TOPIC;
                 args = [bar, this._minigameOutcome];
+                console.debug('playing minigame');
             }
         }
         // publish the topic

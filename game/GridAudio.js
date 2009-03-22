@@ -42,7 +42,7 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
     onEndGame: function() {
         this.destroyRecursive();
     },
-    
+
     onPrepareShot: function(bar) {
         this._barrier = bar;
         // announce tile immediately
@@ -76,13 +76,13 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
         // stop current speech and sound
         this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
         this.audio.stop(spaceship.sounds.SOUND_CHANNEL);
-        // register observer
+        // register observer for sound finish
         var token = this.audio.addObserver(dojo.hitch(this, function() {
             this.audio.removeObserver(token);
             this.onSoundDone();
-        }), 0, ['finished-play', 'error']);
+        }), spaceship.sounds.SOUND_CHANNEL, ['finished-play', 'error']);
         // play sound
-        this.audio.play(snd);
+        this.audio.play(snd, spaceship.sounds.SOUND_CHANNEL);
         // add this as responder to barrier and store it
         this._barrier.addResponder(this.id);
     },

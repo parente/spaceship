@@ -53,10 +53,10 @@
     WARP_MESSAGE : 'A warp brings enemy reinforcements!',
     // next action messages
     SHOT_MESSAGE: 'Prepare to fire!',
-    MINIGAME_MESSAGE : 'Prepare for a challenge: ${challenge}!',
+    MINIGAME_MESSAGE : 'Challenge time: ${challenge}!',
     // minigame messages
     AMMO_MINIGAME_MESSAGE : 'earn ammo',
-    SHIELDS_MINIGAME_MESSAGE : 'charge shields',
+    SHIELDS_MINIGAME_MESSAGE : 'charge your shields',
     BOMBS_MINIGAME_MESSAGE : 'avoid enemy fire',
     WARPS_MINIGAME_MESSAGE : 'stop enemy reinforcements',
     WIN_MINIGAME_MESSAGE : 'You won the challenge!',

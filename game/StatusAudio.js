@@ -20,9 +20,12 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
     audio: spaceship.sounds.AudioManager,
     postMixInProperties: function() {
         this._barrier = null;
+        this._transition = false;
     },
 
     postCreate: function() {
+        this.subscribe(spaceship.game.END_MINIGAME_SERIES_TOPIC, 'onTransition');
+        this.subscribe(spaceship.game.START_MINIGAME_SERIES_TOPIC, 'onTransition');
         this.subscribe(spaceship.game.SHOW_STATUS_TOPIC, 'onSayMessage');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
     },
@@ -33,6 +36,10 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
     
     onEndGame: function() {
         this.destroyRecursive();
+    },
+    
+    onTransition: function() {
+        this._transition = true;
     },
     
     onSayMessage: function(bar, topic, value) {
@@ -50,10 +57,16 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
         this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
         // register observer
         var count = 0;
+        // play transition sound effect?
+        var trans = this._transition;
         var token = this.audio.addObserver(dojo.hitch(this, function(audio, event) {
             if(event.name != 'status') return;
             ++count;
-            if(count == msgs.length) {
+            if(trans && count == msgs.length-1) {
+                audio.stop(spaceship.sounds.SOUND_TRANSITION_CHANNEL);
+                audio.play(spaceship.sounds.TRANSITION_SOUND,
+                    spaceship.sounds.SOUND_TRANSITION_CHANNEL);
+            } else if (count == msgs.length) {
                 audio.removeObserver(token);
                 this.onMessageDone();
             }
@@ -62,6 +75,8 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
         dojo.forEach(msgs, function(msg) {
             this.audio.say(msg, spaceship.sounds.SPEECH_CHANNEL, 'status');
         }, this);
+        // reset transition
+        this._transition = false;
         // add this as responder to barrier and store it
         bar.addResponder(this.id);
         this._barrier = bar;
