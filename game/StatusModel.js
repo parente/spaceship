@@ -21,13 +21,19 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
     },
     
     postCreate: function() {
-        // start listening for requests to show messages
+        // listen for tile messages
         this.subscribe(spaceship.game.HIT_SHIP_TOPIC, 'onHitShip');
         this.subscribe(spaceship.game.CHANGE_SHIELDS_TOPIC, 'onChangeShields');
         this.subscribe(spaceship.game.CHANGE_AMMO_TOPIC, 'onChangeAmmo');
         this.subscribe(spaceship.game.MISS_SHIP_TOPIC, 'onMissShip');
         this.subscribe(spaceship.game.HINT_TOPIC, 'onGetHint');
         this.subscribe(spaceship.game.WARP_TOPIC, 'onTimeWarp');
+        // listen for minigame outcomes
+        this.subscribe(spaceship.game.END_MINIGAME_TOPIC, 'onEndMinigame');
+        // listen for when to reset collected status
+        this.subscribe(spaceship.game.PREPARE_SHOT_TOPIC, 'onResetStatus');
+        this.subscribe(spaceship.game.PLAY_MINIGAME_TOPIC, 'onResetStatus');
+        // listen for when to cleanup
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
     },
     
@@ -42,7 +48,8 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
     getShotMessage: function(ammo) {
         var msgs = this.getLastResult();
         if(this._lastResult == null || 
-            this._lastResult.topic == spaceship.game.CHANGE_AMMO_TOPIC) {
+            this._lastResult.topic == spaceship.game.CHANGE_AMMO_TOPIC ||
+            this._lastResult.topic == spaceship.game.END_MINIGAME_TOPIC) {
             msgs.push(this.labels.SHOT_MESSAGE);
         } else {
             var template = (ammo == 1) ? 
@@ -143,5 +150,15 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
             this.labels.GOAL_MESSAGE : this.labels.GOALS_MESSAGE;
         msgs[1] = dojo.string.substitute(template, {enemies : remain});
         this._lastResult = {topic: spaceship.game.WARP_TOPIC, msgs: msgs};
+    },
+    
+    onEndMinigame: function(outcome) {
+        var msgs = [outcome.getResultLabel(), ''];
+        this._lastResult = {topic : spaceship.game.END_MINIGAME_TOPIC, 
+            msgs : msgs};
+    },
+
+    onResetStatus: function() {
+        this._lastResult = null;
     }
 });

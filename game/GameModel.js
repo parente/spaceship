@@ -184,7 +184,13 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
             args = [bar, topic, value];
         } else {
             // just showed status, proceed with next action
-            if(this._ammo > 0 && this._minigameSeries == 0) {
+            if(this._shields == 0) {
+                // game over, user lost
+                console.debug('lost game');
+            } else if(this._ships == 0) {
+                // game over, user won
+                console.debug('won game');
+            } else if(this._ammo > 0 && this._minigameSeries == 0) {
                 // fire a shot
                 this._state = spaceship.game.PREPARE_SHOT_TOPIC;
                 // reduce the count immediately
@@ -193,6 +199,7 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
                 console.debug('taking shot');
             } else {
                 // start a minigame
+                --this._minigameSeries;
                 this._state = spaceship.game.PLAY_MINIGAME_TOPIC;
                 args = [bar, this._minigameOutcome];
                 console.debug('playing minigame');

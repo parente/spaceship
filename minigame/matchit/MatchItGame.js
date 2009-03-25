@@ -26,8 +26,8 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
     },
     
     onKeyPress: function(event) {
-        console.debug('onKeyPress', event);
-        switch(event.keyCode) {
+        console.debug('onKeyPress', event.charOrCode);
+        switch(event.charOrCode) {
             case dojo.keys.ENTER:
                 this.win();
                 break;

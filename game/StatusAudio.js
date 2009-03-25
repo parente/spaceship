@@ -55,26 +55,27 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
         });
         // stop current speech
         this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
-        // register observer
+        // count messages, including the transition sound
         var count = 0;
-        // play transition sound effect?
-        var trans = this._transition;
+        // register observer
         var token = this.audio.addObserver(dojo.hitch(this, function(audio, event) {
             if(event.name != 'status') return;
             ++count;
-            if(trans && count == msgs.length-1) {
-                audio.stop(spaceship.sounds.SOUND_TRANSITION_CHANNEL);
-                audio.play(spaceship.sounds.TRANSITION_SOUND,
-                    spaceship.sounds.SOUND_TRANSITION_CHANNEL);
-            } else if (count == msgs.length) {
+            if (count == msgs.length) {
                 audio.removeObserver(token);
                 this.onMessageDone();
             }
         }), spaceship.sounds.SPEECH_CHANNEL, ['finished-say']);
         // speak messages
-        dojo.forEach(msgs, function(msg) {
-            this.audio.say(msg, spaceship.sounds.SPEECH_CHANNEL, 'status');
-        }, this);
+        for(var i=0; i < msgs.length; i++) {
+            if(this._transition && i == msgs.length-1) {
+                // play the transition sound before the challenge or shot
+                // announcement
+                this.audio.play(spaceship.sounds.TRANSITION_SOUND,
+                    spaceship.sounds.SPEECH_CHANNEL, 'status');
+            }
+            this.audio.say(msgs[i], spaceship.sounds.SPEECH_CHANNEL, 'status');
+        }
         // reset transition
         this._transition = false;
         // add this as responder to barrier and store it

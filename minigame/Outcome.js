@@ -5,6 +5,7 @@
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.minigame.Outcome');
+dojo.require('dojo.string');
 
 dojo.declare('spaceship.minigame.Outcome', null, {
     // bundle of game config
@@ -15,6 +16,8 @@ dojo.declare('spaceship.minigame.Outcome', null, {
         dojo.mixin(this, args);
         // value of the outcome
         this._value = null;
+        // win or lose
+        this._win = null;
     },
     
     _randomValue: function(multiplier) {
@@ -28,17 +31,35 @@ dojo.declare('spaceship.minigame.Outcome', null, {
         }
         return (Math.floor(Math.random() * max) + 1) * multiplier;
     },
+    
+    _getWinLabel: function() {
+        // abstract method
+    },
+    
+    _getLoseLabel: function() {
+        // abstract method
+    },
 
     getLabel: function() {
         // abstract method
     },
     
+    getResultLabel: function() {
+        if(this._win == null) {
+            throw new Error('result not determined');
+        } else if(this._win == true) {
+            return this._getWinLabel();
+        } else {
+            return this._getLoseLabel();
+        }
+    },
+    
     win: function(model) {
-        // abstract method
+        this._win = true;
     },
     
     lose: function(model) {
-        // abstract method
+        this._win = false;
     }
 });
 
@@ -51,7 +72,21 @@ dojo.declare('spaceship.minigame.AmmoReward', spaceship.minigame.Outcome, {
         return this.labels.AMMO_MINIGAME_MESSAGE;
     },
     
+    _getWinLabel: function() {
+        if(this._value == 1) {
+            return this.labels.WIN_AMMO_MESSAGE;
+        } else {
+            var template = this.labels.WIN_AMMOS_MESSAGE;
+            return dojo.string.substitute(template, {ammo : this._value});
+        }
+    },
+    
+    _getLoseLabel: function() {
+        return this.labels.LOSE_AMMO_MESSAGE;
+    },
+    
     win: function(model) {
+        this.inherited(arguments);
         model.changeAmmo(this._value);
     }
 });
@@ -64,8 +99,22 @@ dojo.declare('spaceship.minigame.ShieldReward', spaceship.minigame.Outcome, {
     getLabel: function() {
         return this.labels.SHIELDS_MINIGAME_MESSAGE;
     },
+    
+    _getWinLabel: function() {
+        if(this._value == 1) {
+            return this.labels.WIN_SHIELD_MESSAGE;
+        } else {
+            var template = this.labels.WIN_SHIELDS_MESSAGE;
+            return dojo.string.substitute(template, {shields : this._value});
+        }
+    },
+    
+    _getLoseLabel: function() {
+        return this.labels.LOSE_SHIELD_MESSAGE;
+    },
 
     win: function(model) {
+        this.inherited(arguments);
         model.changeShields(this._value);
     }
 });
@@ -79,8 +128,22 @@ dojo.declare('spaceship.minigame.BombHazard', spaceship.minigame.Outcome, {
         return this.labels.BOMBS_MINIGAME_MESSAGE;
     },
     
+    _getWinLabel: function() {
+        return this.labels.WIN_BOMB_MESSAGE;
+    },
+    
+    _getLoseLabel: function() {
+        if(this._value == 1) {
+            return this.labels.LOSE_BOMB_MESSAGE;
+        } else {
+            var template = this.labels.LOSE_BOMBS_MESSAGE;
+            var value = Math.abs(this._value);
+            return dojo.string.substitute(template, {shields : value});
+        }
+    },
+    
     lose: function(model) {
-        console.debug('lose bomb!!!!!!!!!');
+        this.inherited(arguments);
         model.changeShields(this._value);
     }
 });
@@ -95,7 +158,22 @@ dojo.declare('spaceship.minigame.WarpHazard', spaceship.minigame.Outcome, {
         return this.labels.WARPS_MINIGAME_MESSAGE;
     },
     
+    _getWinLabel: function() {
+        return this.labels.WIN_WARP_MESSAGE;
+    },
+    
+    _getLoseLabel: function() {
+        if(this._value == 1) {
+            return this.labels.LOSE_WARP_MESSAGE;
+        } else {
+            var template = this.labels.LOSE_WARPS_MESSAGE;
+            var value = Math.abs(this._value);
+            return dojo.string.substitute(template, {ships : value});
+        }
+    },
+    
     lose: function(model) {
+        this.inherited(arguments);
         model.warpTime(this._value);
     }
 });

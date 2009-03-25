@@ -117,9 +117,8 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         // pack up the game arguments
         var args = {
             audio : spaceship.sounds.AudioManager,
-            // @todo: randomize to prevent bad minigame cheating
-            win_topic : 'ss-winMinigame',
-            lose_topic : 'ss-loseMinigame',
+            win_topic : spaceship.game.WIN_MINIGAME_TOPIC,
+            lose_topic : spaceship.game.LOSE_MINIGAME_TOPIC,
         };
 
         // register for win/lose topics
@@ -176,8 +175,9 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         // destroy descendants
         this.destroyDescendants();
         this._game = null;
-        // notify ending minigame
-        dojo.publish(spaceship.game.END_MINIGAME_TOPIC); 
+        // notify ending minigame with the outcome
+        dojo.publish(spaceship.game.END_MINIGAME_TOPIC, [this._outcome]);
+        this._outcome = null;
         // notify barrier
         var bar = this._barrier;
         this._barrier = null;

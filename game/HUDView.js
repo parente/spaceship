@@ -40,6 +40,7 @@ dojo.declare('spaceship.game.HUDView', [dijit._Widget,
         // show initial values
         this.onUpdateDisplay();
         // listen for changes after each shot and minigame conclusion
+        this.subscribe(spaceship.game.END_MINIGAME_TOPIC, 'onUpdateDisplay');
         this.subscribe(spaceship.game.LAND_SHOT_TOPIC, 'onUpdateDisplay');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
     },
