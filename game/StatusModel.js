@@ -65,6 +65,22 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
         msgs.push(dojo.string.substitute(template, {challenge : outcome.getLabel()}));
         return msgs;
     },
+    
+    getLastActionMessage: function() {
+        var msgs = this.getLastResult();
+        // no remaining items or next action to report
+        msgs[1] = '';
+        msgs[2] = '';
+        return msgs;
+    },
+    
+    getWinMessage: function(topic) {
+        return this.labels.WIN_GAME_MESSAGES;
+    },
+    
+    getLoseMessage: function(topic) {
+        return this.labels.LOSE_GAME_MESSAGES;
+    },
 
     getLastResult: function() {
         var msgs = [];
@@ -153,7 +169,13 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
     },
     
     onEndMinigame: function(outcome) {
-        var msgs = [outcome.getResultLabel(), ''];
+        var msgs = [outcome.getResultLabel()];
+        if(this._lastResult) {
+            // keep the remaining items status message 
+            msgs[1] = this._lastResult.msgs[1];
+        } else {
+            msgs[1] = '';
+        }
         this._lastResult = {topic : spaceship.game.END_MINIGAME_TOPIC, 
             msgs : msgs};
     },

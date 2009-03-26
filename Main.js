@@ -152,6 +152,8 @@ dojo.declare('spaceship.Main', null, {
             spaceship.game.PAUSE_GAME_TOPIC, dojo.hitch(this, 'pauseGame'));
         this._subs['pause-minigame'] = dojo.subscribe(
             spaceship.game.PAUSE_MINIGAME_TOPIC, dojo.hitch(this, 'pauseGame'));
+        this._subs['end-game'] = dojo.subscribe(
+            spaceship.game.END_GAME_TOPIC, dojo.hitch(this, 'quitGame'));
         // show the main menu immediately
         this.startMain();
 
@@ -230,8 +232,10 @@ dojo.declare('spaceship.Main', null, {
         // destroy the menu immediately
         this._endMenu(false);
         if(label == this._labels.YES_QUIT_ITEM) {
-            // quit the game
-            this.quitGame();
+            // throw away the last panel to prevent errors reactivating
+            this._lastPanel = null;
+            // destroy the game model which should notify all the views
+            this._gameModel.destroyRecursive();
         } else {
             // restart the resume menu
             this._startMenu(this._returnArgs, 'onChooseMain', 'resumeGame');
@@ -369,10 +373,6 @@ dojo.declare('spaceship.Main', null, {
      * Ends a game by destroying the game model and returning to the main menu.
      */
     quitGame: function() {
-        // throw away the last panel to prevent errors reactivating
-        this._lastPanel = null;
-        // destroy the game model which should notify all the views
-        this._gameModel.destroyRecursive();
         // clean up references
         this._gameModel = null;
         // show the logo again

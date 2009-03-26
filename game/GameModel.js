@@ -33,6 +33,8 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         this._minigameOutcome = null;
         // number of minigames left to play in this series
         this._minigameSeries = 0;
+        // true when game will end on next iteration
+        this._gaveOver = false;
     },
     
     /**
@@ -154,10 +156,17 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         bar.addCallback(this, 'iterate');
         var args;
         
-        if(this._state != spaceship.game.SHOW_STATUS_TOPIC) {
+        if(this._gameOver) {
+            // shut everything down
+            this.destroyRecursive();
+        } else if(this._state != spaceship.game.SHOW_STATUS_TOPIC) {
             var topic, value;
             // just performed an action, report status
-            if(this._ammo > 0 && this._minigameSeries == 0) {
+            if(this._shields == 0 || this._ships == 0) {
+                // next event will be end of game message
+                topic = spaceship.game.END_GAME_TOPIC;
+                value = null;
+            } else if(this._ammo > 0 && this._minigameSeries == 0) {
                 // next event will be shot to fire
                 topic = spaceship.game.PREPARE_SHOT_TOPIC;
                 value = this._ammo;
@@ -186,9 +195,17 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
             // just showed status, proceed with next action
             if(this._shields == 0) {
                 // game over, user lost
+                this._gameOver = true;
+                var topic = spaceship.game.LOSE_GAME_TOPIC;
+                dojo.publish(topic);
+                args = [bar, topic, null];
                 console.debug('lost game');
             } else if(this._ships == 0) {
                 // game over, user won
+                this._gameOver = true;
+                var topic = spaceship.game.WIN_GAME_TOPIC;
+                dojo.publish(topic);
+                args = [bar, topic, null];
                 console.debug('won game');
             } else if(this._ammo > 0 && this._minigameSeries == 0) {
                 // fire a shot
@@ -301,6 +318,7 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         var args = {config : this.config, labels: this.labels};
         // choose random tiles
         for(var i=0; i < count; i++) {
+            console.debug('warpTime', i);
             var index = Math.floor(Math.random() * this._tiles.length);
             var tile = this._tiles[index];
             if(tile.isRevealed() || !tile.isShip()) {

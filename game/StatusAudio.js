@@ -48,6 +48,12 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
             msgs = this.model.getShotMessage(value);
         } else if(topic == spaceship.game.PLAY_MINIGAME_TOPIC) {
             msgs = this.model.getMinigameMessage(value);
+        } else if(topic == spaceship.game.WIN_GAME_TOPIC) {
+            msgs = this.model.getWinMessage();
+        } else if(topic == spaceship.game.LOSE_GAME_TOPIC) {
+            msgs = this.model.getLoseMessage();
+        } else {
+            msgs = this.model.getLastActionMessage();
         }
         // filter out empty messages
         msgs = dojo.filter(msgs, function(msg) {

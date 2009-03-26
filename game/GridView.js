@@ -190,7 +190,7 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
     /**
      * Called when a time warp adds hidden ship cells.
      */
-    onTimeWarp: function(indices) {
+    onTimeWarp: function(topic, indices, remain) {
         var icons = dojo.query('img', this._tableNode);
         var text = this.labels.HIDDEN_TILE;
         var url = spaceship.images.HIDDEN_TILE_IMAGE;

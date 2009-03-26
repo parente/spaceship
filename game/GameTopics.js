@@ -25,6 +25,10 @@ spaceship.game.END_GAME_TOPIC = 'ss-endGame';
 spaceship.game.PAUSE_GAME_TOPIC = 'ss-pauseGame';
 // sent by the GameModel before the game resumes after a menu
 spaceship.game.RESUME_GAME_TOPIC = 'ss-resumeGame';
+// sent by the GameModel before the game ends in a win
+spaceship.game.WIN_GAME_TOPIC = 'ss-winGame';
+// sent by the GameModel before the game ends in a loss
+spaceship.game.LOSE_GAME_TOPIC = 'ss-loseGame';
 
 // tile topics
 // sent by a Tile when a user shot reveals it
@@ -62,5 +66,5 @@ spaceship.game.WIN_MINIGAME_TOPIC = 'ss-winMinigame';
 // sent by MiniGame when it ends in a loss
 spaceship.game.LOSE_MINIGAME_TOPIC = 'ss-loseMinigame';
 
-// define all topics
+// preference topics
 spaceship.game.UPDATE_PREFERENCES = 'ss-updatePrefs';

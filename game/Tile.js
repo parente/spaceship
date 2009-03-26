@@ -198,7 +198,7 @@ spaceship.game.NEUTRAL_TILES = [
     {klass: spaceship.game.EmptyTile, cumProb: 1.0}
 ];
 spaceship.game.BAD_TILES = [
-    {klass: spaceship.game.WarpTile, cumProb : 0.1},
+    {klass: spaceship.game.WarpTile, cumProb : 0.4}, //@debug 0.1
     {klass: spaceship.game.BombTile, cumProb: 0.5},
     {klass: spaceship.game.LeechTile, cumProb: 1.0}
 ];

@@ -133,11 +133,11 @@ dojo.declare('spaceship.minigame.BombHazard', spaceship.minigame.Outcome, {
     },
     
     _getLoseLabel: function() {
-        if(this._value == 1) {
+        var value = Math.abs(this._value);
+        if(value == 1) {
             return this.labels.LOSE_BOMB_MESSAGE;
         } else {
             var template = this.labels.LOSE_BOMBS_MESSAGE;
-            var value = Math.abs(this._value);
             return dojo.string.substitute(template, {shields : value});
         }
     },
@@ -163,11 +163,11 @@ dojo.declare('spaceship.minigame.WarpHazard', spaceship.minigame.Outcome, {
     },
     
     _getLoseLabel: function() {
-        if(this._value == 1) {
+        var value = Math.abs(this._value);
+        if(value == 1) {
             return this.labels.LOSE_WARP_MESSAGE;
         } else {
             var template = this.labels.LOSE_WARPS_MESSAGE;
-            var value = Math.abs(this._value);
             return dojo.string.substitute(template, {ships : value});
         }
     },

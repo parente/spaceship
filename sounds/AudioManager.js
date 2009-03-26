@@ -27,6 +27,7 @@ spaceship.sounds = (function() {
         BOMB_TILE_SOUND : path+'effects/51466__smcameron__flak_hit.mp3',
         WARP_TILE_SOUND : path+'effects/3380__patchen__Rhino_05.mp3',
         TRANSITION_SOUND : path+'effects/32987__HardPCM__Alarm003.mp3',
+        WIN_SOUND : path+'effects/18365__jasinski__yells_5560__dobroide__fireworks.mp3',
         // music tracks
         TITLE_MUSIC : path+'music/173680_Entering_the_Stronghold.mp3',
         GAME_MUSIC : [path+'music/180154_Trial_One.mp3',
@@ -34,9 +35,10 @@ spaceship.sounds = (function() {
                       path+'music/40877_newgrounds_warson.mp3',
                       path+'music/139468_Paid_in_Blood.mp3',
                       path+'music/217374_High_Sea.mp3',
-                      path+'music/196995_The_Pirates.mp3'],
-        LOSE_MUSIC : path+'music/192660_Village_Symphony.mp3',
-        WIN_MUSIC : path + 'music/131207_Orion_sBelt_1st.mp3'
+                      path+'music/196995_The_Pirates.mp3',
+                      path+'music/131207_Orion_sBelt_1st.mp3'],
+        WIN_MUSIC : path+'music/192660_Village_Symphony.mp3',
+        LOSE_MUSIC : path+'music/196951_SadnessSorrowFinal.mp3'
     };
 }());
 
