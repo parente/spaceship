@@ -21,12 +21,17 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
     config: null,
     // audio manager
     audio: spaceship.sounds.AudioManager,
+    
+    /**
+     * Called after widget construction.
+     */
     postMixInProperties: function() {
+        // barrier to notify after playing grid audio
         this._barrier = null;
     },
     
     /**
-     * Register for dojo.publish topics.
+     * Called after widget creation. Subscribes to game topics.
      */
     postCreate: function() {
         this.subscribe(spaceship.game.TARGET_TILE_TOPIC, 'onTargetTile');
@@ -35,20 +40,39 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
     },
     
+    /**
+     * Called after widget cleanup. Unsubscribes from all topics.
+     */
     uninitialize: function() {
         this.unsubscribeAll();
     },
-    
+
+    /**
+     * Called when the game is ending. Destroys this widget.
+     *
+     * @subscribe END_GAME_TOPIC
+     */
     onEndGame: function() {
         this.destroyRecursive();
     },
 
+    /**
+     * Called when the user starts targeting a shot.
+     *
+     * @param bar Barrier to notify when the shot report completes
+     * @subscribe PREPARE_SHOT_TOPIC
+     */
     onPrepareShot: function(bar) {
         this._barrier = bar;
         // announce tile immediately
         this.onTargetTile(this.model.getTargetedTile())
     },
     
+    /**
+     * Called when the user targets a new tile.
+     *
+     * @subscribe TARGET_TILE_TOPIC
+     */
     onTargetTile: function(index) {
         // stop current speech and sound
         this.audio.stop(spaceship.sounds.SOUND_CHANNEL);
@@ -71,6 +95,11 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
         this.audio.say(text, spaceship.sounds.SPEECH_CHANNEL);
     },
     
+    /**
+     * Called when the user shoots a tile
+     *
+     * @subscribe LAND_SHOT_TOPIC
+     */
     onHitTile: function(tile) {
         var snd = tile.getSoundUrl();
         // stop current speech and sound
@@ -87,6 +116,9 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
         this._barrier.addResponder(this.id);
     },
     
+    /**
+     * Called when audio for shooting a tile ends. Notifies the barrier.
+     */
     onSoundDone: function() {
         // reset the instance barrier so we're reentrant
         var bar = this._barrier;

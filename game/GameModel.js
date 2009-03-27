@@ -1,5 +1,6 @@
 /**
- * Game model code for the main Spaceship! game.
+ * Game model code for the main Spaceship! game. Drives the main game loop.
+ * Maintains ship, shield, and ammo counts.
  *
  * Copyright (c) 2008, 2009 Peter Parente under the terms of the BSD license.
  * http://creativecommons.org/licenses/BSD/
@@ -16,6 +17,9 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
     labels: null,
     // bundle of game config
     config: null,
+    /**
+     * Called after widget construction.
+     */
     postMixInProperties: function() {
         // number of shots left
         this._ammo = this.config.initialAmmo;
@@ -38,7 +42,10 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
     },
     
     /**
-     * Notify all listeners that the game is ending as a loss.
+     * Called after widget cleanup. Notifies all listeners that the game is
+     * ending.
+     *
+     * @publish END_GAME_TOPIC
      */
     uninitialize: function() {
         dojo.publish(spaceship.game.END_GAME_TOPIC);
@@ -112,6 +119,8 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
 
     /**
      * Starts the async game loop running.
+     *
+     * @publish START_GAME_TOPIC
      */
     run: function() {
         // initialize the tiles
@@ -149,9 +158,16 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
     
     /**
      * Publishes the next game topic.
+     *
+     * @publish START_MINIGAME_SERIES_TOPIC
+     * @publish END_MINIGAME_SERIES_TOPIC
+     * @publish WIN_GAME_TOPIC
+     * @publish LOSE_GAME_TOPIC
+     * @publish PREPARE_SHOT_TOPIC spaceship.utils.Barrier
+     * @publish SHOW_STATUS_TOPIC spaceship.utils.Barrier, String, Object
+     * @publish PLAY_MINIGAME_TOPIC spaceship.utils.Barrier, spaceship.minigame.Outcome
      */
     iterate: function() {
-        // @todo: handle win and lose events
         var bar = new spaceship.utils.Barrier();
         bar.addCallback(this, 'iterate');
         var args;
@@ -227,21 +243,41 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
     },
     
     /**
-     * Sends a PAUSE_GAME_TOPIC with the resume topic to fire.
+     * Pauses the game.
+     *
+     * @publish PAUSE_GAME_TOPIC String
      */
     pause: function() {
         dojo.publish(spaceship.game.PAUSE_GAME_TOPIC, 
             [spaceship.game.RESUME_GAME_TOPIC]);
     },
     
+    /**
+     * Gets the targeted tile object.
+     *
+     * @return spaceship.game.Tile
+     */
     getTile: function() {
         return this._tiles[this._targetIndex];
     },
 
+    /**
+     * Gets the current game state.
+     *
+     * @return String
+     */
     getState: function() {
         return this._state;
     },
     
+    /**
+     * Moves the active target to a new tile. Untargets the previous tile.
+     *
+     * @param index Index of the tile
+     * @return True if targeted a new tile, false if not
+     * @publish UNTARGET_TILE_TOPIC Integer
+     * @publish TARGET_TILE_TOPIC Integer
+     */
     targetTile: function(index) {
         if(index == this._targetIndex) return false;
         dojo.publish(spaceship.game.UNTARGET_TILE_TOPIC, [this._targetIndex]);
@@ -250,14 +286,30 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         return true;
     },
     
+    /**
+     * Gets the index of the targeted tile.
+     *
+     * @return Integer
+     */
     getTargetedTile: function() {
         return this._targetIndex;
     },
     
+    /**
+     * Shoots the targeted tile.
+     *
+     * @return True if shot, false if already hit
+     */
     shootTarget: function() {
         return this._tiles[this._targetIndex].shoot(this);
     },
     
+    /**
+     * Update the ammo count.
+     *
+     * @param count Change in ammo, positive or negative
+     * @publish CHANGE_AMMO_TOPIC String, Integer, Integer
+     */
     changeAmmo: function(count) {
         if(this._ammo + count < 0) {
             // don't go negative
@@ -267,11 +319,22 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         dojo.publish(spaceship.game.CHANGE_AMMO_TOPIC, [this._state,
             count, this._ammo]);
     },
-    
-    getAmmo: function(count) {
+
+    /**
+     * Get the ammo count.
+     *
+     * @return Integer
+     */
+    getAmmo: function() {
         return this._ammo;
     },
-    
+
+    /**
+     * Update the shield count.
+     *
+     * @param count Change in shields, positive or negative
+     * @publish CHANGE_SHIELDS_TOPIC String, Integer, Integer
+     */
     changeShields: function(count) {
         if(this._shields + count < 0) {
             // don't go negative
@@ -282,25 +345,50 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
             [this._state, count, this._shields]);
     },
 
+    /**
+     * Get the shield count.
+     *
+     * @return Integer
+     */
     getShields: function() {
         return this._shields;
     },
     
+    /**
+     * Destroy an enemy ship.
+     *
+     * @publish HIT_SHIP_TOPIC String, Integer
+     */
     hitShip: function() {
         --this._ships;
         dojo.publish(spaceship.game.HIT_SHIP_TOPIC, [this._state, 
             this._ships]);
     },
     
+    /**
+     * Miss an enemy ship.
+     *
+     * @publish HIT_SHIP_TOPIC String, Integer
+     */
     missShip: function() {
         dojo.publish(spaceship.game.MISS_SHIP_TOPIC, [this._state,
             this._ships]);
     },
     
+    /**
+     * Get the enemy ship count.
+     *
+     * @return Integer
+     */
     getShips: function() {
         return this._ships;
     },
-    
+
+    /**
+     * Detect an enemy ship.
+     *
+     * @publish HINT_TOPIC String, Integer
+     */
     detectShip: function() {
         // collect all ship tiles
         var tiles = dojo.filter(this._tiles, function(tile) {
@@ -312,7 +400,12 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         dojo.publish(spaceship.game.HINT_TOPIC, [this._state, 
             tiles[index].index]);
     },
-    
+
+    /**
+     * Add enemy reinforcements.
+     *
+     * @publish WARP_TOPIC String, Array of integers, Integer
+     */    
     warpTime: function(count) {
         var arr = [];
         var args = {config : this.config, labels: this.labels};

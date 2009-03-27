@@ -29,6 +29,10 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
     prefs: spaceship.game.UserPreferences,
     // template for grid which is built dynamically for the most part
     templatePath: dojo.moduleUrl('spaceship', 'templates/GridView.html'),
+    
+    /**
+     * Called after widget construction.
+     */
     postMixInProperties: function() {
         // flag set when user cannot give commands to the grid
         this._frozen = true;
@@ -37,7 +41,7 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
     },
     
     /**
-     * Register for dojo.publish topics.
+     * Called after widget creation. Subscribes to game topics.
      */
     postCreate: function() {
         this.subscribe(spaceship.game.START_GAME_TOPIC, 'onStartGame');
@@ -51,6 +55,10 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
     },
     
+    /**
+     * Called after widget cleanup. Unsubscribes from all topics. Removes
+     * the widget from the parent container.
+     */
     uninitialize: function() {
         this.unsubscribeAll();
         var parent = this.getParent();
@@ -139,20 +147,40 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
         }
     },
     
+    /**
+     * Called when the game pauses. Prevents input.
+     *
+     * @subscribe PAUSE_GAME_TOPIC
+     */
     onPauseGame: function() {
         this._frozen = true;
     },
     
+    /**
+     * Called when the game resumes. Enables input if preparing a shot.
+     *
+     * @subscribe RESUME_GAME_TOPIC
+     */
     onResumeGame: function() {
         if(this.model.getState() == spaceship.game.PREPARE_SHOT_TOPIC) {
             this._frozen = false;
         }
     },
     
+    /**
+     * Called when the game is ending. Destroys this widget.
+     *
+     * @subscribe END_GAME_TOPIC
+     */
     onEndGame: function() {
         this.destroyRecursive();
     },
     
+    /**
+     * Called when the user starts targeting a shot.
+     *
+     * @subscribe PREPARE_SHOT_TOPIC
+     */
     onPrepareShot: function(bar) {
         // allow user control
         this._frozen = false;
@@ -164,16 +192,31 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
         parent.selectChild(this);
     },
     
+    /**
+     * Called when the user targets a new tile.
+     *
+     * @subscribe TARGET_TILE_TOPIC
+     */
     onTargetTile: function(index) {
         var cell = dojo.query('td', this._tableNode)[index];
         dojo.addClass(cell, 'ssGridViewCellSelected');        
     },
     
+    /**
+     * Called when the user stops targeting a tile.
+     *
+     * @subscribe UNTARGET_TILE_TOPIC
+     */
     onUntargetTile: function(index) {
         var cell = dojo.query('td', this._tableNode)[index];
         dojo.removeClass(cell, 'ssGridViewCellSelected');
     },
     
+    /**
+     * Called when the user shoots a tile
+     *
+     * @subscribe LAND_SHOT_TOPIC
+     */
     onHitTile: function(tile) {
         var td = dojo.query('td', this._tableNode)[tile.index];
         var icon = dojo.query('img', td)[0];
@@ -188,7 +231,12 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
     },
 
     /**
-     * Called when a time warp adds hidden ship cells.
+     * Called when enemy reinforcements warp-in.
+     *
+     * @param topic String topic name
+     * @param indices Array of tile indices that now contain ships
+     * @param remain Number of remaining ships
+     * @subscribe WARP_TOPIC
      */
     onTimeWarp: function(topic, indices, remain) {
         var icons = dojo.query('img', this._tableNode);
@@ -285,6 +333,12 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
         }
     },
     
+    /**
+     * Fades in a revealed tile from white to transparent.
+     *
+     * @param td Table cell node representing the tile
+     * @param icon String icon URL representing what lies under the tile
+     */
     _animateTileHit: function(td, icon) {
         // start the icon hidden
         dojo.style(icon, 'opacity', '0.0');
