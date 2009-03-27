@@ -318,7 +318,6 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
         var args = {config : this.config, labels: this.labels};
         // choose random tiles
         for(var i=0; i < count; i++) {
-            console.debug('warpTime', i);
             var index = Math.floor(Math.random() * this._tiles.length);
             var tile = this._tiles[index];
             if(tile.isRevealed() || !tile.isShip()) {

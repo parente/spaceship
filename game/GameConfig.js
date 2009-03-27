@@ -14,12 +14,12 @@ spaceship.game.GameConfig = (function(){
         {
             label: labels.EASY_LEVEL,
             initialAmmo : 5,
-            initialShields : 10,
+            initialShields : 5,
             initialShips : 10,
-            rows : 6,
-            columns: 6,
+            rows : 5,
+            columns: 5,
             tiles : [
-                {category : 'BAD_TILES', cumProb : 0.15},
+                {category : 'BAD_TILES', cumProb : 0.2},
                 {category : 'NEUTRAL_TILES', cumProb : 0.6},
                 {category : 'GOOD_TILES', cumProb : 1.0}
             ],

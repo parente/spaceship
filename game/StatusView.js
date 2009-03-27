@@ -22,6 +22,8 @@ dojo.declare('spaceship.game.StatusView', [dijit._Widget,
     postMixInProperties: function() {
         // barrier to notify on message done
         this._barrier = null;
+        // is game over?
+        this._gameOver = false;
     },
     
     postCreate: function() {
@@ -32,6 +34,15 @@ dojo.declare('spaceship.game.StatusView', [dijit._Widget,
     
     resize: function(size) {
         dojo.marginBox(this.domNode, size);
+    },
+    
+    /**
+     * Called when the game grid panel shows. Gives keyboard focus to the 
+     * table.
+     */
+    onShow: function() {
+        // give the table focus
+        dijit.focus(this._panelNode);
     },
     
     uninitialize: function() {
@@ -46,17 +57,16 @@ dojo.declare('spaceship.game.StatusView', [dijit._Widget,
      
     onShowMessage: function(bar, topic, value) {
         var msgs;
-        var ending = false;
         if(topic == spaceship.game.PREPARE_SHOT_TOPIC) {
             msgs = this.model.getShotMessage(value);
         } else if(topic == spaceship.game.PLAY_MINIGAME_TOPIC) {
             msgs = this.model.getMinigameMessage(value);
         } else if(topic == spaceship.game.WIN_GAME_TOPIC) {
             msgs = this.model.getWinMessage();
-            ending = true;
+            this._gameOver = true;
         } else if(topic == spaceship.game.LOSE_GAME_TOPIC) {
             msgs = this.model.getLoseMessage();
-            ending = true;
+            this._gameOver = true;
         } else {
             msgs = this.model.getLastActionMessage();
         }
@@ -70,16 +80,7 @@ dojo.declare('spaceship.game.StatusView', [dijit._Widget,
         // add this as responder to barrier and store it
         bar.addResponder(this.id);
         this._barrier = bar;
-        if(ending) {
-            // wait for a keypress on the final status screen
-            var tok = dojo.connect(dojo.body(), 'onkeypress', dojo.hitch(this,
-                function(event) {
-                    console.debug('key press on body')
-                    dojo.disconnect(tok);
-                    this.onMessageDone();
-                }
-            ));
-        } else {
+        if(!this._gameOver) {
             // wait at least a little while for the player to read the text
             setTimeout(dojo.hitch(this, this.onMessageDone), 2000);
         }
@@ -91,5 +92,11 @@ dojo.declare('spaceship.game.StatusView', [dijit._Widget,
         this._barrier = null;
         // notify the barrier
         bar.notify(this.id);
+    },
+    
+    onKeyPress: function(event) {
+        if(this._gameOver) {
+            this.onMessageDone();
+        }
     }
 });
