@@ -38,6 +38,9 @@ dojo.declare('spaceship.Main', null, {
         dojo.require('spaceship.game.StatusModel')
         dojo.require('spaceship.game.StatusView')
         dojo.require('spaceship.game.StatusAudio');
+        dojo.require('spaceship.html.HtmlModel')
+        dojo.require('spaceship.html.HtmlView')
+        dojo.require('spaceship.html.HtmlAudio');
         dojo.require('spaceship.game.HUDView');
         dojo.require('spaceship.game.HUDAudio');
         dojo.require('spaceship.minigame.MiniGameManager');
@@ -193,12 +196,16 @@ dojo.declare('spaceship.Main', null, {
             this.resumeGame();
             break;
         case this._labels.NEWS_ITEM:
+            // show the main game news, but leave the main menu
+            this._startHtml('html/news.html');
             break;        
-        case this._labels.SCORES_ITEM:
-            break;
         case this._labels.CREDITS_ITEM:
+            // show the main game credits, but leave the main menu
+            this._startHtml('html/credits.html');
             break;
         case this._labels.HELP_ITEM:
+            // show the main game help, but leave the main menu
+            this._startHtml('html/help.html');
             break;
         case this._labels.QUIT_GAME_ITEM:
             // destroy the menu immediately
@@ -239,6 +246,33 @@ dojo.declare('spaceship.Main', null, {
         } else {
             // restart the resume menu
             this._startMenu(this._returnArgs, 'onChooseMain', 'resumeGame');
+        }
+    },
+    
+    _startHtml: function(url) {
+        // store the last active panel
+        if(!this._lastPanel) {
+            this._lastPanel = this._stackWidget.selectedChildWidget;
+        }
+        
+        // create the html model and add it to the bag
+        var model = new spaceship.html.HtmlModel({url : url});
+        var args = {model: model};
+        var view = new spaceship.html.HtmlView(args);
+        var audio = new spaceship.html.HtmlAudio(args);
+        // add the visual view to the stack
+        this._stackWidget.addChild(view);
+        this._stackWidget.selectChild(view);
+    },
+    
+    /**
+     * Ends a HTML panel.
+     */
+    _endHtml: function() {
+        // show the last active panel
+        if(this._lastPanel) {
+            this._stackWidget.selectChild(this._lastPanel);
+            this._lastPanel = null;
         }
     },
     

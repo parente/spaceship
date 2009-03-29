@@ -10,6 +10,7 @@
 @import url("StatusView.css");
 @import url("GridView.css");
 @import url("MiniGameView.css");
+@import url("HtmlView.css");
 
 body, html {
     width:100%; 
@@ -62,6 +63,5 @@ body, html {
 
 .spaceship .dijitBorderContainer-dijitStackContainer {
     background-color: transparent;
-    padding: 5px;
     border-width: 0px;
 }

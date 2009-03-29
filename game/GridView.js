@@ -259,8 +259,8 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
     },
    
     /**
-     * Called when the user presses a key. Moves the tile selection or reveals
-     * a hidden tile.
+     * Called when the user presses a key. Moves the tile selection, reveals
+     * a hidden tile, or pauses the game.
      *
      * @param event Event object
      */
