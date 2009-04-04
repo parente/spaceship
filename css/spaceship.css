@@ -9,8 +9,8 @@
 @import url("HUDView.css");
 @import url("StatusView.css");
 @import url("GridView.css");
-@import url("MiniGameView.css");
 @import url("HtmlView.css");
+@import url("MiniGameView.css");
 
 body, html {
     width:100%; 

@@ -26,10 +26,10 @@ dojo.declare('spaceship.html.HtmlView', [dijit.layout.ContentPane,
         dojo.attr(this.domNode, 'tabIndex', '0');
         this.connect(this.domNode, 'onkeypress', 'onKeyPress');
         // subscribe to html topics
-        this.subscribe(spaceship.html.END_HTML_TOPIC, 'onEndHtml')
-        // load the url from the model
-        var url = this.model.getUrl();
-        this.attr('href', url);
+        this.subscribe(spaceship.html.END_HTML_TOPIC, 'onEndHtml');
+        this.subscribe(spaceship.html.LOAD_HTML_TOPIC, 'onLoadHtml');
+        // check if we have an initial DOM to render
+        this.onLoadHtml();
     },
     
     /**
@@ -58,6 +58,15 @@ dojo.declare('spaceship.html.HtmlView', [dijit.layout.ContentPane,
      */
     onEndHtml: function() {
         this.destroyRecursive();
+    },
+    
+    /**
+     * Called when the HTML model has a new DOM.
+     *
+     * @subscribe LOAD_HTML_TOPIC
+     */
+    onLoadHtml: function() {
+        this.attr('content', this.model.getDOM());
     },
     
     /**

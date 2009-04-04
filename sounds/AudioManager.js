@@ -63,8 +63,18 @@ dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
             dojo.mixin(self, outfox.audio);
             // update preferences
             self.onUpdatePrefs();
-            // inform listeners
-            ready.callback();
+            // pre-cache all sounds
+            var snds = [];
+            for(var key in spaceship.sounds) {
+                if(key.search('_SOUND') != -1) {
+                    snds.push(spaceship.sounds[key]);
+                }
+            }
+            var def = outfox.audio.precache(snds);
+            def.addCallback(function() {
+                // notify all sounds precached
+                ready.callback(); 
+            });
         });
         def.addErrback(function() {
             // inform listeners

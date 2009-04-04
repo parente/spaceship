@@ -16,8 +16,52 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
     win_topic: '',
     // topic to broadcast on a win set by the minigame manager
     lose_topic: '',
-    // initial HTML to render in the game DOM node before game start
-    templateString: '<div></div>',
+    // path to CSS to load for this widget; throwback to dojo 0.4 for minigames
+    templateCSSPath: '',
+
+    /**
+     * Loads the stylesheet for the minigame if it needs one.
+     */
+    postMixInProperties: function() {
+        if(this.templateCSSPath) {
+            var head = dojo.doc.getElementsByTagName("head")[0];         
+            var cssNode = document.createElement('link');
+            cssNode.type = 'text/css';
+            cssNode.rel = 'stylesheet';
+            cssNode.href = this.templateCSSPath;
+            head.appendChild(cssNode);  
+        }
+    },
+    
+    /**
+     * Helper method picks one random element from an array.
+     *
+     * @param arr An array
+     * @return Random element from the array
+     */
+    pickRandom: function(arr) {
+        if(!arr.length) throw new Error('empty array');
+        var i = Math.floor(Math.random()*arr.length);
+        return arr[i];
+    },
+    
+    /**
+     * Helper method picks N random elements from an array, allowing dupes.
+     *
+     * @param arr An array
+     * @param n Integer number of elements to pick, defaults to 1 if undefined
+     * @return Array of random elements
+     */
+    pickRandomN: function(arr, n) {
+        if(!arr.length) throw new Error('empty array');
+        n = n || 1;
+        var rv = [];
+        for(var i=0; i<n; i++) {
+            var i = Math.floor(Math.random()*arr.length);
+            rv.push(arr[i]);
+        }
+        return rv;
+    },
 
     /**
      * Ends a game in a win.
