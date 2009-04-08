@@ -18,11 +18,43 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
     lose_topic: '',
     // path to CSS to load for this widget; throwback to dojo 0.4 for minigames
     templateCSSPath: '',
+    constructor: function() {
+        this._audioTok = null;
+        this._audioDefs = {};
+    },
+    
+    /**
+     * Stops observing audio callbacks.
+     */
+    uninitialize: function() {
+        if(this._audioTok) {
+            this.audio.removeObserver(this._audioTok);
+            this._audioTok = null;
+        }
+        this._audioDefs = null;
+    },
+    
+    /**
+     * Returns a deferred response when a sound or utterance finishes
+     * completely or because of an interruption.
+     */
+    _onAudioNotice: function(audio, response) {
+        var def = this._audioDefs[response.name];
+        if(def) {
+            delete this._audioDefs[response.name];
+            def.callback(true);
+        }
+    },
 
     /**
      * Loads the stylesheet for the minigame if it needs one.
      */
     postMixInProperties: function() {
+        // register for audio notifications immediately
+        var cb = dojo.hitch(this, '_onAudioNotice');
+        this._audioTok = this.audio.addObserver(cb,
+            spaceship.sounds.MINIGAME_CHANNEL, 
+            ['started-say', 'started-play']);
         if(this.templateCSSPath) {
             var head = dojo.doc.getElementsByTagName("head")[0];         
             var cssNode = document.createElement('link');
@@ -57,8 +89,8 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
         n = n || 1;
         var rv = [];
         for(var i=0; i<n; i++) {
-            var i = Math.floor(Math.random()*arr.length);
-            rv.push(arr[i]);
+            var x = Math.floor(Math.random()*arr.length);
+            rv.push(arr[x]);
         }
         return rv;
     },
@@ -82,12 +114,18 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      *
      * @param text Utterance to speak
      * @param stop True to stop previous sound before playing, false to queue
+     * @return dojo.Deferred notified if/when the utterance ends
      */   
     say: function(text, stop) {
+        console.debug('mg say', text, stop);
         if(stop) {
-            this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
+            this.audio.stop(spaceship.sounds.MINIGAME_CHANNEL);
         }
-        this.audio.say(text, spaceship.sounds.SPEECH_CHANNEL);
+        var key = Math.random() + '';
+        var def = new dojo.Deferred();
+        this._audioDefs[key] = def;
+        this.audio.say(text, spaceship.sounds.MINIGAME_CHANNEL, key);
+        return def;
     },
     
     /**
@@ -101,13 +139,17 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      */
     play: function(url, stop, stream) {
         if(stop) {
-            this.audio.stop(spaceship.sounds.SOUND_CHANNEL);
+            this.audio.stop(spaceship.sounds.MINIGAME_CHANNEL);
         }
+        var key = Math.random() + '';
+        var def = new dojo.Deferred();
+        this._audioDefs[key] = def;
         if(stream) {
-            this.audio.stream(url, spaceship.sounds.SOUND_CHANNEL);            
+            this.audio.stream(url, spaceship.sounds.MINIGAME_CHANNEL, key); 
         } else {
-            this.audio.play(url, spaceship.sounds.SOUND_CHANNEL);
+            this.audio.play(url, spaceship.sounds.MINIGAME_CHANNEL, key);
         }
+        return def;
     },
     
     /**

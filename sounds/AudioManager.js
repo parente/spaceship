@@ -46,6 +46,7 @@ spaceship.sounds.SPEECH_CHANNEL = 0;
 spaceship.sounds.SOUND_CHANNEL = 1;
 spaceship.sounds.SOUND_TRANSITION_CHANNEL = 2;
 spaceship.sounds.MUSIC_CHANNEL = 3;
+spaceship.sounds.MINIGAME_CHANNEL = 0;
 
 dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
     // bundle of user preferences

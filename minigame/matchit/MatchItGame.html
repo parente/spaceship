@@ -1,9 +1,9 @@
 <div class="ssMatchItGame">
-  <span style="text-align: center;">${prompts.GAME_NAME}</span>
-  <table>
+  <div class="ssMatchItGameName">${prompts.GAME_NAME}</div>
+  <table class="ssMatchItGameTable">
     <tbody>
-      <tr dojoAttachPoint="goalRow"></tr>
-      <tr dojoAttachPoint="inputRow"></tr>
+      <tr dojoAttachPoint="patternRow"></tr>
     </tbody>
   </table>
+  <div dojoAttachPoint="helpNode" class="ssMatchItGameHelp" style="visibility: hidden;">${prompts.PLAY_PROMPT}</div>
 </div>

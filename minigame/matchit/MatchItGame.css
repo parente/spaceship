@@ -5,5 +5,24 @@
  * http://creativecommons.org/licenses/BSD/
  */
 .ssMatchItGame {
-    background-color: red;
+
+}
+
+.ssMatchItGameName {
+    margin-bottom: 3em;
+}
+
+.ssMatchItGameTable {
+    border: 1px solid gray;
+    width: 99%;
+    margin: 0em auto;
+    font-size: 1.25em;
+}
+
+.ssMatchItGameTable td {
+    padding: 0.1em 0.75em;
+}
+
+.ssMatchItGameHelp {
+    margin-top: 3em;
 }

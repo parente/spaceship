@@ -1,4 +1,4 @@
-/**
+-/**
  * Minigame manager code for the Spaceship! game.
  *
  * Copyright (c) 2008, 2009 Peter Parente under the terms of the BSD license.
@@ -46,6 +46,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
      */
     postCreate: function() {
         this.subscribe(spaceship.game.PLAY_MINIGAME_TOPIC, 'onStartMiniGame');
+        this.subscribe(spaceship.game.RESUME_MINIGAME_TOPIC, 'onResumeMiniGame');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
         // fetch the catalog of games
         var request = {
@@ -199,6 +200,14 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
      */
     onEndGame: function() {
         this.destroyRecursive();
+    },
+    
+    onResumeMiniGame: function() {
+        try {
+            if(this._game) this._game.onResume();
+        } catch(e) {
+            console.warn(e);
+        }
     },
     
     onKeyDown: function(event) {

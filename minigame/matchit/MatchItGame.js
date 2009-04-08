@@ -16,8 +16,13 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
     templatePath: dojo.moduleUrl('spaceship.minigame.matchit', 'MatchItGame.html'),
     // template css for match game
     templateCSSPath: dojo.moduleUrl('spaceship.minigame.matchit', 'MatchItGame.css'),
-    
     postMixInProperties: function() {
+        // goal of the current match game
+        this._goal = null;
+        // user can give input now?
+        this._frozen = true;
+        // random assignment of arrows to goal indicies
+        this._arrows = [];
         // need to call the parent for stylesheet loading
         this.inherited(arguments);
         // load strings
@@ -31,26 +36,45 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         dojo.requireLocalization('spaceship.minigame.matchit', name);
         this.gamePrompts = dojo.i18n.getLocalization('spaceship.minigame.matchit', name);
         // pick random choices
-        var goal = [];
-        if(this.gamePrompts.SPEECH_CHOICES) {
-            goal = goal.concat(this.gamePrompts.SPEECH_CHOICES);
-        }
-        if(this.gamePrompts.SOUND_CHOICES) {
-            goal = goal.concat(this.gamePrompts.SOUND_CHOICES);
-        }
-        // @todo: number should be based on difficulty
-        this.goal = this.pickRandomN(goal, 4);
+        this._goal = this.pickRandomN(this.gamePrompts.CHOICES, 4);
+        // @todo: difficulty should affect number of slots
+        // build slots for the values now
+        dojo.forEach(this._goal, function(target) {
+            var td = dojo.doc.createElement('td');
+            td.innerHTML = target.visual;
+            dojo.style(td, 'visibility', 'hidden');
+            this.patternRow.appendChild(td);
+        }, this);
     },
     
     onStart: function() {
-        // show goal and prompt tiles
-        dojo.forEach(this.goal, function(target) {
-            var td = dojo.doc.createElement('td');
-            td.textContent = target;
-            this.goalRow.appendChild(td);
+        // say listen prompt
+        this.say(this.gamePrompts.LISTEN_PROMPT);
+        var def;
+        var tds = dojo.query('td', this.patternRow);
+        dojo.forEach(this._goal, function(target, index) {
+            // say part of goal
+            var def = this.say(target.speech);
+            // show part of goal as it starts speaking
+            def.addCallback(dojo.hitch(this, function() {
+                dojo.style(tds[index], 'visibility', '');
+            }));
         }, this);
-        // speak initial prompts and goal
-        
+        // say controls prompt
+        def = this.say(this.prompts.PLAY_PROMPT);
+        // show controls prompt as it starts speaking
+        def.addCallback(dojo.hitch(this, function() {
+            dojo.style(this.helpNode, 'visibility', '');
+        }));
+        // say nothing, but do it so we can get a callback at the end of the
+        // last utterance
+        def = this.say(' ');
+        def.addCallback(dojo.hitch(this, function() {
+            // enable user controls
+            this._frozen = false;
+            // hide the goal
+            tds.style('visibility', 'hidden');
+        }));
     },
     
     onEnd: function() {
@@ -58,21 +82,25 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
     },
     
     onPause: function() {
-        console.debug('onPause');        
+        this._frozen = true;
     },
     
     onResume: function() {
         console.debug('onResume');
+        this._frozen = false;
     },
     
     onKeyPress: function(event) {
+        if(this._frozen) return;
         console.debug('onKeyPress', event.charOrCode);
         switch(event.charOrCode) {
-            case dojo.keys.ENTER:
-                this.win();
+            case dojo.keys.UP_ARROW:
                 break;
-            case 'x':
-                this.lose();
+            case dojo.keys.DOWN_ARROW:
+                break;
+            case dojo.keys.LEFT_ARROW:
+                break;
+            case dojo.keys.RIGHT_ARROW:
                 break;
         }
     }
