@@ -94,6 +94,18 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
         }
         return rv;
     },
+    
+    /**
+     * Shuffles the array contents into random order inline.
+     *
+     * @param arr An array
+     */
+    shuffleRandom: function(arr) {
+        var f = function() {
+            return Math.round(Math.random()-0.5);
+        };
+        arr.sort(f);
+    },
 
     /**
      * Ends a game in a win.
@@ -114,10 +126,9 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      *
      * @param text Utterance to speak
      * @param stop True to stop previous sound before playing, false to queue
-     * @return dojo.Deferred notified if/when the utterance ends
+     * @return dojo.Deferred notified if/when the utterance starts
      */   
     say: function(text, stop) {
-        console.debug('mg say', text, stop);
         if(stop) {
             this.audio.stop(spaceship.sounds.MINIGAME_CHANNEL);
         }
@@ -136,6 +147,7 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      * @param stop True to stop previous sound before playing, false to queue
      * @param stream True to stream the sound instead of downloading it before
      *   playing it
+     * @return dojo.Deferred notified if/when the utterance starts
      */
     play: function(url, stop, stream) {
         if(stop) {
@@ -149,6 +161,20 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
         } else {
             this.audio.play(url, spaceship.sounds.MINIGAME_CHANNEL, key);
         }
+        return def;
+    },
+    
+    /**
+     * Returns a deferred that will notify after all audio output queued up to
+     * this point completes.
+     *
+     * @return dojo.Deferred notified if/when all previous output completes
+     */
+    afterAudio: function() {
+        var key = Math.random() + '';
+        var def = new dojo.Deferred();
+        this._audioDefs[key] = def;
+        this.audio.say(' ', spaceship.sounds.MINIGAME_CHANNEL, key);
         return def;
     },
     
