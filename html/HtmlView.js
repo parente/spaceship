@@ -43,8 +43,7 @@ dojo.declare('spaceship.html.HtmlView', [dijit.layout.ContentPane,
     },
     
     /**
-     * Called when the game grid panel shows. Gives keyboard focus to the 
-     * table.
+     * Called when the HTML panel shows. Gives keyboard focus to the panel.
      */
     onShow: function() {
         // give the table focus

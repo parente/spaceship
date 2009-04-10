@@ -8,15 +8,15 @@ dojo.provide('spaceship.images.GraphicsManager');
 
 // catalog of image files
 spaceship.images = {
-    LOGO_IMAGE : dojo.moduleUrl('spaceship', 'images/png/logo.png'),
-    WATERMARK_IMAGE : dojo.moduleUrl('spaceship', 'images/png/spaceship.png'),
-    HIDDEN_TILE_IMAGE : dojo.moduleUrl('spaceship', 'images/png/hidden.png'),
-    SHIP_TILE_IMAGE : dojo.moduleUrl('spaceship', 'images/png/ship.png'),
-    EMPTY_TILE_IMAGE : dojo.moduleUrl('spaceship', 'images/png/empty.png'),
-    AMMO_TILE_IMAGE : dojo.moduleUrl('spaceship', 'images/png/ammo.png'),
-    HINT_TILE_IMAGE : dojo.moduleUrl('spaceship', 'images/png/hint.png'),
-    SHIELD_TILE_IMAGE : dojo.moduleUrl('spaceship', 'images/png/shield.png'),
-    LEECH_TILE_IMAGE : dojo.moduleUrl('spaceship', 'images/png/leech.png'),
-    BOMB_TILE_IMAGE : dojo.moduleUrl('spaceship', 'images/png/bomb.png'),
-    WARP_TILE_IMAGE : dojo.moduleUrl('spaceship', 'images/png/warp.png'),
+    LOGO_IMAGE : dojo.moduleUrl('spaceship.images.png', 'logo.png').uri,
+    WATERMARK_IMAGE : dojo.moduleUrl('spaceship.images.png', 'spaceship.png').uri,
+    HIDDEN_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'hidden.png').uri,
+    SHIP_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'ship.png').uri,
+    EMPTY_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'empty.png').uri,
+    AMMO_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'ammo.png').uri,
+    HINT_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'hint.png').uri,
+    SHIELD_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'shield.png').uri,
+    LEECH_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'leech.png').uri,
+    BOMB_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'bomb.png').uri,
+    WARP_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'warp.png').uri
 };

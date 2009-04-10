@@ -26,9 +26,11 @@ dojo.declare('spaceship.html.HtmlModel', dijit._Widget, {
     },
     
     /**
-     * Called when HTML at the current URL loads successfully.
+     * Called when HTML at the current URL loads successfully. Notifies 
+     * listeners that the load is complete.
      *
      * @param response String HTML
+     * @publish LOAD_HTML_TOPIC
      */
     _onLoadHtml: function(response) {
         this.root = dojo.doc.createElement('div');
@@ -44,7 +46,6 @@ dojo.declare('spaceship.html.HtmlModel', dijit._Widget, {
      * Loads the HTML DOM of content at the given URL.
      *
      * @param url String URL
-     * @publish LOAD_HTML_TOPIC
      */
     _setUrlAttr: function(url) {
         this.root = null;

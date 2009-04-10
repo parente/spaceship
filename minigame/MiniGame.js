@@ -7,6 +7,7 @@
 dojo.provide('spaceship.minigame.MiniGame');
 dojo.require('dijit._Widget');
 dojo.require('dijit._Templated');
+dojo.require('spaceship.utils.Timer');
 
 dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
                                              dijit._Templated], {
@@ -106,6 +107,19 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
         };
         arr.sort(f);
     },
+    
+    /**
+     * Starts a timer running. The caller can pause or resume the timer as
+     * needed.
+     *
+     * @param seconds Duration of the timer in seconds
+     */
+    startTimer: function(seconds) {
+        var timer = new spaceship.utils.Timer({duration : seconds});
+        var def = timer.start();
+        def.addCallback(this, 'onTimer');
+        return timer;
+    },
 
     /**
      * Ends a game in a win.
@@ -132,7 +146,7 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
         if(stop) {
             this.audio.stop(spaceship.sounds.MINIGAME_CHANNEL);
         }
-        var key = Math.random() + '';
+        var key = text + '' + Math.random() + '';
         var def = new dojo.Deferred();
         this._audioDefs[key] = def;
         this.audio.say(text, spaceship.sounds.MINIGAME_CHANNEL, key);
@@ -197,7 +211,15 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
     onGetPreCache: function() {
         return [];
     },
-
+    
+    /**
+     * Called when a timer created by the minigame expires.
+     *
+     * @param timer Timer object that expired
+     */
+    onTimer: function(timer) {
+        
+    },
     
     /**
      * Called when the minigame is starting.

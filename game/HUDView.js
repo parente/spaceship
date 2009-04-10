@@ -22,6 +22,10 @@ dojo.declare('spaceship.game.HUDView', [dijit._Widget,
     model: null,
     // path to template file
     templatePath: dojo.moduleUrl('spaceship', 'templates/HUDView.html'),
+
+    /**
+     * Called after widget construction.
+     */
     postMixInProperties: function() {
         // barrier to notify on message done
         this._barrier = null;
@@ -36,6 +40,10 @@ dojo.declare('spaceship.game.HUDView', [dijit._Widget,
         this._ammoImage = spaceship.images.AMMO_TILE_IMAGE;
     },
     
+    /**
+     * Called after widget creation. Subscribes to game topics and shows the
+     * initial game status.
+     */
     postCreate: function() {
         // show initial values
         this.onUpdateDisplay();
@@ -45,14 +53,28 @@ dojo.declare('spaceship.game.HUDView', [dijit._Widget,
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
     },
     
+    /**
+     * Called after widget cleanup. Unsubscribes from all topics.
+     */
     uninitialize: function() {
         this.unsubscribeAll();
     },
 
+    /**
+     * Called when the game is ending. Destroys this widget.
+     *
+     * @subscribe END_GAME_TOPIC
+     */
     onEndGame: function() {
         this.destroyRecursive();
     },
     
+    /**
+     * Called after a game phase, shooting or minigame, completes. Updates
+     * the ship, shields, ammo count.
+     *
+     * @subscribe END_MINIGGAME_TOPIC, LAND_SHOT_TOP
+     */
     onUpdateDisplay: function(tile) {
         this._shipsNode.textContent = this.model.getShips();
         this._shieldsNode.textContent = this.model.getShields();

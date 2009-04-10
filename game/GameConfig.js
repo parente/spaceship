@@ -12,6 +12,7 @@ spaceship.game.GameConfig = (function(){
     var labels = dojo.i18n.getLocalization('spaceship', 'labels');
     return [
         {
+            level : 'easy',
             label: labels.EASY_LEVEL,
             initialAmmo : 5,
             initialShields : 5,
@@ -27,12 +28,13 @@ spaceship.game.GameConfig = (function(){
                 {category : 'GOOD_OUTCOMES', cumProb: 0.6},
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
             ],
-            maxBonusTileValue: 3,
-            maxHazardTileValue: 3,
+            maxBonusTileValue: 4,
+            maxHazardTileValue: 2,
             requiredMinigames: 3
         },
         
         {
+            level : 'medium',
             label: labels.MEDIUM_LEVEL,
             initialAmmo : 3,
             initialShields : 5,
@@ -54,6 +56,7 @@ spaceship.game.GameConfig = (function(){
         },
 
         {
+            level : 'hard',
             label: labels.HARD_LEVEL,
             initialAmmo : 1,
             initialShields : 5,
@@ -66,11 +69,11 @@ spaceship.game.GameConfig = (function(){
                 {category : 'GOOD_TILES', cumProb : 1.0}
             ],
             minigames: [
-                {category : 'GOOD_OUTCOMES', cumProb: 0.4},
+                {category : 'GOOD_OUTCOMES', cumProb: 0.5},
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
             ],
-            maxBonusTileValue: 1,
-            maxHazardTileValue: 3,
+            maxBonusTileValue: 3,
+            maxHazardTileValue: 4,
             requiredMinigames: 5
         }
     ];

@@ -159,7 +159,6 @@ dojo.declare('spaceship.Main', null, {
             spaceship.game.END_GAME_TOPIC, dojo.hitch(this, 'quitGame'));
         // show the main menu immediately
         this.startMain();
-
         // hide the busy overlay
         spaceship.utils.LoaderOverlay.hide(this._overlayNode);
         this._overlayNode = null;

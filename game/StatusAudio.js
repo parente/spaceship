@@ -18,41 +18,68 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
     config: null,
     // audio manager
     audio: spaceship.sounds.AudioManager,
+    
+    /**
+     * Called after widget construction.
+     */
     postMixInProperties: function() {
         this._barrier = null;
         this._transition = false;
     },
 
+    /**
+     * Called after widget creation. Subscribes to game topics.
+     */
     postCreate: function() {
         this.subscribe(spaceship.game.END_MINIGAME_SERIES_TOPIC, 'onTransition');
         this.subscribe(spaceship.game.START_MINIGAME_SERIES_TOPIC, 'onTransition');
-        this.subscribe(spaceship.game.SHOW_STATUS_TOPIC, 'onSayMessage');
+        this.subscribe(spaceship.game.SHOW_STATUS_TOPIC, 'onReportMessage');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
     },
     
+    /**
+     * Called after widget cleanup. Unsubscribes from all topics. Removes
+     * the widget from the parent container.
+     */
     uninitialize: function() {
         this.unsubscribeAll();
     },
     
+    /**
+     * Called when the game is ending. Destroys this widget.
+     *
+     * @subscribe END_GAME_TOPIC
+     */
     onEndGame: function() {
         this.destroyRecursive();
     },
     
+    /**
+     * Called when the game is transitioning between shooting and a series of
+     * minigames.
+     *
+     * @subscribe END_MINIGAME_SERIES_TOPIC, START_MINIGAME_SERIES_TOPIC
+     */
     onTransition: function() {
         this._transition = true;
     },
     
-    onSayMessage: function(bar, topic, value) {
+    onReportMessage: function(bar, topic, value) {
         var msgs;
         if(topic == spaceship.game.PREPARE_SHOT_TOPIC) {
+            // say message about preparing a shot
             msgs = this.model.getShotMessage(value);
         } else if(topic == spaceship.game.PLAY_MINIGAME_TOPIC) {
+            // say message about playing a minigame
             msgs = this.model.getMinigameMessage(value);
         } else if(topic == spaceship.game.WIN_GAME_TOPIC) {
+            // say message about winning the game
             msgs = this.model.getWinMessage();
         } else if(topic == spaceship.game.LOSE_GAME_TOPIC) {
+            // say message about losing the game
             msgs = this.model.getLoseMessage();
         } else {
+            // say last outcome, just before win or loss
             msgs = this.model.getLastActionMessage();
         }
         // filter out empty messages
@@ -61,9 +88,8 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
         });
         // stop current speech
         this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
-        // count messages, including the transition sound
         var count = 0;
-        // register observer
+        // register observer to count speech messages
         var token = this.audio.addObserver(dojo.hitch(this, function(audio, event) {
             if(event.name != 'status') return;
             ++count;
@@ -72,11 +98,11 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
                 this.onMessageDone();
             }
         }), spaceship.sounds.SPEECH_CHANNEL, ['finished-say']);
-        // speak messages
+        // speak messages and play sounds
         for(var i=0; i < msgs.length; i++) {
             if(this._transition && i == msgs.length-1) {
                 // play the transition sound before the challenge or shot
-                // announcement
+                // announcement, using the speech channel to ensure queuing
                 this.audio.play(spaceship.sounds.TRANSITION_SOUND,
                     spaceship.sounds.SPEECH_CHANNEL, 'status');
             }
@@ -89,6 +115,9 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
         this._barrier = bar;
     },
 
+    /**
+     * Called when the last utterance in the status finishes speaking.
+     */
     onMessageDone: function() {
         // reset the instance barrier so we're reentrant
         var bar = this._barrier;

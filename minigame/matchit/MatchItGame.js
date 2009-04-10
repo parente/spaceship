@@ -11,7 +11,7 @@ dojo.requireLocalization('spaceship.minigame.matchit', 'prompts');
 
 dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGame, {
     // available content types
-    games: ['colors', 'numbers'],
+    games: ['colors', 'numbers', 'animals', 'states'],
     // template html for match game
     templatePath: dojo.moduleUrl('spaceship.minigame.matchit', 'MatchItGame.html'),
     // template css for match game
@@ -27,6 +27,10 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         this.shuffleRandom(this._inputMap);        
         // current user input to match against the goal
         this._currentInput = [];
+        // time until the user loses this minigame
+        this._loseTimer = null;
+        // last audio deferred callback
+        this._lastDef = null;
         // need to call the parent for stylesheet loading
         this.inherited(arguments);
         // load strings
@@ -42,11 +46,8 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         // pick random choices, up to 4 unique to map to arrows
         this._goal = this.pickRandomN(this.gamePrompts.CHOICES, 4);
         // @todo: difficulty should affect number of slots
-        // build slots for the values now
         dojo.forEach(this._goal, function(target) {
             var td = dojo.doc.createElement('td');
-            td.innerHTML = target.visual;
-            dojo.style(td, 'visibility', 'hidden');
             this.patternRow.appendChild(td);
         }, this);
     },
@@ -56,11 +57,14 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         this.say(this.gamePrompts.LISTEN_PROMPT);
         var def;
         var tds = dojo.query('td', this.patternRow);
+        // start all cells hidden
+        tds.style('visibility', 'hidden');
         dojo.forEach(this._goal, function(target, index) {
             // say part of goal
             var def = this.say(target.speech);
             // show part of goal as it starts speaking
             def.addCallback(dojo.hitch(this, function() {
+                tds[index].innerHTML = target.visual;
                 dojo.style(tds[index], 'visibility', '');
             }));
         }, this);
@@ -77,26 +81,53 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             this._frozen = false;
             // hide the goal
             tds.style('visibility', 'hidden');
-            // @todo: set a timer until the user loses
+            // start a new timer or resume an existing one
+            if(this._loseTimer) {
+                this._loseTimer.resume();
+            } else {
+                // @todo: difficulty should affect timer duration
+                this._loseTimer = this.startTimer(60);
+            }
         }));
     },
     
+    onTimer: function(timer) {
+        if(timer == this._loseTimer) {
+            this._frozen = true;
+            // @todo: more notification of the result
+            // lose the game if time runs out
+            this.lose();
+        }
+    },
+    
     onEnd: function() {
-        console.debug('onEnd');    
+        // stop the timer
+        if(this._loseTimer) {
+            this._loseTimer.stop();
+        }
     },
     
     onPause: function() {
+        // pause the timer
+        if(this._loseTimer) {
+            this._loseTimer.pause();
+        }
+        // freeze input
         this._frozen = true;
+        // reset user input for when we return
+        this._currentInput = [];
     },
     
     onResume: function() {
-        console.debug('onResume');
-        this._frozen = false;
+        // repeat instructions from the start
+        this.onStart();
     },
     
     onKeyPress: function(event) {
         if(this._frozen) return;
         var i = this._inputMap.indexOf(event.charOrCode);
+        // not valid input
+        if(i < 0) return;
         var input = this._goal[i];
         if(this._currentInput.length == this._goal.length) {
             // rotate off the oldest input
@@ -109,6 +140,10 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
     },
     
     _reportInput: function(input) {
+        // clear the last win check
+        if(this._lastDef) {
+            this._lastDef.cancel();
+        }
         // show the visuals
         dojo.query('td', this.patternRow).forEach(function(td, index) {
             var value = this._currentInput[index];
@@ -124,14 +159,21 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         }, this);
         // say the most recent addition
         this.say(input.speech);
-        // check for a win after the report
-        var def = this.afterAudio();
-        def.addCallback(dojo.hitch(this, function() {
-            var win = dojo.every(this._goal, function(item, index) {
-                return this._currentInput[index.visual] == item.visual;
-            });
-            if(win) this.win();
+        // check for a win immediately
+        var win = dojo.every(this._goal, function(item, index) {
+            var input = this._currentInput[index];
+            if(!input) return false;
+            return input.visual == item.visual;
+        }, this);
+        if(win) { 
+            // don't allow the user to pause or do anything else right now
+            this._frozen = true;
+        }
+        // wait for all audio to stop before we decide to win or not
+        this._lastDef = this.afterAudio();
+        this._lastDef.addCallback(dojo.hitch(this, function() {
             // @todo: little more fanfare please if won
+            if(win) this.win();            
         }));
     }
 });

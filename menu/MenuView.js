@@ -26,10 +26,17 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
     prefs: spaceship.game.UserPreferences,
     // path to template file
     templatePath: dojo.moduleUrl('spaceship', 'templates/MenuView.html'),
+    /**
+     * Called after widget construction.
+     */
     postMixInProperties: function() {
         this._title = this.model.getTitle();
     },
     
+    /**
+     * Called after widget creation. Builds the visual menu items. Subscribes
+     * to menu topics.
+     */
     postCreate: function() {
         // hide title if no text
         if(!this._title) {
@@ -56,16 +63,37 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
         this.subscribe(spaceship.menu.END_MENU_TOPIC, 'onEndMenu');
     },
     
+    /**
+     * Called after widget cleanup. Unsubscribes from all topics. Removes
+     * the widget from the parent container.
+     */
     uninitialize: function() {
         this.unsubscribeAll();
         var parent = this.getParent();
         parent.removeChild(this);
     },
     
+    /**
+     * Called when the menu is ending. Destroys this widget.
+     *
+     * @subscribe END_MENU_TOPIC
+     */
     onEndMenu: function() {
         this.destroyRecursive();
     },
     
+    /**
+     * Called when the container resizes. Recomputes the size of the menu box.
+     *
+     * @param size Box object
+     */
+    resize: function(size) {
+        dojo.marginBox(this.domNode, size);
+    },
+    
+    /**
+     * Called when the menu panel shows. Gives keyboard focus to the box.
+     */
     onShow: function() {
         dijit.focus(this._panelNode);
     },
@@ -75,10 +103,6 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
         items.removeClass('ssMenuViewOptionSelected');
         var target = items[index];
         dojo.addClass(target, 'ssMenuViewOptionSelected');
-    },
-
-    resize: function(size) {
-        dojo.marginBox(this.domNode, size);
     },
     
     onKeyPress: function(event) {

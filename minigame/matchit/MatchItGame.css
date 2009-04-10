@@ -17,10 +17,11 @@
     width: 99%;
     margin: 0em auto;
     font-size: 1.25em;
+    border-spacing: 0.25;
 }
 
-.ssMatchItGameTable td {
-    padding: 0.1em 0.75em;
+.ssMatchItGameTable tr {
+    height: 1.5em;
 }
 
 .ssMatchItGameHelp {

@@ -1,5 +1,5 @@
 /**
- * Game grid tile for the Spaceship! game.
+ * Game grid tiles for the Spaceship! game.
  *
  * Copyright (c) 2008, 2009 Peter Parente under the terms of the BSD license.
  * http://creativecommons.org/licenses/BSD/
@@ -14,6 +14,9 @@ dojo.declare('spaceship.game.Tile', null, {
     config: null,
     // bundle of labels
     labels: null,
+    /**
+     * Object constructor. Mixes arguments into this object.
+     */
     constructor: function(args) {
         dojo.mixin(this, args);
         // value of the tile
@@ -22,6 +25,14 @@ dojo.declare('spaceship.game.Tile', null, {
         this._revealed = false;
     },
     
+    /**
+     * Selects a random value between one and maxBonusTileValue or 
+     * maxHazardTileValue inclusive. Multiply the result by the multiplier
+     * to produce a positive or negative value.
+     *
+     * @param multiplier Signed integer
+     * @return Signed integer
+     */
     _randomValue: function(multiplier) {
         var max;
         if(multiplier > 0) {
@@ -34,11 +45,21 @@ dojo.declare('spaceship.game.Tile', null, {
         return (Math.floor(Math.random() * max) + 1) * multiplier;
     },
     
+    /**
+     * Called when a shot hits this tile. Notifies listeners of the hit. 
+     *
+     * @publish LAND_SHOT_TOPIC
+     */
     notify: function(model) {
         // notify listeners of hit tile
         dojo.publish(spaceship.game.LAND_SHOT_TOPIC, [this]);
     },
 
+    /**
+     * Reveals this tile.
+     *
+     * @param model Game model object
+     */
     shoot: function(model) {
         // nothing to do if already showing
         if(this._revealed) return false;
@@ -47,25 +68,44 @@ dojo.declare('spaceship.game.Tile', null, {
         return true;
     },
     
+    /**
+     * Gets if this tile is revealed or not.
+     *
+     * @return True if revealed, false if not
+     */
     isRevealed: function() {
         return this._revealed;
     },
     
+    /**
+     * Gets if this tile holds a ship or not.
+     *
+     * @return True if contains a ship, false if not
+     */
     isShip: function() {
         return false;
     },
     
+    /**
+     * Gets the value of this reward or hazard tile.
+     *
+     * @return Signed integer
+     */
     getValue: function() {
         return this._value;
     },
     
+    /**
+     * Gets a localized label describing the contents of this revealed tile.
+     *
+     * @return String
+     */
     getLabel: function() {
         // abstract method
     }
 });
 
-// Ship tiles
-
+// Ship tile
 dojo.declare('spaceship.game.ShipTile', spaceship.game.Tile, {
     notify: function(model) {
         model.hitShip();
@@ -189,6 +229,8 @@ dojo.declare('spaceship.game.WarpTile', spaceship.game.Tile, {
     }
 });
 
+// cumulative probabilities of good, neutral, and bad tiles used during game
+// grid initialization
 spaceship.game.GOOD_TILES = [
     {klass: spaceship.game.HintTile, cumProb: 0.2},
     {klass: spaceship.game.ShieldTile, cumProb: 0.4},

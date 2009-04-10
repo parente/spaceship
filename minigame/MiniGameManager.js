@@ -1,4 +1,4 @@
--/**
+/**
  * Minigame manager code for the Spaceship! game.
  *
  * Copyright (c) 2008, 2009 Peter Parente under the terms of the BSD license.
@@ -13,6 +13,10 @@ dojo.require('spaceship.sounds.AudioManager');
 dojo.require('spaceship.utils.Subscriber');
 dojo.require('spaceship.minigame.Outcome');
 
+/**
+ * Class currently combines model, view, controller into one place because it's
+ * mostly just a proxy for the minigame with a tiny bit of UI.
+ */
 dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
                                                     dijit._Templated,
                                                     dijit._Contained,
@@ -132,7 +136,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         var cls = spaceship.minigame[obj.module][clsName];
         this._game = new cls(args, node);
         
-        // check if game wants to prefetch
+        // check if game wants to prefetch sounds
         try {
             var urls = this._game.onGetPreCache();
         } catch(e) {
@@ -186,13 +190,23 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
     },
     
     onWinMiniGame: function() {
+        // trigger the outcome
         this._outcome.win(this.model);
-        this._notifyGameEnd();
+        // give an audio report
+        var url = this._outcome.getResultSoundUrl();
+        this._game.play(url, true);
+        var def = this._game.afterAudio();
+        def.addCallback(dojo.hitch(this, '_notifyGameEnd'));
     },
     
     onLoseMiniGame: function() {
+        // trigger the outcome
         this._outcome.lose(this.model);
-        this._notifyGameEnd();
+        // give an audio report
+        var url = this._outcome.getResultSoundUrl();
+        this._game.play(url, true);
+        var def = this._game.afterAudio();
+        def.addCallback(dojo.hitch(this, '_notifyGameEnd'));
     },
     
     /**

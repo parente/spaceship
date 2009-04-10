@@ -10,36 +10,35 @@ dojo.require('spaceship.game.GameTopics');
 dojo.require('spaceship.game.UserPreferences');
 
 // catalog of sound files
-spaceship.sounds = (function() {
-    var path = 'sounds/mp3/';
-    return {
-        // short sounds
-        MENU_CHOOSE_SOUND : path+'effects/50565__broumbroum__sf3_sfx_menu_validate.mp3',
-        MENU_CANCEL_SOUND : path+'effects/50557__broumbroum__sf3_sfx_menu_back.mp3',
-        MENU_SELECT_SOUND : path+'effects/50561__broumbroum__sf3_sfx_menu_select.mp3',
-        GRID_SELECT_SOUND : path+'effects/50561__broumbroum__sf3_sfx_menu_select.mp3',
-        EMPTY_TILE_SOUND : path+'effects/18382__inferno__hvylas.mp3',
-        SHIP_TILE_SOUND : path+'effects/9081__tigersound__disappear.mp3',
-        AMMO_TILE_SOUND : path+'effects/17130__NoiseCollector__ak47_chamber_round.mp3',
-        HINT_TILE_SOUND : path+'effects/6164__NoiseCollector__jillys_sonar.mp3',
-        SHIELD_TILE_SOUND : path+'effects/58919__mattwasser__coin_up.mp3',
-        LEECH_TILE_SOUND : path+'effects/22788__FranciscoPadilla__Slurp.mp3',
-        BOMB_TILE_SOUND : path+'effects/51466__smcameron__flak_hit.mp3',
-        WARP_TILE_SOUND : path+'effects/3380__patchen__Rhino_05.mp3',
-        TRANSITION_SOUND : path+'effects/32987__HardPCM__Alarm003.mp3',
-        // music tracks
-        TITLE_MUSIC : path+'music/173680_Entering_the_Stronghold.mp3',
-        GAME_MUSIC : [path+'music/180154_Trial_One.mp3',
-                      path+'music/212992_soundtrack.mp3',
-                      path+'music/40877_newgrounds_warson.mp3',
-                      path+'music/139468_Paid_in_Blood.mp3',
-                      path+'music/217374_High_Sea.mp3',
-                      path+'music/196995_The_Pirates.mp3',
-                      path+'music/131207_Orion_sBelt_1st.mp3'],
-        WIN_MUSIC : path+'music/192660_Village_Symphony_5560__dobroide__fireworks_18365__jasinski__yells.mp3',
-        LOSE_MUSIC : path+'music/196951_SadnessSorrowFinal.mp3'
-    };
-}());
+spaceship.sounds = {
+    // short sounds
+    MENU_CHOOSE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50565__broumbroum__sf3_sfx_menu_validate.mp3').uri,
+    MENU_CANCEL_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50557__broumbroum__sf3_sfx_menu_back.mp3').uri,
+    MENU_SELECT_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50561__broumbroum__sf3_sfx_menu_select.mp3').uri,
+    GRID_SELECT_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50561__broumbroum__sf3_sfx_menu_select.mp3').uri,
+    EMPTY_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '18382__inferno__hvylas.mp3').uri,
+    SHIP_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '9081__tigersound__disappear.mp3').uri,
+    AMMO_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '17130__NoiseCollector__ak47_chamber_round.mp3').uri,
+    HINT_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '6164__NoiseCollector__jillys_sonar.mp3').uri,
+    SHIELD_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '58919__mattwasser__coin_up.mp3').uri,
+    LEECH_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '22788__FranciscoPadilla__Slurp.mp3').uri,
+    BOMB_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '51466__smcameron__flak_hit.mp3').uri,
+    WARP_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '3380__patchen__Rhino_05.mp3').uri,
+    TRANSITION_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '32987__HardPCM__Alarm003.mp3').uri,
+    LOSE_REWARD_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '26375__DJ_Chronos__created_siren.mp3').uri,
+    AVOID_HAZARD_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '9088__tigersound__jetbike_flypast.mp3').uri,
+    // music tracks
+    TITLE_MUSIC : dojo.moduleUrl('spaceship.sounds.mp3.music', '173680_Entering_the_Stronghold.mp3').uri,
+    GAME_MUSIC : [dojo.moduleUrl('spaceship.sounds.mp3.music', '180154_Trial_One.mp3').uri,
+                  dojo.moduleUrl('spaceship.sounds.mp3.music', '212992_soundtrack.mp3').uri,
+                  dojo.moduleUrl('spaceship.sounds.mp3.music', '40877_newgrounds_warson.mp3').uri,
+                  dojo.moduleUrl('spaceship.sounds.mp3.music', '139468_Paid_in_Blood.mp3').uri,
+                  dojo.moduleUrl('spaceship.sounds.mp3.music', '217374_High_Sea.mp3').uri,
+                  dojo.moduleUrl('spaceship.sounds.mp3.music', '196995_The_Pirates.mp3').uri,
+                  dojo.moduleUrl('spaceship.sounds.mp3.music', '131207_Orion_sBelt_1st.mp3').uri],
+    WIN_MUSIC : dojo.moduleUrl('spaceship.sounds.mp3.music', '192660_Village_Symphony_5560__dobroide__fireworks_18365__jasinski__yells.mp3').uri,
+    LOSE_MUSIC : dojo.moduleUrl('spaceship.sounds.mp3.music', '196951_SadnessSorrowFinal.mp3').uri
+};
 
 // channel constants
 spaceship.sounds.SPEECH_CHANNEL = 0;
@@ -51,6 +50,13 @@ spaceship.sounds.MINIGAME_CHANNEL = 0;
 dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
     // bundle of user preferences
     prefs: spaceship.game.UserPreferences,
+    /** 
+     * Initializes the Outfox audio service. Precaches all sound files when
+     * the service is ready. Mixes the outfox audio API into this object
+     * Configures audio output based on the initial preferences.
+     *
+     * @return dojo.Deferred which notifies audio init success or error
+     */
     startup: function() {
         // create a deferred
         var ready = new dojo.Deferred();
@@ -82,10 +88,15 @@ dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
             ready.errback();
         });
         // listen for preference changes
-        this.subscribe(spaceship.game.UPDATE_PREFS, 'onUpdatePrefs');
+        this.subscribe(spaceship.game.UPDATE_PREFERENCES_TOPIC, 'onUpdatePrefs');
         return ready;
     },
     
+    /**
+     * Called when the user commits new preferences.
+     *
+     * @subscribe UPDATE_PREFERENCES_TOPIC
+     */
     onUpdatePrefs: function() {
         this.setPropertyNow('volume', this.prefs.speechVolume, 
             spaceship.sounds.SPEECH_CHANNEL);

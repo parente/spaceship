@@ -67,4 +67,4 @@ spaceship.game.WIN_MINIGAME_TOPIC = 'ss-winMinigame';
 spaceship.game.LOSE_MINIGAME_TOPIC = 'ss-loseMinigame';
 
 // preference topics
-spaceship.game.UPDATE_PREFERENCES = 'ss-updatePrefs';
+spaceship.game.UPDATE_PREFERENCES_TOPIC = 'ss-updatePrefs';

@@ -15,6 +15,9 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
     audio: spaceship.sounds.AudioManager,
     // user preferences
     prefs : spaceship.game.UserPreferences,
+    /**
+     * Object constructor. Subscribes to game topics.
+     */
     constructor: function() {
         // current track
         this._currentTrack = null;
@@ -27,11 +30,24 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
         this.subscribe(spaceship.game.LOSE_GAME_TOPIC, 'onLoseGame');
     },
     
+    /**
+     * Picks a random element from the given array.
+     *
+     * @param arr Array
+     * @return Random array element
+     */
     _randomChoice: function(arr) {
+        if(arr.length == 0) throw new Error('empty array');
         var i = Math.floor(Math.random() * arr.length);
         return arr[i];
     },
     
+    /**
+     * Plays a music track in a loop.
+     *
+     * @param track URL of the music to play
+     * @param volume Float volume level 0.0 to 1.0
+     */
     _playLooping: function(track, volume) {
         if(this._soundToken) {
             this.audio.removeObserver(this._soundToken);
@@ -39,7 +55,7 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
         if(this._currentTrack == track) {
             // do nothing if already playing title music
             return;
-        }        
+        }
         this.audio.stop(spaceship.sounds.MUSIC_CHANNEL);
         if(volume == undefined) {
             // default to user prefs for music volume
@@ -51,18 +67,38 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
         this._currentTrack = track;
     },
 
+    /**
+     * Plays the title music in a loop.
+     *
+     * @subscribe START_MAIN_MENU_TOPIC
+     */
     onStartTitle: function() {
         this._playLooping(spaceship.sounds.TITLE_MUSIC);
     },
     
+    /**
+     * Plays the win music in a loop.
+     *
+     * @subscribe WIN_GAME_TOPIC
+     */
     onWinGame: function() {
         this._playLooping(spaceship.sounds.WIN_MUSIC, 0.8);
     },
     
+    /**
+     * Plays the lose music in a loop.
+     *
+     * @subscribe LOSE_GAME_TOPIC
+     */
     onLoseGame: function() {
         this._playLooping(spaceship.sounds.LOSE_MUSIC, 0.8);
     },
 
+    /**
+     * Plays a random game music track once.
+     *
+     * @subscribe START_GAME_TOPIC
+     */
     onStartGame: function() {
         // stop current music
         this.audio.stop(spaceship.sounds.MUSIC_CHANNEL);
@@ -80,6 +116,11 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
         this.onGameMusicDone();
     },
 
+    /**
+     * Called when a non-looping game music track ends. Selects another
+     * random track and plays it. Ensures the next track isn't the same as
+     * the last.
+     */
     onGameMusicDone: function() {
         do {
             var track = this._randomChoice(spaceship.sounds.GAME_MUSIC);

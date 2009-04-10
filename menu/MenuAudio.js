@@ -20,6 +20,10 @@ dojo.declare('spaceship.menu.MenuAudio', [dijit._Widget,
     interrupt: false,
     // audio manager
     audio: spaceship.sounds.AudioManager,
+    /**
+     * Called after widget creation. Subscribes to menu topics. Speaks the
+     * menu title and or first selected item immediately.
+     */
     postCreate: function() {
         this.subscribe(spaceship.menu.SELECT_ITEM_TOPIC, 'onSelectItem');
         this.subscribe(spaceship.menu.CANCEL_MENU_TOPIC, 'onCancelMenu');
@@ -43,20 +47,38 @@ dojo.declare('spaceship.menu.MenuAudio', [dijit._Widget,
         this.audio.say(label, spaceship.sounds.SPEECH_CHANNEL, label);
     },
     
+    /**
+     * Called after widget cleanup. Unsubscribes from all topics.
+     */
     uninitialize: function() {
         this.unsubscribeAll();
     },
 
+    /**
+     * Called when the menu is ending. Destroys this widget.
+     *
+     * @subscribe END_MENU_TOPIC
+     */
     onEndMenu: function() {
         this.destroyRecursive();
     },
     
+    /**
+     * Called when the user cancels a menu.
+     *
+     *  @subscribe CANCEL_MENU_TOPIC
+     */
     onCancelMenu: function() {
         this.audio.stop(spaceship.sounds.SOUND_TRANSITION_CHANNEL);
         this.audio.play(spaceship.sounds.MENU_CANCEL_SOUND, 
             spaceship.sounds.SOUND_TRANSITION_CHANNEL);
     },
-    
+
+    /**
+     * Called when the user targets an item for selection.
+     *
+     * @subscribe SELECT_ITEM_TOPIC
+     */    
     onSelectItem: function(item, label) {
         this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
         this.audio.stop(spaceship.sounds.SOUND_CHANNEL);
@@ -64,7 +86,12 @@ dojo.declare('spaceship.menu.MenuAudio', [dijit._Widget,
             spaceship.sounds.SOUND_CHANNEL);
         this.audio.say(label, spaceship.sounds.SPEECH_CHANNEL, label);
     },
-    
+
+    /**
+     * Called when the user chooses the selected item.
+     *
+     * @subscribe CHOOSE_ITEM_TOPIC
+     */        
     onChooseItem: function() {
         this.audio.stop(spaceship.sounds.SOUND_TRANSITION_CHANNEL);
         this.audio.play(spaceship.sounds.MENU_CHOOSE_SOUND, 
