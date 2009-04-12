@@ -9,21 +9,35 @@
 }
 
 .ssMatchItGameName {
-    margin-bottom: 3em;
+    margin-bottom: 2em;
 }
 
 .ssMatchItGameTable {
     border: 1px solid gray;
     width: 99%;
     margin: 0em auto;
-    font-size: 1.25em;
-    border-spacing: 0.25;
+    font-size: 1.5em;
+    border-spacing: 1%;
+    text-align: center;
 }
 
-.ssMatchItGameTable tr {
-    height: 1.5em;
+.ssMatchItGameTable td {
+    width: 22%;
+}
+
+.ssMatchItGameTable img {
+    vertical-align: middle;    
+}
+
+.ssMatchItGameTable .animal {
+    width: 100%;
+    max-height: 2.5em;
+}
+
+.ssMatchItGameTable .state {
+    width: 100%;
 }
 
 .ssMatchItGameHelp {
-    margin-top: 3em;
+    margin-top: 2em;
 }

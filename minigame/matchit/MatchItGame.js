@@ -11,7 +11,7 @@ dojo.requireLocalization('spaceship.minigame.matchit', 'prompts');
 
 dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGame, {
     // available content types
-    games: ['colors', 'numbers', 'animals', 'states'],
+    games: ['states', 'animals', 'numbers', 'colors'],
     // template html for match game
     templatePath: dojo.moduleUrl('spaceship.minigame.matchit', 'MatchItGame.html'),
     // template css for match game
@@ -24,7 +24,12 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         // random assignment of inputs to goal indices
         this._inputMap = [dojo.keys.UP_ARROW, dojo.keys.DOWN_ARROW, 
             dojo.keys.LEFT_ARROW, dojo.keys.RIGHT_ARROW];
-        this.shuffleRandom(this._inputMap);        
+        this.shuffleRandom(this._inputMap);
+        // bundle of paths for visual, speech, sound templates
+        this._templateBundle = {
+            images : dojo.moduleUrl('spaceship.minigame.matchit.images'),
+            sounds : dojo.moduleUrl('spaceship.minigame.matchit.sounds')
+        };
         // current user input to match against the goal
         this._currentInput = [];
         // time until the user loses this minigame
@@ -46,7 +51,10 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         // pick random choices, up to 4 unique to map to arrows
         this._goal = this.pickRandomN(this.gamePrompts.CHOICES, 4);
         // @todo: difficulty should affect number of slots
-        dojo.forEach(this._goal, function(target) {
+        dojo.forEach(this._goal, function(item) {
+            // fill in goal templates
+            this._fillTemplates(item);
+            // build cells for display
             var td = dojo.doc.createElement('td');
             this.patternRow.appendChild(td);
         }, this);
@@ -137,6 +145,21 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         this._currentInput.push(input);
         // render the input and check for a win
         this._reportInput(input);
+    },
+    
+    _fillTemplates: function(templates) {
+        if(templates.visual) {
+            templates.visual = dojo.string.substitute(templates.visual, 
+                this._templateBundle);
+        }
+        if(templates.sound) {
+            templates.sound = dojo.string.substitute(templates.sound, 
+                this._templateBundle);
+        }
+        if(templates.speech) {
+            templates.speech = dojo.string.substitute(templates.speech, 
+                this._templateBundle);
+        }        
     },
     
     _reportInput: function(input) {
