@@ -121,6 +121,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         dojo.require(modName);
         // pack up the game arguments
         var args = {
+            config : this.config[obj.config] || {},
             audio : spaceship.sounds.AudioManager,
             win_topic : spaceship.game.WIN_MINIGAME_TOPIC,
             lose_topic : spaceship.game.LOSE_MINIGAME_TOPIC,

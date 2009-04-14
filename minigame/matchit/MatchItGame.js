@@ -11,12 +11,14 @@ dojo.requireLocalization('spaceship.minigame.matchit', 'prompts');
 
 dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGame, {
     // available content types
-    games: ['states', 'animals', 'numbers', 'colors'],
+    games: ['states', 'animals', 'numbers', 'colors', 'sports'],
     // template html for match game
     templatePath: dojo.moduleUrl('spaceship.minigame.matchit', 'MatchItGame.html'),
     // template css for match game
     templateCSSPath: dojo.moduleUrl('spaceship.minigame.matchit', 'MatchItGame.css'),
     postMixInProperties: function() {
+        // possible goal/input values
+        this._values = null;
         // goal of the current match game
         this._goal = null;
         // user can give input now?
@@ -48,14 +50,17 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         // load game resources
         dojo.requireLocalization('spaceship.minigame.matchit', name);
         this.gamePrompts = dojo.i18n.getLocalization('spaceship.minigame.matchit', name);
-        // pick random choices, up to 4 unique to map to arrows
-        this._goal = this.pickRandomN(this.gamePrompts.CHOICES, 4);
-        // @todo: difficulty should affect number of slots
+        // pick random choices
+        this._values = this.pickRandomN(this.gamePrompts.CHOICES, 
+            this._inputMap.length);
+        dojo.forEach(this._values, this._fillTemplates, this);
+        console.debug(this._values);
+        // now make series length based on difficulty
+        this._goal = this.pickRandomN(this._values, this.config.goalSize);
         dojo.forEach(this._goal, function(item) {
-            // fill in goal templates
-            this._fillTemplates(item);
             // build cells for display
             var td = dojo.doc.createElement('td');
+            td.style.width = (1.0 / this._goal.length) * 100 + '%';
             this.patternRow.appendChild(td);
         }, this);
     },
@@ -93,8 +98,8 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             if(this._loseTimer) {
                 this._loseTimer.resume();
             } else {
-                // @todo: difficulty should affect timer duration
-                this._loseTimer = this.startTimer(60);
+                // difficulty affects timer duration
+                this._loseTimer = this.startTimer(this.config.timeLimit);
             }
         }));
     },
@@ -102,7 +107,6 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
     onTimer: function(timer) {
         if(timer == this._loseTimer) {
             this._frozen = true;
-            // @todo: more notification of the result
             // lose the game if time runs out
             this.lose();
         }
@@ -136,7 +140,7 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         var i = this._inputMap.indexOf(event.charOrCode);
         // not valid input
         if(i < 0) return;
-        var input = this._goal[i];
+        var input = this._values[i];
         if(this._currentInput.length == this._goal.length) {
             // rotate off the oldest input
             this._currentInput.shift();
@@ -191,11 +195,11 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         if(win) { 
             // don't allow the user to pause or do anything else right now
             this._frozen = true;
+            this._loseTimer.pause();
         }
         // wait for all audio to stop before we decide to win or not
         this._lastDef = this.afterAudio();
         this._lastDef.addCallback(dojo.hitch(this, function() {
-            // @todo: little more fanfare please if won
             if(win) this.win();            
         }));
     }

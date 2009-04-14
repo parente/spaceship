@@ -14,11 +14,11 @@ spaceship.game.GameConfig = (function(){
         {
             level : 'easy',
             label: labels.EASY_LEVEL,
-            initialAmmo : 5,
+            initialAmmo : 3,
             initialShields : 5,
             initialShips : 10,
-            rows : 5,
-            columns: 5,
+            rows : 6,
+            columns: 6,
             tiles : [
                 {category : 'BAD_TILES', cumProb : 0.2},
                 {category : 'NEUTRAL_TILES', cumProb : 0.6},
@@ -30,7 +30,11 @@ spaceship.game.GameConfig = (function(){
             ],
             maxBonusTileValue: 4,
             maxHazardTileValue: 2,
-            requiredMinigames: 3
+            requiredMinigames: 3,
+            matchit : {
+                goalSize : 3,
+                timeLimit : 60
+            }
         },
         
         {
@@ -52,7 +56,11 @@ spaceship.game.GameConfig = (function(){
             ],
             maxBonusTileValue: 3,
             maxHazardTileValue: 3,
-            requiredMinigames: 4
+            requiredMinigames: 4,
+            matchit : {
+                goalSize : 4,
+                timeLimit : 30
+            }
         },
 
         {
@@ -74,7 +82,11 @@ spaceship.game.GameConfig = (function(){
             ],
             maxBonusTileValue: 3,
             maxHazardTileValue: 4,
-            requiredMinigames: 5
+            requiredMinigames: 5,
+            matchit : {
+                goalSize : 5,
+                timeLimit : 15
+            }
         }
     ];
 })();

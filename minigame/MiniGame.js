@@ -11,6 +11,8 @@ dojo.require('spaceship.utils.Timer');
 
 dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
                                              dijit._Templated], {
+    // configuration for the minigame based on level only
+    config: null,
     // audio manager instance set by the minigame manager
     audio: null,
     // topic to broadcast on a win set by the minigame manager
