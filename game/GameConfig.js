@@ -28,7 +28,7 @@ spaceship.game.GameConfig = (function(){
                 {category : 'GOOD_OUTCOMES', cumProb: 0.6},
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
             ],
-            maxBonusTileValue: 4,
+            maxBonusTileValue: 3,
             maxHazardTileValue: 2,
             requiredMinigames: 3,
             matchit : {
@@ -54,7 +54,7 @@ spaceship.game.GameConfig = (function(){
                 {category : 'GOOD_OUTCOMES', cumProb: 0.5},
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
             ],
-            maxBonusTileValue: 3,
+            maxBonusTileValue: 2,
             maxHazardTileValue: 3,
             requiredMinigames: 4,
             matchit : {
@@ -80,7 +80,7 @@ spaceship.game.GameConfig = (function(){
                 {category : 'GOOD_OUTCOMES', cumProb: 0.5},
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
             ],
-            maxBonusTileValue: 3,
+            maxBonusTileValue: 2,
             maxHazardTileValue: 4,
             requiredMinigames: 5,
             matchit : {
