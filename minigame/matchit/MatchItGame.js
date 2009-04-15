@@ -54,7 +54,6 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         this._values = this.pickRandomN(this.gamePrompts.CHOICES, 
             this._inputMap.length);
         dojo.forEach(this._values, this._fillTemplates, this);
-        console.debug(this._values);
         // now make series length based on difficulty
         this._goal = this.pickRandomN(this._values, this.config.goalSize);
         dojo.forEach(this._goal, function(item) {

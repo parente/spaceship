@@ -390,9 +390,9 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
      * @publish HINT_TOPIC String, Integer
      */
     detectShip: function() {
-        // collect all ship tiles
+        // collect all hidden ship tiles
         var tiles = dojo.filter(this._tiles, function(tile) {
-            return tile.isShip();
+            return tile.isShip() && !tile.isRevealed();
         });
         // pick a random tile to expose
         var index = Math.floor(Math.random() * tiles.length);
