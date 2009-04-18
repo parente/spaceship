@@ -98,6 +98,11 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
         dijit.focus(this._panelNode);
     },
     
+    /**
+     * Called when the user selects a new item in the menu.
+     *
+     * @subscribe SELECT_ITEM_TOPIC
+     */
     onSelect: function(index) {
         var items = dojo.query('li', this._optionsNode);
         items.removeClass('ssMenuViewOptionSelected');
@@ -105,6 +110,11 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
         dojo.addClass(target, 'ssMenuViewOptionSelected');
     },
     
+    /**
+     * Called when the user presses a key to navigate the menu or end the menu.
+     *
+     * @param event Dojo event
+     */
     onKeyPress: function(event) {
         switch(event.keyCode) {
         case dojo.keys.UP_ARROW:
@@ -124,11 +134,23 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
         }
     },
     
+    /**
+     * Called when the user hovers the mouse pointer over a menu item.
+     *
+     * @param index Integer index of the item
+     * @param event Dojo event
+     */
     onHover: function(index, event) {
         if(!this.prefs.mouse) return;
         this.model.selectIndex(index);
     },
-        
+
+    /**
+     * Called when the user clicks a menu item.
+     *
+     * @param index Integer index of the item
+     * @param event Dojo event
+     */ 
     onClick: function(index, event) {
         if(!this.prefs.mouse) return;
         this.model.selectIndex(index);

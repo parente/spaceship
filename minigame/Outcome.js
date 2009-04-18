@@ -15,6 +15,9 @@ dojo.declare('spaceship.minigame.Outcome', null, {
     labels: null,
     // bundle of sounds
     sounds: spaceship.sounds,
+    /**
+     * Object constructor. Mixes arguments into this object.
+     */
     constructor: function(args) {
         dojo.mixin(this, args);
         // value of the outcome
@@ -23,6 +26,14 @@ dojo.declare('spaceship.minigame.Outcome', null, {
         this._win = null;
     },
     
+    /**
+     * Selects a random value between one and maxBonusTileValue or 
+     * maxHazardTileValue inclusive. Multiply the result by the multiplier
+     * to produce a positive or negative value.
+     *
+     * @param multiplier Signed integer
+     * @return Signed integer
+     */
     _randomValue: function(multiplier) {
         var max;
         if(multiplier > 0) {
@@ -35,26 +46,56 @@ dojo.declare('spaceship.minigame.Outcome', null, {
         return (Math.floor(Math.random() * max) + 1) * multiplier;
     },
     
+    /**
+     * Gets the outcome description for a minigame win.
+     *
+     * @return String description
+     */
     _getWinLabel: function() {
         // abstract method
     },
-    
+
+    /**
+     * Gets the outcome description for a minigame loss.
+     *
+     * @return String description
+     */    
     _getLoseLabel: function() {
         // abstract method
     },
     
+    /**
+     * Gets the outcome sound for a minigame win.
+     *
+     * @return String URL to the sound
+     */
     _getWinSoundUrl: function() {
         // abstract method
     },
-    
+
+    /**
+     * Gets the outcome sound for a minigame loss.
+     *
+     * @return String URL to the sound
+     */    
     _getLoseSoundUrl: function() {
         // abstract method
     },
 
+    /**
+     * Gets the description of a potential outcome.
+     *
+     * @return String URL to the sound
+     */
     getLabel: function() {
         // abstract method
     },
     
+    /**
+     * Gets the description of the minigame result, win or loss.
+     *
+     * @return String description
+     */
     getResultLabel: function() {
         if(this._win == null) {
             throw new Error('result not determined');
@@ -64,7 +105,12 @@ dojo.declare('spaceship.minigame.Outcome', null, {
             return this._getLoseLabel();
         }
     },
-    
+
+    /**
+     * Gets the sound for the minigame result, win or loss.
+     *
+     * @return String URL to the sound
+     */    
     getResultSoundUrl: function() {
         if(this._win == null) {
             throw new Error('result not determined');
@@ -75,10 +121,20 @@ dojo.declare('spaceship.minigame.Outcome', null, {
         }
     },
     
+    /**
+     * Sets the minigame outcome to a win.
+     *
+     * @param model spaceship.game.GameModel instance
+     */
     win: function(model) {
         this._win = true;
     },
     
+    /**
+     * Sets the minigame outcome to a loss.
+     *
+     * @param model spaceship.game.GameModel instance
+     */
     lose: function(model) {
         this._win = false;
     }
@@ -231,6 +287,8 @@ dojo.declare('spaceship.minigame.WarpHazard', spaceship.minigame.Outcome, {
     }
 });
 
+// cumulative probabilities of good and bad minigame outcomes used during
+// minigame initialization
 spaceship.minigame.GOOD_OUTCOMES = [
     {klass: spaceship.minigame.AmmoReward, cumProb: 0.8},
     {klass: spaceship.minigame.ShieldReward, cumProb: 1.0}

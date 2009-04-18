@@ -247,7 +247,12 @@ dojo.declare('spaceship.Main', null, {
             this._startMenu(this._returnArgs, 'onChooseMain', 'resumeGame');
         }
     },
-    
+
+    /**
+     * Start a HTML panel.
+     *
+     * @param url URL of the HTML doc to show
+     */
     _startHtml: function(url) {
         // store the last active panel
         if(!this._lastPanel) {

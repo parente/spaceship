@@ -1,5 +1,6 @@
 /**
- * Barrier object notifing observers after all registered responders report.
+ * Barrier object that notifies observers after all registered responders 
+ * report.
  *
  * Copyright (c) 2008, 2009 Peter Parente under the terms of the BSD license.
  * http://creativecommons.org/licenses/BSD/
@@ -19,24 +20,53 @@ dojo.declare('spaceship.utils.Barrier', null, {
         this._responders = {};
     },
     
+    /**
+     * Adds a responder to the collection of responders that must report
+     * before observers are notified.
+     *
+     * @param name String uniquely identifying the responder
+     */
     addResponder: function(name) {
         if(name in this._responders) {
             throw new Error('responder already registered');
         }
         this._responders[name] = false;
     },
-        
+    
+    /**
+     * Adds an observer to be called when all responders report. The observer
+     * receives an object the value reported by each responder keyed by the
+     * responder name when all responders have reported.
+     *
+     * @param context Object or function
+     * @param method String or function
+     */
     addCallback: function(context, method) {
         // clean way to store method or function
         this._chain.push(dojo.hitch.apply(dojo, arguments));
     },
     
+    /**
+     * Called by a responder to report that it has reached the barrier. The
+     * barrier decides if all responders have reached it asynchronously to 
+     * allow other responders to register.
+     * 
+     * @param name String name of the responder
+     * @param value Object value reported
+     */
     notify: function(name, value) {
         // do this async so other responders can register before we determine
         // if all have reached the barrier
         setTimeout(dojo.hitch(this, this._asyncNotify, name, value));
     },
     
+    /**
+     * Checks if all responders have reported. If so, notifies all observers
+     * of the results.
+     *
+     * @param name String name of the latest responder to report
+     * @param value Object value of the latest responder to report
+     */
     _asyncNotify: function(name, value) {
         this._results[name] = value;
         this._responders[name] = true;
