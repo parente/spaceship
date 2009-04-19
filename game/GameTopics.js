@@ -65,6 +65,3 @@ spaceship.game.RESUME_MINIGAME_TOPIC = 'ss-resumeMinigame';
 spaceship.game.WIN_MINIGAME_TOPIC = 'ss-winMinigame';
 // sent by MiniGame when it ends in a loss
 spaceship.game.LOSE_MINIGAME_TOPIC = 'ss-loseMinigame';
-
-// preference topics
-spaceship.game.UPDATE_PREFERENCES_TOPIC = 'ss-updatePrefs';

@@ -14,3 +14,7 @@ spaceship.menu.CHOOSE_ITEM_TOPIC = 'ss-chooseItem';
 spaceship.menu.CANCEL_MENU_TOPIC = 'ss-cancelMenu';
 // sent by a menu when the menu ends
 spaceship.menu.END_MENU_TOPIC = 'ss-endMenu';
+// sent by a menu when the menu resumes after a non-destructive interruption
+spaceship.menu.RESUME_MENU_TOPIC = 'ss-resumeMenu';
+// sent by a menu when the menu pauses for a non-destructive interruption
+spaceship.menu.PAUSE_MENU_TOPIC = 'ss-pauseMenu';

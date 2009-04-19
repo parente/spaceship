@@ -26,7 +26,6 @@ dojo.declare('spaceship.Main', null, {
         dojo.require('spaceship.sounds.AudioManager');
         dojo.require('spaceship.sounds.Jukebox');
         dojo.require('spaceship.images.GraphicsManager');
-        dojo.require('spaceship.game.UserPreferences');
         dojo.require('spaceship.game.GameConfig');
         dojo.require('spaceship.game.GameModel');
         dojo.require('spaceship.game.GridView');
@@ -125,24 +124,25 @@ dojo.declare('spaceship.Main', null, {
         
         // store menu args
         this._mainArgs = {
-            labels: [this._labels.NEW_GAME_ITEM, this._labels.OPTIONS_ITEM, 
-                     this._labels.NEWS_ITEM, this._labels.CREDITS_ITEM, 
-                     this._labels.HELP_ITEM]
+            itemLabels: [this._labels.NEW_GAME_ITEM, this._labels.OPTIONS_ITEM, 
+                         this._labels.NEWS_ITEM, this._labels.CREDITS_ITEM, 
+                         this._labels.HELP_ITEM]
         };
         this._returnArgs = {
-            labels: [this._labels.RESUME_GAME_ITEM, this._labels.OPTIONS_ITEM, 
-                     this._labels.QUIT_GAME_ITEM],
+            itemLabels: [this._labels.RESUME_GAME_ITEM, 
+                         this._labels.OPTIONS_ITEM, this._labels.QUIT_GAME_ITEM],
             cancelable: true
         };
         this._difficultyArgs = {
-            labels: dojo.map(spaceship.game.GameConfig, function(cfg) {
+            itemLabels: dojo.map(spaceship.game.GameConfig, function(cfg) {
                 return cfg.label;
             }),
             title: this._labels.DIFFICULTY_TITLE,
             cancelable: true
         };
         this._quitArgs = {
-            labels: [this._labels.NO_QUIT_ITEM, this._labels.YES_QUIT_ITEM],
+            itemLabels: [this._labels.NO_QUIT_ITEM, 
+                         this._labels.YES_QUIT_ITEM],
             title: this._labels.QUIT_TITLE,
             cancelable: true
         };

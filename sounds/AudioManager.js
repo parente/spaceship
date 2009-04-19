@@ -6,8 +6,8 @@
  */
 dojo.provide('spaceship.sounds.AudioManager');
 dojo.require('spaceship.utils.Subscriber');
-dojo.require('spaceship.game.GameTopics');
-dojo.require('spaceship.game.UserPreferences');
+dojo.require('spaceship.preferences.PreferencesTopics');
+dojo.require('spaceship.preferences.PreferencesModel');
 
 // catalog of sound files
 spaceship.sounds = {
@@ -49,7 +49,7 @@ spaceship.sounds.MINIGAME_CHANNEL = 0;
 
 dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
     // bundle of user preferences
-    prefs: spaceship.game.UserPreferences,
+    prefs: spaceship.preferences.PreferencesModel,
     /** 
      * Initializes the Outfox audio service. Precaches all sound files when
      * the service is ready. Mixes the outfox audio API into this object
@@ -68,8 +68,8 @@ dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
         def.addCallback(function() {
             // take over all of the audio functions
             dojo.mixin(self, outfox.audio);
-            // update preferences
-            self.onUpdatePrefs();
+            // update preferences to initial values
+            self.onUpdatePref();
             // pre-cache all sounds
             var snds = [];
             for(var key in spaceship.sounds) {
@@ -88,24 +88,35 @@ dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
             ready.errback();
         });
         // listen for preference changes
-        this.subscribe(spaceship.game.UPDATE_PREFERENCES_TOPIC, 'onUpdatePrefs');
+        this.subscribe(spaceship.preferences.UPDATE_PREFERENCE_TOPIC, 'onUpdatePref');
         return ready;
     },
     
     /**
      * Called when the user commits new preferences.
      *
-     * @subscribe UPDATE_PREFERENCES_TOPIC
+     * @param key String name of the preference that changed
+     *
+     * @subscribe UPDATE_PREFERENCE_TOPIC string
      */
-    onUpdatePrefs: function() {
-        this.setPropertyNow('volume', this.prefs.speechVolume, 
-            spaceship.sounds.SPEECH_CHANNEL);
-        this.setPropertyNow('rate', this.prefs.speechRate, 
-            spaceship.sounds.SPEECH_CHANNEL);
-        this.setPropertyNow('volume', this.prefs.soundVolume, 
-            spaceship.sounds.SOUND_CHANNEL);
-        this.setPropertyNow('volume', this.prefs.musicVolume,
-            spaceship.sounds.MUSIC_CHANNEL);
+    onUpdatePref: function(key) {
+        if(key == 'speechVolume' || key == undefined) {
+            this.setPropertyNow('volume', this.prefs.speechVolume.value, 
+                spaceship.sounds.SPEECH_CHANNEL);
+        }
+        if(key == 'speechRate' || key == undefined) {
+            this.setPropertyNow('rate', this.prefs.speechRate.value, 
+                spaceship.sounds.SPEECH_CHANNEL);
+        }
+        if(key == 'soundVolume' || key == undefined) {
+            this.setPropertyNow('volume', this.prefs.soundVolume.value, 
+                spaceship.sounds.SOUND_CHANNEL);
+        }
+        if(key == 'musicVolume' || key == undefined) {
+            console.debug(this.prefs.musicVolume.value);
+            this.setPropertyNow('volume', this.prefs.musicVolume.value,
+                spaceship.sounds.MUSIC_CHANNEL);
+        }
     }
 });
 

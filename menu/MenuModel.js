@@ -10,13 +10,21 @@ dojo.require('spaceship.menu.MenuTopics');
 
 dojo.declare('spaceship.menu.MenuModel', dijit._Widget, {
     // array of menu option labels
-    labels: null,
+    itemLabels: null,
     // optional menu title / prompt
     title: '',
     // currently selected menu item index
-    selectedItem: 0,
+    selectedIndex: 0,
     // can cancel menu and return to main
     cancelable: false,
+    /**
+     * Called after widget construction.
+     */
+    postMixInProperties: function() {
+        // is the menu in an interrupted state?
+        this._paused = false;
+    },
+    
     /**
      * Called after widget cleanup. Notifies all listeners that the menu is
      * ending.
@@ -27,6 +35,26 @@ dojo.declare('spaceship.menu.MenuModel', dijit._Widget, {
         dojo.publish(spaceship.menu.END_MENU_TOPIC);
     },
     
+    /**
+     * Notifies that the menu is resuming after an interruption.
+     */
+    resume: function() {
+        if(this._paused) {
+            dojo.publish(spaceship.menu.RESUME_MENU_TOPIC);
+        }
+        this._paused = false;
+    },
+    
+    /**
+     * Notifies that the menu is pausing for an interruption.
+     */
+    pause: function() {
+        if(!this._paused) {
+            dojo.publish(spaceship.menu.PAUSE_MENU_TOPIC);
+        }
+        this._paused = true;
+    },
+
     /**
      * Cancels the menu without choosing an option.
      *
@@ -55,7 +83,7 @@ dojo.declare('spaceship.menu.MenuModel', dijit._Widget, {
      * @return Array of strings
      */
     getLabels: function() {
-        return this.labels;
+        return this.itemLabels;
     },
     
     /**
@@ -65,11 +93,11 @@ dojo.declare('spaceship.menu.MenuModel', dijit._Widget, {
      * @param index Integer index
      */
     selectIndex: function(index) {
-        if(this.selectedItem == index) return;
-        this.selectedItem = index;
-        var label = this.labels[this.selectedItem];
+        if(this.selectedIndex == index) return;
+        this.selectedIndex = index;
+        var label = this.itemLabels[this.selectedIndex];
         dojo.publish(spaceship.menu.SELECT_ITEM_TOPIC,
-            [this.selectedItem, label]);
+            [this.selectedIndex, label]);
     },
     
     /**
@@ -78,7 +106,7 @@ dojo.declare('spaceship.menu.MenuModel', dijit._Widget, {
      * @return String label
      */
     getSelectedLabel: function() {
-        return this.labels[this.selectedItem];
+        return this.itemLabels[this.selectedIndex];
     },
     
     /**
@@ -87,30 +115,30 @@ dojo.declare('spaceship.menu.MenuModel', dijit._Widget, {
      * @return Integer index
      */
     getSelectedIndex: function() {
-        return this.selectedItem;
+        return this.selectedIndex;
     },
 
     /**
      * Moves the selection to the next item. Wraps around.
      */
     selectNext: function() {
-        this.selectedItem = (this.selectedItem + 1) % this.labels.length;
-        var label = this.labels[this.selectedItem];
+        this.selectedIndex = (this.selectedIndex + 1) % this.itemLabels.length;
+        var label = this.itemLabels[this.selectedIndex];
         dojo.publish(spaceship.menu.SELECT_ITEM_TOPIC,
-            [this.selectedItem, label]);
+            [this.selectedIndex, label]);
     },
     
     /**
      * Moves the selection to the previous item. Wraps around.
      */
     selectPrevious: function() {
-        this.selectedItem -= 1;
-        if(this.selectedItem < 0) {
-            this.selectedItem = this.labels.length - 1;
+        this.selectedIndex -= 1;
+        if(this.selectedIndex < 0) {
+            this.selectedIndex = this.itemLabels.length - 1;
         }
-        var label = this.labels[this.selectedItem];
+        var label = this.itemLabels[this.selectedIndex];
         dojo.publish(spaceship.menu.SELECT_ITEM_TOPIC,
-            [this.selectedItem, label]);
+            [this.selectedIndex, label]);
     },
     
     /**
@@ -119,8 +147,8 @@ dojo.declare('spaceship.menu.MenuModel', dijit._Widget, {
      * @publish CHOOSE_ITEM_TOPIC integer, string
      */
     chooseCurrent: function() {
-        var label = this.labels[this.selectedItem];
+        var label = this.itemLabels[this.selectedIndex];
         dojo.publish(spaceship.menu.CHOOSE_ITEM_TOPIC,
-            [this.selectedItem, label]);
+            [this.selectedIndex, label]);
     }
 });

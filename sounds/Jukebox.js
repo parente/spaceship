@@ -8,13 +8,13 @@ dojo.provide('spaceship.sounds.Jukebox');
 dojo.require('spaceship.sounds.AudioManager');
 dojo.require('spaceship.utils.Subscriber');
 dojo.require('spaceship.game.GameTopics');
-dojo.require('spaceship.game.UserPreferences');
+dojo.require('spaceship.preferences.PreferencesModel');
 
 dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
     // audio manager
     audio: spaceship.sounds.AudioManager,
     // user preferences
-    prefs : spaceship.game.UserPreferences,
+    prefs : spaceship.preferences.PreferencesModel,
     /**
      * Object constructor. Subscribes to game topics.
      */
@@ -59,7 +59,7 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
         this.audio.stop(spaceship.sounds.MUSIC_CHANNEL);
         if(volume == undefined) {
             // default to user prefs for music volume
-            volume = this.prefs.musicVolume;
+            volume = this.prefs.musicVolume.value;
         }
         this.audio.setPropertyNow('volume', volume, spaceship.sounds.MUSIC_CHANNEL); 
         this.audio.setPropertyNow('loop', true, spaceship.sounds.MUSIC_CHANNEL);
@@ -103,7 +103,7 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
         // stop current music
         this.audio.stop(spaceship.sounds.MUSIC_CHANNEL);
         // make sure volume is set properly
-        this.audio.setPropertyNow('volume', this.prefs.musicVolume, 
+        this.audio.setPropertyNow('volume', this.prefs.musicVolume.value, 
             spaceship.sounds.MUSIC_CHANNEL); 
         // never loop game music
         this.audio.setPropertyNow('loop', false, spaceship.sounds.MUSIC_CHANNEL);
@@ -126,7 +126,7 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
             var track = this._randomChoice(spaceship.sounds.GAME_MUSIC);
         } while(this._currentTrack == track);
         // make sure volume is set properly
-        this.audio.setPropertyNow('volume', this.prefs.musicVolume, 
+        this.audio.setPropertyNow('volume', this.prefs.musicVolume.value, 
             spaceship.sounds.MUSIC_CHANNEL);
         this.audio.stream(track, spaceship.sounds.MUSIC_CHANNEL);        
         this._currentTrack = track;

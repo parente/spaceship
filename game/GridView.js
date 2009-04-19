@@ -10,6 +10,7 @@ dojo.require('dijit._Templated');
 dojo.require('dijit._Container');
 dojo.require('dojo.string');
 dojo.require('dojo.fx');
+dojo.require('spaceship.preferences.PreferencesModel');
 dojo.require('spaceship.game.GameTopics');
 dojo.require('spaceship.utils.Subscriber');
 dojo.require('spaceship.images.GraphicsManager');
@@ -26,7 +27,7 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
     // game model
     model: null,
     // user preferences
-    prefs: spaceship.game.UserPreferences,
+    prefs: spaceship.preferences.PreferencesModel,
     // template for grid which is built dynamically for the most part
     templatePath: dojo.moduleUrl('spaceship', 'templates/GridView.html'),
     
@@ -311,7 +312,10 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
      * @param event Event object
      */
     onHover: function(index, event) {
-        if(!this.prefs.mouse || event.target == event.currentTarget) return;
+        if(!this.prefs.mouseControl.value || 
+           event.target == event.currentTarget) {
+            return;
+        }
         if(this._frozen) return;
         this.model.targetTile(index);
     },
@@ -323,7 +327,7 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
      * @param event Event object
      */        
     onClick: function(index, event) {
-        if(this._frozen || !this.prefs.mouse) return;
+        if(this._frozen || !this.prefs.mouseControl.value) return;
         // make sure the tile is selected
         this.model.targetTile(index);
         // now reveal the tile

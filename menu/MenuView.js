@@ -23,7 +23,7 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
     // array of selected image urls to use in place of text labels if available
     selectedImages: null,
     // user preferences
-    prefs: spaceship.game.UserPreferences,
+    prefs: spaceship.preferences.PreferencesModel,
     // path to template file
     templatePath: dojo.moduleUrl('spaceship', 'templates/MenuView.html'),
     /**
@@ -92,10 +92,18 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
     },
     
     /**
+     * Called when the menu panel hides.
+     */
+    onHide: function() {
+        this.model.pause();
+    },
+    
+    /**
      * Called when the menu panel shows. Gives keyboard focus to the box.
      */
     onShow: function() {
         dijit.focus(this._panelNode);
+        this.model.resume();
     },
     
     /**
@@ -141,7 +149,7 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
      * @param event Dojo event
      */
     onHover: function(index, event) {
-        if(!this.prefs.mouse) return;
+        if(!this.prefs.mouseControl.value) return;
         this.model.selectIndex(index);
     },
 
@@ -152,7 +160,7 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
      * @param event Dojo event
      */ 
     onClick: function(index, event) {
-        if(!this.prefs.mouse) return;
+        if(!this.prefs.mouseControl.value) return;
         this.model.selectIndex(index);
         this.model.chooseCurrent();
     }
