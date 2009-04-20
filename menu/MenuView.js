@@ -47,10 +47,10 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
         var labels = this.model.getLabels();
         for(var i=0; i < labels.length; i++) {
             var li = dojo.doc.createElement('li');
-            dojo.addClass(li, 'ssMenuViewOption');
+            dojo.addClass(li, 'ssMenuViewLabel');
             if(i == this.model.getSelectedIndex()) {
                 // select the current item
-                dojo.addClass(li, 'ssMenuViewOptionSelected');
+                dojo.addClass(li, 'ssMenuViewLabelSelected');
             }
             this.connect(li, 'onclick', dojo.hitch(this, this.onClick, i));
             this.connect(li, 'onmouseover', dojo.hitch(this, this.onHover, i));
@@ -112,10 +112,10 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
      * @subscribe SELECT_ITEM_TOPIC
      */
     onSelect: function(index) {
-        var items = dojo.query('li', this._optionsNode);
-        items.removeClass('ssMenuViewOptionSelected');
+        var items = dojo.query('.ssMenuViewLabel', this._optionsNode);
+        items.removeClass('ssMenuViewLabelSelected');
         var target = items[index];
-        dojo.addClass(target, 'ssMenuViewOptionSelected');
+        dojo.addClass(target, 'ssMenuViewLabelSelected');
     },
     
     /**

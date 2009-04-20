@@ -37,11 +37,13 @@
     padding: 10px;
 }
 
-.ssMenuViewList .ssMenuViewOption {
+.ssMenuViewList .ssMenuViewLabel {
     padding: 0px;
     margin: 0px;
+    font-size: 1em;
+    line-height: 1.5em;
 }
 
-.ssMenuViewList .ssMenuViewOptionSelected {
+.ssMenuViewList .ssMenuViewLabelSelected {
     text-decoration: underline;
 }

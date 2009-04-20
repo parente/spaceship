@@ -6,26 +6,61 @@
  */
 dojo.provide('spaceship.menu.options.OptionsMenuModel');
 dojo.require('spaceship.menu.MenuModel');
-dojo.require('spaceship.menu.options.OptionsMenuTopics');
+dojo.require('spaceship.preferences.PreferencesModel');
 
 dojo.declare('spaceship.menu.options.OptionsMenuModel', spaceship.menu.MenuModel, {
     // user preferences
-    prefs: null,
-    // bundle of labels
-    labels: null,
+    prefs: spaceship.preferences.PreferencesModel,
+    // always cancellable
+    cancelable: true,
     postMixInProperties: function() {
-        this.inherited(arguments);
+        // ordered item ids
+        this._itemIds = [
+            'speechRate', 
+            'speechVolume',
+            'soundVolume',
+            'musicVolume',
+            'mouseControl'
+        ];
+        // ordered item objects
+        this._itemObjects = dojo.map(this._itemIds, function(id) {
+            return this.prefs[id];
+        }, this);
+        // ordered labels, overriding whatever was passed
+        this.itemLabels = dojo.map(this._itemObjects, function(obj) {
+            return obj.getLabel();
+        }, this);
     },
     
-    getSelectedType: function() {
-        return this.optionTypes[this.selectedIndex];
+    getItemObjects: function() {
+        return this._itemObjects;
+    },
+
+    getSelectedItem: function() {
+        return this._itemObjects[this.selectedIndex];
     },
     
-    getSelectedId: function() {
-        return this.optionIds[this.selectedIndex];
+    setSelectedValue: function(value) {
+        this._itemObjects[this.selectedIndex].setValue(value);
     },
     
-    changeSelectedValue: function() {
-        
+    deltaSelectedValue: function(direction) {
+        var obj = this._itemObjects[this.selectedIndex];
+        // try increment/decrement methods
+        if(direction) {
+            if(obj.incrementValue) {
+                obj.incrementValue();
+                return;
+            }
+        } else {
+            if(obj.decrementValue) {
+                obj.incrementValue();
+                return;
+            }            
+        }
+        // didn't have a inc/dec method, so try toggling
+        if(obj.toggleValue) {
+            obj.toggleValue();
+        }
     }
 });

@@ -34,6 +34,9 @@ dojo.declare('spaceship.Main', null, {
         dojo.require('spaceship.menu.MenuView');
         dojo.require('spaceship.menu.MenuAudio');
         dojo.require('spaceship.menu.MenuTopics');
+        dojo.require('spaceship.menu.options.OptionsMenuModel');
+        dojo.require('spaceship.menu.options.OptionsMenuView');
+        dojo.require('spaceship.menu.options.OptionsMenuAudio');
         dojo.require('spaceship.game.StatusModel')
         dojo.require('spaceship.game.StatusView')
         dojo.require('spaceship.game.StatusAudio');
@@ -191,8 +194,14 @@ dojo.declare('spaceship.Main', null, {
             this._startMenu(this._difficultyArgs, 'onChooseDifficulty',
                 'startMain');
             break;
+        case this._labels.OPTIONS_ITEM:
+            // destroy the menu immediately
+            this._endMenu(false);
+            // @todo: decide between main and resume menu
+            this._startOptions('startMain');
+            break;
         case this._labels.RESUME_GAME_ITEM:
-            this.resumeGame();
+            this.resumeGame('startMain');
             break;
         case this._labels.NEWS_ITEM:
             // show the main game news, but leave the main menu
@@ -281,6 +290,33 @@ dojo.declare('spaceship.Main', null, {
     },
     
     /**
+     * Start the options panel.
+     * 
+     * @param end String name of method to handle cancel
+     */
+    _startOptions: function(end) {
+        // store the last active panel
+        if(!this._lastPanel) {
+            this._lastPanel = this._stackWidget.selectedChildWidget;
+        }
+        
+        // let the menu options drive this controller
+        this._subs['menu-choose'] = dojo.subscribe(spaceship.menu.CHOOSE_ITEM_TOPIC, 
+            this, end);
+        this._subs['menu-cancel'] = dojo.subscribe(spaceship.menu.CANCEL_MENU_TOPIC, 
+            this, end);
+        
+        // create the html model and add it to the bag
+        this._menuModel = new spaceship.menu.options.OptionsMenuModel();
+        var args = {model: this._menuModel};
+        var view = new spaceship.menu.options.OptionsMenuView(args);
+        var audio = new spaceship.menu.options.OptionsMenuAudio(args);
+        // add the visual view to the stack
+        this._stackWidget.addChild(view);
+        this._stackWidget.selectChild(view);
+    },
+    
+    /**
      * Starts a new menu.
      * 
      * @param args Arguments to pass to the menu MVC components
@@ -330,7 +366,7 @@ dojo.declare('spaceship.Main', null, {
             delete this._subs['menu-choose'];
             delete this._subs['menu-cancel'];
         }
-    }, 
+    },
     
     /**
      * Starts the main menu.

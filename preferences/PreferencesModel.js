@@ -19,6 +19,7 @@ spaceship.preferences.PreferencesModel = (function() {
                 value : 250,
                 minimum : 100, 
                 maximum : 600,
+                step: 50,
                 unitLabel : labels.SPEECH_RATE_UNITS
                };
     objs[args.id] = new spaceship.preferences.types.RangeType(args);
@@ -26,21 +27,24 @@ spaceship.preferences.PreferencesModel = (function() {
                 label : labels.SPEECH_VOLUME_LABEL,
                 value : 1.0,
                 minimum : 0.0,
-                maximum : 1.0
+                maximum : 1.0,
+                step : 0.1
                };
     objs[args.id] = new spaceship.preferences.types.PercentType(args);
     var args = {id : 'soundVolume', 
                 label : labels.SOUND_VOLUME_LABEL,
                 value : 0.70,
                 minimum : 0.0,
-                maximum : 1.0
+                maximum : 1.0,
+                step : 0.1
                };
     objs[args.id] = new spaceship.preferences.types.PercentType(args);
     var args = {id : 'musicVolume', 
                 label : labels.MUSIC_VOLUME_LABEL,
                 value : 0.15,
                 minimum : 0.0,
-                maximum : 1.0
+                maximum : 1.0,
+                step : 0.1
                };
     objs[args.id] = new spaceship.preferences.types.PercentType(args);
     var args = {id : 'mouseControl', 

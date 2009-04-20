@@ -13,15 +13,25 @@ dojo.declare('spaceship.preferences.types.RangeType', spaceship.preferences.type
     minimum: 0,
     // maximum value
     maximum: 0,
+    // step size
+    step: 0,
     // unit label
     unitLabel: '',
+    incrementValue: function() {
+        this.setValue(this.value + this.step);
+    },
+    
+    decrementValue: function() {
+        this.setValue(this.value - this.step);
+    },
+
     setValue: function(value) {
         if(value < this.minimum) {
             value = minimum;
         } else if(value > this.maximum) {
             value = maximum;
         }
-        this.value = value;
+        this.inherited([value]);
     },
 
     getValueLabel: function() {

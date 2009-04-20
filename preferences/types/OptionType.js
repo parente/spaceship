@@ -5,6 +5,7 @@
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.preferences.types.OptionType');
+dojo.provide('spaceship.preferences.PreferencesTopics');
 
 dojo.declare('spaceship.preferences.types.OptionType', null, {
     // programmatic identifier, unique across all preferences
@@ -23,6 +24,7 @@ dojo.declare('spaceship.preferences.types.OptionType', null, {
 
     setValue: function(value) {
         this.value = value;
+        dojo.publish(spaceship.preferences.UPDATE_PREFERENCES_TOPIC);
     },
     
     getId: function(value) {
