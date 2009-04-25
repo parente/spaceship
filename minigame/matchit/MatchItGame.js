@@ -14,7 +14,7 @@ spaceship.minigame.matchit._repeatPrompted = false;
 
 dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGame, {
     // available content types
-    games: ['numbers'], //['states', 'animals', 'numbers', 'colors', 'sports'],
+    games: ['states', 'animals', 'numbers', 'colors', 'sports'],
     // template html for match game
     templatePath: dojo.moduleUrl('spaceship.minigame.matchit', 'MatchItGame.html'),
     // template css for match game

@@ -113,7 +113,6 @@ dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
                 spaceship.sounds.SOUND_CHANNEL);
         }
         if(key == 'musicVolume' || key == undefined) {
-            console.debug(this.prefs.musicVolume.value);
             this.setPropertyNow('volume', this.prefs.musicVolume.value,
                 spaceship.sounds.MUSIC_CHANNEL);
         }
