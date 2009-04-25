@@ -15,6 +15,15 @@
         {visual : '<img class="animal" src="${images}animals/mouse.png" />', speech : 'mouse'},
         {visual : '<img class="animal" src="${images}animals/goat.png" />', speech : 'goat'},
         {visual : '<img class="animal" src="${images}animals/llama.png" />', speech : 'llama'},
-        {visual : '<img class="animal" src="${images}animals/rabbit.png" />', speech : 'rabbit'}
+        {visual : '<img class="animal" src="${images}animals/rabbit.png" />', speech : 'rabbit'},
+        {visual : '<img class="animal" src="${images}animals/alligator.png" />', speech : 'alligator'},
+        {visual : '<img class="animal" src="${images}animals/leopard.png" />', speech : 'leopard'},
+        {visual : '<img class="animal" src="${images}animals/hippo.png" />', speech : 'hippo'},
+        {visual : '<img class="animal" src="${images}animals/rhino.png" />', speech : 'rhino'},
+        {visual : '<img class="animal" src="${images}animals/zebra.png" />', speech : 'zebra'},
+        {visual : '<img class="animal" src="${images}animals/lion.png" />', speech : 'lion'},
+        {visual : '<img class="animal" src="${images}animals/beaver.png" />', speech : 'beaver'},
+        {visual : '<img class="animal" src="${images}animals/kangaroo.png" />', speech : 'kangaroo'},
+        {visual : '<img class="animal" src="${images}animals/penguin.png" />', speech : 'penguin'},
     ]
 }

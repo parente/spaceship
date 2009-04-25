@@ -14,43 +14,44 @@ spaceship.preferences.PreferencesModel = (function() {
     var labels = dojo.i18n.getLocalization('spaceship.preferences', 'labels');
     // build preference type objects
     var objs = {};
-    var args = {id : 'speechRate',
-                label : labels.SPEECH_RATE_LABEL,
-                value : 250,
-                minimum : 100, 
-                maximum : 600,
-                step: 50,
-                unitLabel : labels.SPEECH_RATE_UNITS
-               };
+    var args;
+    args = {id : 'speechRate',
+            label : labels.SPEECH_RATE_LABEL,
+            value : 250,
+            minimum : 100, 
+            maximum : 600,
+            step: 50,
+            unitLabel : labels.SPEECH_RATE_UNITS
+           };
     objs[args.id] = new spaceship.preferences.types.RangeType(args);
-    var args = {id : 'speechVolume', 
-                label : labels.SPEECH_VOLUME_LABEL,
-                value : 1.0,
-                minimum : 0.0,
-                maximum : 1.0,
-                step : 0.05
-               };
+    args = {id : 'speechVolume', 
+            label : labels.SPEECH_VOLUME_LABEL,
+            value : 1.0,
+            minimum : 0.0,
+            maximum : 1.0,
+            step : 0.05
+           };
     objs[args.id] = new spaceship.preferences.types.PercentType(args);
-    var args = {id : 'soundVolume', 
-                label : labels.SOUND_VOLUME_LABEL,
-                value : 0.70,
-                minimum : 0.0,
-                maximum : 1.0,
-                step : 0.05
-               };
+    args = {id : 'soundVolume', 
+            label : labels.SOUND_VOLUME_LABEL,
+            value : 0.70,
+            minimum : 0.0,
+            maximum : 1.0,
+            step : 0.05
+           };
     objs[args.id] = new spaceship.preferences.types.PercentType(args);
-    var args = {id : 'musicVolume', 
-                label : labels.MUSIC_VOLUME_LABEL,
-                value : 0.15,
-                minimum : 0.0,
-                maximum : 1.0,
-                step : 0.05
-               };
+    args = {id : 'musicVolume', 
+            label : labels.MUSIC_VOLUME_LABEL,
+            value : 0.15,
+            minimum : 0.0,
+            maximum : 1.0,
+            step : 0.05
+           };
     objs[args.id] = new spaceship.preferences.types.PercentType(args);
-    var args = {id : 'mouseControl', 
-                label : labels.MOUSE_CONTROL_LABEL,
-                value : false
-               };
+    args = {id : 'mouseControl', 
+            label : labels.MOUSE_CONTROL_LABEL,
+            value : false
+           };
     objs[args.id] = new spaceship.preferences.types.BooleanType(args);
     return objs;
 })();

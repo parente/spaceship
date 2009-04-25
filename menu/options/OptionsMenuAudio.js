@@ -9,5 +9,51 @@ dojo.require('spaceship.menu.MenuAudio');
 dojo.require('spaceship.preferences.PreferencesTopics');
 
 dojo.declare('spaceship.menu.options.OptionsMenuAudio', spaceship.menu.MenuAudio, {
+    /**
+     * Extends the base class to register for preference changes.
+     */
+    postCreate: function() {
+        this.inherited(arguments);
+        this.subscribe(spaceship.preferences.UPDATE_PREFERENCE_TOPIC, 'onUpdatePref');
+    },
 
+    /**
+     * Extends the base class to also say the current value of the item.
+     *
+     * @subscribe RESUME_MENU_TOPIC
+     */
+    onResumeMenu: function() {
+        this.inherited(arguments);
+        // announce the current value
+        var obj = this.model.getSelectedItem();
+        this.audio.say(obj.getValueLabel(), spaceship.sounds.SPEECH_CHANNEL);
+    },
+    
+    /**
+     * Extends the base class to also say the current value of the item.
+     *
+     * @subscribe SELECT_ITEM_TOPIC
+     */    
+    onSelectItem: function(item, label) {
+        this.inherited(arguments);
+        var obj = this.model.getSelectedItem();
+        this.audio.say(obj.getValueLabel(), spaceship.sounds.SPEECH_CHANNEL);
+    },
+    
+    /**
+     * Called when a preference changes. Reflects the change in the view.
+     *
+     * @subscribe UPDATE_PREFERENCE_TOPIC
+     */
+    onUpdatePref: function(key) {
+        var obj = this.model.getItemById(key);
+        this.audio.stop(spaceship.sounds.SOUND_CHANNEL);
+        this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
+        this.audio.say(obj.getValueLabel(), spaceship.sounds.SPEECH_CHANNEL);
+        if(obj.id == 'soundVolume') {
+            // play a sound as a test
+            this.audio.play(spaceship.sounds.EMPTY_TILE_SOUND,
+                spaceship.sounds.SOUND_CHANNEL);
+        }
+    }
 });

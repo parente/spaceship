@@ -113,7 +113,9 @@ dojo.declare('spaceship.menu.options.OptionsMenuView', spaceship.menu.MenuView, 
     },
     
     /**
-     * Called when preferences change. Reflects the change in the view.
+     * Called when a preference changes. Reflects the change in the view.
+     *
+     * @subscribe UPDATE_PREFERENCE_TOPIC
      */
     onUpdatePref: function(key) {
         var obj = this.model.getItemById(key);
