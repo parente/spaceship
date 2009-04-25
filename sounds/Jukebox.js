@@ -91,7 +91,7 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
      * @subscribe LOSE_GAME_TOPIC
      */
     onLoseGame: function() {
-        this._playLooping(spaceship.sounds.LOSE_MUSIC, 0.8);
+        this._playLooping(spaceship.sounds.LOSE_MUSIC);
     },
 
     /**

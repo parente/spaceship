@@ -124,7 +124,8 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
      * @param event Dojo event
      */
     onKeyPress: function(event) {
-        switch(event.keyCode) {
+        var code = (event.isChar) ? event.charCode : event.keyCode;
+        switch(code) {
         case dojo.keys.UP_ARROW:
         case dojo.keys.LEFT_ARROW:
             this.model.selectPrevious();
@@ -133,6 +134,7 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
         case dojo.keys.RIGHT_ARROW:
             this.model.selectNext();
             break;
+        case dojo.keys.SPACE:
         case dojo.keys.ENTER:
             this.model.chooseCurrent();
             break;

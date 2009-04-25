@@ -71,7 +71,7 @@
     LOSE_BOMB_MESSAGE : 'Enemy fire destroyed a shield.',
     LOSE_BOMBS_MESSAGE : 'Enemy fire destroyed ${shields} shields.',
     WIN_BOMB_MESSAGE : 'You avoided enemy fire.',
-    LOSE_WARP_MESSAGE : 'An enemy ship appeared.',
+    LOSE_WARP_MESSAGE : 'A new enemy ship appeared.',
     LOSE_WARPS_MESSAGE : 'A warp brought ${ships} enemy ships.',
     WIN_WARP_MESSAGE : 'You stopped enemy reinforcements.',
     // HUD

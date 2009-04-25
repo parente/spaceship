@@ -181,7 +181,7 @@ dojo.declare('spaceship.Main', null, {
         };
         dojo.style(img, box);
     },
-            
+
     /**
      * Called in response to CHOOSE_ITEM_TOPIC from the main menu.
      */
@@ -197,11 +197,7 @@ dojo.declare('spaceship.Main', null, {
         case this._labels.OPTIONS_ITEM:
             // destroy the menu immediately
             this._endMenu(false);
-            // @todo: decide between main and resume menu
             this._startOptions('startMain');
-            break;
-        case this._labels.RESUME_GAME_ITEM:
-            this.resumeGame('startMain');
             break;
         case this._labels.NEWS_ITEM:
             // show the main game news, but leave the main menu
@@ -215,13 +211,29 @@ dojo.declare('spaceship.Main', null, {
             // show the main game help, but leave the main menu
             this._startHtml('html/help.html');
             break;
+        }
+    },
+
+    /**
+     * Called in response to CHOOSE_ITEM_TOPIC from the return menu.
+     */
+    onChooseReturn: function(index, label) {
+        switch(label) {
+        case this._labels.OPTIONS_ITEM:
+            // destroy the menu immediately
+            this._endMenu(false);
+            this._startOptions('pauseGame');
+            break;
+        case this._labels.RESUME_GAME_ITEM:
+            this.resumeGame();
+            break;            
         case this._labels.QUIT_GAME_ITEM:
             // destroy the menu immediately
             this._endMenu(false);
             // make sure we want to quit the current game
             this._startMenu(this._quitArgs, 'onChooseQuit', 'pauseGame');
             break;
-        }
+        }   
     },
     
     /**
@@ -253,7 +265,7 @@ dojo.declare('spaceship.Main', null, {
             this._gameModel.destroyRecursive();
         } else {
             // restart the resume menu
-            this._startMenu(this._returnArgs, 'onChooseMain', 'resumeGame');
+            this._startMenu(this._returnArgs, 'onChooseReturn', 'resumeGame');
         }
     },
 
@@ -430,7 +442,7 @@ dojo.declare('spaceship.Main', null, {
         if(resumeTopic) {
             this._resumeTopic = resumeTopic;
         }
-        this._startMenu(this._returnArgs, 'onChooseMain', 'resumeGame');
+        this._startMenu(this._returnArgs, 'onChooseReturn', 'resumeGame');
     },
     
     /**

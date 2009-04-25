@@ -290,10 +290,10 @@ dojo.declare('spaceship.minigame.WarpHazard', spaceship.minigame.Outcome, {
 // cumulative probabilities of good and bad minigame outcomes used during
 // minigame initialization
 spaceship.minigame.GOOD_OUTCOMES = [
-    {klass: spaceship.minigame.AmmoReward, cumProb: 0.8},
+    {klass: spaceship.minigame.AmmoReward, cumProb: 0.85},
     {klass: spaceship.minigame.ShieldReward, cumProb: 1.0}
 ];
 spaceship.minigame.BAD_OUTCOMES = [
-    {klass: spaceship.minigame.BombHazard, cumProb: 0.8},
+    {klass: spaceship.minigame.BombHazard, cumProb: 0.85},
     {klass: spaceship.minigame.WarpHazard, cumProb: 1.0},
 ];

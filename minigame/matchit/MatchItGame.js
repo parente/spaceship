@@ -9,9 +9,12 @@ dojo.require('spaceship.minigame.MiniGame');
 dojo.require('dojo.i18n');
 dojo.requireLocalization('spaceship.minigame.matchit', 'prompts');
 
+// true if we've already given the repeat help prompt 
+spaceship.minigame.matchit._repeatPrompted = false;
+
 dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGame, {
     // available content types
-    games: ['states', 'animals', 'numbers', 'colors', 'sports'],
+    games: ['numbers'], //['states', 'animals', 'numbers', 'colors', 'sports'],
     // template html for match game
     templatePath: dojo.moduleUrl('spaceship.minigame.matchit', 'MatchItGame.html'),
     // template css for match game
@@ -42,6 +45,10 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         this.inherited(arguments);
         // load strings
         this.prompts = dojo.i18n.getLocalization('spaceship.minigame.matchit', 'prompts');
+        // don't keep giving repeat help if the user has seen/heard it before
+        if(spaceship.minigame.matchit._repeatPrompted) {
+            this.prompts.PLAY_PROMPT = this.prompts.PLAY_PROMPT_N;
+        }
     },
     
     postCreate: function() {
@@ -80,8 +87,11 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
                 dojo.style(tds[index], 'visibility', '');
             }));
         }, this);
+        
         // say controls prompt
         def = this.say(this.prompts.PLAY_PROMPT);
+        spaceship.minigame.matchit._repeatPrompted = true;
+        
         // show controls prompt as it starts speaking
         def.addCallback(dojo.hitch(this, function() {
             dojo.style(this.helpNode, 'visibility', '');
@@ -136,6 +146,14 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
     
     onKeyPress: function(event) {
         if(this._frozen) return;
+        var code = (event.isChar) ? event.charCode : event.keyCode;
+        if(code == dojo.keys.SPACE) {
+            // freeze input
+            this._frozen = true;
+            // repeat instructions
+            this.onStart();
+            return;
+        }
         var i = this._inputMap.indexOf(event.charOrCode);
         // not valid input
         if(i < 0) return;
@@ -184,7 +202,7 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             dojo.style(td, 'visibility', '');
         }, this);
         // say the most recent addition
-        this.say(input.speech);
+        this.say(input.speech, true);
         // check for a win immediately
         var win = dojo.every(this._goal, function(item, index) {
             var input = this._currentInput[index];
