@@ -14,11 +14,11 @@ dojo.declare('spaceship.preferences.types.PercentType', spaceship.preferences.ty
     constructor: function() {
         // override user specified label to force to percentage
         var labels = dojo.i18n.getLocalization('spaceship.preferences', 'labels');
-        this.unitLabel = labels.PERCENT_UNIT_LABEL;
+        this.unitLabel = labels.PERCENT_UNITS;
     },
     
     getValueLabel: function() {
-        var value = Math.floor(this.value*100);
+        var value = Math.round(this.value*100);
         return dojo.string.substitute(this.unitLabel, [value]);
     }
 });

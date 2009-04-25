@@ -12,9 +12,9 @@ dojo.requireLocalization('spaceship.preferences', 'labels');
 dojo.declare('spaceship.preferences.types.BooleanType', spaceship.preferences.types.OptionType, {
     getValueLabel: function() {
         var labels = dojo.i18n.getLocalization('spaceship.preferences', 'labels');
-        return labels.BOOLEAN_TYPE_LABELS[!!this.value];
+        return labels.BOOLEAN_TYPE_LABELS[Number(this.value)];
     },
-    
+
     toggleValue: function() {
         this.setValue(!this.value);
     }

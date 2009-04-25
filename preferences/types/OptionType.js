@@ -14,8 +14,11 @@ dojo.declare('spaceship.preferences.types.OptionType', null, {
     label : '',
     // current value
     value: null,
+    // default value
+    defaultValue: null,
     constructor: function(args) {
         dojo.mixin(this, args);
+        this.defaultValue = this.value;
     },
     
     getValue: function() {
@@ -24,7 +27,8 @@ dojo.declare('spaceship.preferences.types.OptionType', null, {
 
     setValue: function(value) {
         this.value = value;
-        dojo.publish(spaceship.preferences.UPDATE_PREFERENCES_TOPIC);
+        dojo.publish(spaceship.preferences.UPDATE_PREFERENCE_TOPIC, 
+            [this.id]);
     },
     
     getId: function(value) {
@@ -37,5 +41,9 @@ dojo.declare('spaceship.preferences.types.OptionType', null, {
     
     getValueLabel: function() {
         return this.value;
+    },
+    
+    reset: function() {
+        this.setValue(this.defaultValue);
     }
 });

@@ -28,7 +28,7 @@ spaceship.preferences.PreferencesModel = (function() {
                 value : 1.0,
                 minimum : 0.0,
                 maximum : 1.0,
-                step : 0.1
+                step : 0.05
                };
     objs[args.id] = new spaceship.preferences.types.PercentType(args);
     var args = {id : 'soundVolume', 
@@ -36,7 +36,7 @@ spaceship.preferences.PreferencesModel = (function() {
                 value : 0.70,
                 minimum : 0.0,
                 maximum : 1.0,
-                step : 0.1
+                step : 0.05
                };
     objs[args.id] = new spaceship.preferences.types.PercentType(args);
     var args = {id : 'musicVolume', 
@@ -44,7 +44,7 @@ spaceship.preferences.PreferencesModel = (function() {
                 value : 0.15,
                 minimum : 0.0,
                 maximum : 1.0,
-                step : 0.1
+                step : 0.05
                };
     objs[args.id] = new spaceship.preferences.types.PercentType(args);
     var args = {id : 'mouseControl', 

@@ -11,7 +11,8 @@
     QUIT_GAME_ITEM : 'Quit',
     QUIT_TITLE : 'Really quit the game?',
     YES_QUIT_ITEM : 'Yes',
-    NO_QUIT_ITEM : "No",
+    NO_QUIT_ITEM : 'No',
+    RESET_OPTIONS_ITEM : 'Reset Options',
     // difficulties
     DIFFICULTY_TITLE: 'Select a Difficulty',
     EASY_LEVEL : 'Easy',

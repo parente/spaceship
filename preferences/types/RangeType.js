@@ -27,11 +27,12 @@ dojo.declare('spaceship.preferences.types.RangeType', spaceship.preferences.type
 
     setValue: function(value) {
         if(value < this.minimum) {
-            value = minimum;
+            value = this.minimum;
         } else if(value > this.maximum) {
-            value = maximum;
+            value = this.maximum;
         }
-        this.inherited([value]);
+        arguments[0] = value;
+        this.inherited(arguments);
     },
 
     getValueLabel: function() {

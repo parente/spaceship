@@ -18,5 +18,7 @@ spaceship.images = {
     SHIELD_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'shield.png').uri,
     LEECH_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'leech.png').uri,
     BOMB_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'bomb.png').uri,
-    WARP_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'warp.png').uri
+    WARP_TILE_IMAGE : dojo.moduleUrl('spaceship.images.png', 'warp.png').uri,
+    LEFT_ARROW_IMAGE : dojo.moduleUrl('spaceship.images.png', 'left-arrow.png').uri,
+    RIGHT_ARROW_IMAGE : dojo.moduleUrl('spaceship.images.png', 'right-arrow.png').uri
 };

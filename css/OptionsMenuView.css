@@ -9,7 +9,7 @@
     list-style-type: none;
     padding: 0px;
     border: 1px solid white;
-    width: 600px;
+    width: 550px;
     background-color: rgba(0, 0, 0, 0.9);
     font-size: 2.5em;
 }
@@ -24,4 +24,12 @@
 
 .ssMenuViewTable .ssMenuViewLabelSelected {
     text-decoration: underline;
+}
+
+.ssMenuViewTable .ssMenuViewArrow {
+    cursor: pointer;
+}
+
+.ssMenuViewTable .ssMenuViewValue {
+
 }

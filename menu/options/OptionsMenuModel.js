@@ -32,8 +32,28 @@ dojo.declare('spaceship.menu.options.OptionsMenuModel', spaceship.menu.MenuModel
         }, this);
     },
     
+    resetAll: function() {
+        dojo.forEach(this._itemObjects, function(item) { item.reset(); });
+    },
+    
     getItemObjects: function() {
         return this._itemObjects;
+    },
+    
+    getIdByIndex: function(index) {
+        return this._itemObjects[index].getId();
+    },
+    
+    getIndexById: function(key) {
+        return this._itemIds.indexOf(key);
+    },
+    
+    getItemById: function(key) {
+        return this.prefs[key];
+    },
+    
+    getItemByIndex: function(index) {
+        return this._itemObjects[index];
     },
 
     getSelectedItem: function() {
@@ -47,16 +67,16 @@ dojo.declare('spaceship.menu.options.OptionsMenuModel', spaceship.menu.MenuModel
     deltaSelectedValue: function(direction) {
         var obj = this._itemObjects[this.selectedIndex];
         // try increment/decrement methods
-        if(direction) {
+        if(direction > 0) {
             if(obj.incrementValue) {
                 obj.incrementValue();
                 return;
             }
         } else {
             if(obj.decrementValue) {
-                obj.incrementValue();
+                obj.decrementValue();
                 return;
-            }            
+            }
         }
         // didn't have a inc/dec method, so try toggling
         if(obj.toggleValue) {
