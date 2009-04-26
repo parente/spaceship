@@ -124,7 +124,7 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
      * @param event Dojo event
      */
     onKeyPress: function(event) {
-        var code = (event.isChar) ? event.charCode : event.keyCode;
+        var code = event.charCode || event.keyCode;
         switch(code) {
         case dojo.keys.UP_ARROW:
         case dojo.keys.LEFT_ARROW:

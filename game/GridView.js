@@ -273,7 +273,7 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
         var col = index % this.config.columns;
         var row = Math.floor(index / this.config.columns);
         // get the appropriate code for the key
-        var code = (event.isChar) ? event.charCode : event.keyCode;
+        var code = event.charCode || event.keyCode;
         switch(code) {
         case dojo.keys.UP_ARROW:
             if(row > 0) --row;

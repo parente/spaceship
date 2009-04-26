@@ -72,6 +72,8 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
     },
     
     onStart: function() {
+        // reset input
+        this._currentInput = [];
         // say listen prompt
         this.say(this.gamePrompts.LISTEN_PROMPT);
         var def;
@@ -82,7 +84,7 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             // say part of goal
             var def = this.say(target.speech);
             // show part of goal as it starts speaking
-            def.addCallback(dojo.hitch(this, function() {
+            def.before.addCallback(dojo.hitch(this, function() {
                 tds[index].innerHTML = target.visual;
                 dojo.style(tds[index], 'visibility', '');
             }));
@@ -93,12 +95,10 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         spaceship.minigame.matchit._repeatPrompted = true;
         
         // show controls prompt as it starts speaking
-        def.addCallback(dojo.hitch(this, function() {
+        def.before.addCallback(dojo.hitch(this, function() {
             dojo.style(this.helpNode, 'visibility', '');
         }));
-        // get a callback at the end of the last utterance
-        def = this.afterAudio();
-        def.addCallback(dojo.hitch(this, function() {
+        def.after.addCallback(dojo.hitch(this, function() {
             // enable user controls
             this._frozen = false;
             // hide the goal
@@ -146,7 +146,7 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
     
     onKeyPress: function(event) {
         if(this._frozen) return;
-        var code = (event.isChar) ? event.charCode : event.keyCode;
+        var code = event.charCode || event.keyCode;
         if(code == dojo.keys.SPACE) {
             // freeze input
             this._frozen = true;
@@ -202,7 +202,7 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             dojo.style(td, 'visibility', '');
         }, this);
         // say the most recent addition
-        this.say(input.speech, true);
+        var def = this.say(input.speech, true);
         // check for a win immediately
         var win = dojo.every(this._goal, function(item, index) {
             var input = this._currentInput[index];
@@ -215,7 +215,7 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             this._loseTimer.pause();
         }
         // wait for all audio to stop before we decide to win or not
-        this._lastDef = this.afterAudio();
+        this._lastDef = def.after;
         this._lastDef.addCallback(dojo.hitch(this, function() {
             if(win) this.win();            
         }));

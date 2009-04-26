@@ -43,9 +43,14 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      */
     _onAudioNotice: function(audio, response) {
         var def = this._audioDefs[response.name];
+        console.debug(response.action, response.name, def);
         if(def) {
-            delete this._audioDefs[response.name];
-            def.callback(true);
+            if(response.action.search('started') == 0) {
+                def.before.callback(true);
+            } else {
+                delete this._audioDefs[response.name];
+                def.after.callback(true);
+            }
         }
     },
 
@@ -57,7 +62,8 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
         var cb = dojo.hitch(this, '_onAudioNotice');
         this._audioTok = this.audio.addObserver(cb,
             spaceship.sounds.MINIGAME_CHANNEL, 
-            ['started-say', 'started-play']);
+            ['started-say', 'started-play', 'finished-play', 'finished-say',
+             'error']);
         if(this.templateCSSPath) {
             var head = dojo.doc.getElementsByTagName("head")[0];         
             var cssNode = document.createElement('link');
@@ -142,17 +148,19 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      *
      * @param text Utterance to speak
      * @param stop True to stop previous sound before playing, false to queue
-     * @return dojo.Deferred notified if/when the utterance starts
+     * @return Object with two dojo.Deferreds that fire before/after the speech
      */   
     say: function(text, stop) {
         if(stop) {
             this.audio.stop(spaceship.sounds.MINIGAME_CHANNEL);
         }
-        var key = text + '' + Math.random() + '';
-        var def = new dojo.Deferred();
-        this._audioDefs[key] = def;
+        var key = text + '' + Math.random();
+        var defBefore = new dojo.Deferred();
+        var defAfter = new dojo.Deferred();
+        var obj = {before:defBefore, after:defAfter};
+        this._audioDefs[key] = obj;
         this.audio.say(text, spaceship.sounds.MINIGAME_CHANNEL, key);
-        return def;
+        return obj;
     },
     
     /**
@@ -163,35 +171,23 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      * @param stop True to stop previous sound before playing, false to queue
      * @param stream True to stream the sound instead of downloading it before
      *   playing it
-     * @return dojo.Deferred notified if/when the utterance starts
+     * @return Object with two dojo.Deferreds that fire before/after the sound
      */
     play: function(url, stop, stream) {
         if(stop) {
             this.audio.stop(spaceship.sounds.MINIGAME_CHANNEL);
         }
         var key = Math.random() + '';
-        var def = new dojo.Deferred();
-        this._audioDefs[key] = def;
+        var defBefore = new dojo.Deferred();
+        var defAfter = new dojo.Deferred();
+        var obj = {before:defBefore, after:defAfter};
+        this._audioDefs[key] = obj;
         if(stream) {
             this.audio.stream(url, spaceship.sounds.MINIGAME_CHANNEL, key); 
         } else {
             this.audio.play(url, spaceship.sounds.MINIGAME_CHANNEL, key);
         }
-        return def;
-    },
-    
-    /**
-     * Returns a deferred that will notify after all audio output queued up to
-     * this point completes.
-     *
-     * @return dojo.Deferred notified if/when all previous output completes
-     */
-    afterAudio: function() {
-        var key = Math.random() + '';
-        var def = new dojo.Deferred();
-        this._audioDefs[key] = def;
-        this.audio.say(' ', spaceship.sounds.MINIGAME_CHANNEL, key);
-        return def;
+        return obj;
     },
     
     /**

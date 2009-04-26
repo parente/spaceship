@@ -195,9 +195,8 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         this._outcome.win(this.model);
         // give an audio report
         var url = this._outcome.getResultSoundUrl();
-        this._game.play(url, true);
-        var def = this._game.afterAudio();
-        def.addCallback(dojo.hitch(this, '_notifyGameEnd'));
+        var def = this._game.play(url, true);
+        def.after.addCallback(dojo.hitch(this, '_notifyGameEnd'));
     },
     
     onLoseMiniGame: function() {
@@ -205,9 +204,8 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         this._outcome.lose(this.model);
         // give an audio report
         var url = this._outcome.getResultSoundUrl();
-        this._game.play(url, true);
-        var def = this._game.afterAudio();
-        def.addCallback(dojo.hitch(this, '_notifyGameEnd'));
+        var def = this._game.play(url, true);
+        def.after.addCallback(dojo.hitch(this, '_notifyGameEnd'));
     },
     
     /**
@@ -243,7 +241,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
     
     onKeyPress : function(event) {
         // get the appropriate code for the key
-        var code = (event.isChar) ? event.charCode : event.keyCode;
+        var code = event.charCode || event.keyCode;
         if(code == dojo.keys.ESCAPE) {
             // pause the minigame
             try {
