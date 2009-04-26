@@ -36,3 +36,15 @@
     margin-top: 0em;
     margin-bottom: 0.5em;
 }
+
+.ssHtmlView h2 {
+    color: white;
+}
+
+.ssHtmlView .help-page li {
+    list-style-type: none;
+}
+
+.ssHtmlView .help-page img {
+    vertical-align: middle;
+}

@@ -46,7 +46,7 @@
     SHIELD_REMAIN_MESSAGE : 'You have ${shields} shield left.',
     SHIELDS_REMAIN_MESSAGE : 'You have ${shields} shields left.',    
     LEECH_MESSAGE : 'A space leech stole an ammo box!',
-    LEECHES_MESSAGE : 'Space leeches stole ${ammo} ammo boxes!',
+    LEECHES_MESSAGE : 'A space leech stole ${ammo} ammo boxes!',
     BOMB_MESSAGE : 'A space mine destroyed a shield!',
     BOMBS_MESSAGE : 'Space mines destroyed ${shields} shields!', 
     HINT_MESSAGE : 'Enemy ship detected!',
