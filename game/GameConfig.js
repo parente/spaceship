@@ -25,7 +25,7 @@ spaceship.game.GameConfig = (function(){
                 {category : 'GOOD_TILES', cumProb : 1.0}
             ],
             minigames: [
-                {category : 'GOOD_OUTCOMES', cumProb: 0.6},
+                {category : 'GOOD_OUTCOMES', cumProb: 0.7},
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
             ],
             maxBonusTileValue: 3,
@@ -72,7 +72,7 @@ spaceship.game.GameConfig = (function(){
             rows : 10,
             columns: 10,
             tiles : [
-                {category : 'BAD_TILES', cumProb : 0.3},
+                {category : 'BAD_TILES', cumProb : 0.4},
                 {category : 'NEUTRAL_TILES', cumProb : 0.8},
                 {category : 'GOOD_TILES', cumProb : 1.0}
             ],

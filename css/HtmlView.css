@@ -41,6 +41,10 @@
     color: white;
 }
 
+.ssHtmlView .help-page .center {
+    text-align: center;
+}
+
 .ssHtmlView .help-page li {
     list-style-type: none;
 }

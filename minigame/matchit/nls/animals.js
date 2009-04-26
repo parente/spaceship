@@ -22,7 +22,6 @@
         {visual : '<img class="animal" src="${images}animals/rhino.png" />', speech : 'rhino'},
         {visual : '<img class="animal" src="${images}animals/zebra.png" />', speech : 'zebra'},
         {visual : '<img class="animal" src="${images}animals/lion.png" />', speech : 'lion'},
-        {visual : '<img class="animal" src="${images}animals/beaver.png" />', speech : 'beaver'},
         {visual : '<img class="animal" src="${images}animals/kangaroo.png" />', speech : 'kangaroo'},
         {visual : '<img class="animal" src="${images}animals/penguin.png" />', speech : 'penguin'},
     ]
