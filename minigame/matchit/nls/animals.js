@@ -48,7 +48,7 @@
         {visual : '<img class="animal" src="${images}animals/zebra.png" />', 
          speech : 'zebra'},
         {visual : '<img class="animal" src="${images}animals/lion.png" />', 
-         speech : 'lion', sound : '${sounds}animals/63668__Miselaineous__elaine_growl.wav'},
+         speech : 'lion', sound : '${sounds}animals/63668__Miselaineous__elaine_growl.mp3'},
         {visual : '<img class="animal" src="${images}animals/kangaroo.png" />', 
          speech : 'kangaroo'},
         {visual : '<img class="animal" src="${images}animals/penguin.png" />', 

@@ -65,6 +65,7 @@ dojo.declare('spaceship.game.HUDAudio', [dijit._Widget,
      * @subscribe RESUME_GAME_TOPIC
      */
     onResumeGame: function() {
+        console.debug('onResumeGame', this.id);
         if(this.model.getState() == spaceship.game.PREPARE_SHOT_TOPIC) {
             this._frozen = false;
         }
