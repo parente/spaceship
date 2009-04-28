@@ -43,7 +43,6 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      */
     _onAudioNotice: function(audio, response) {
         var def = this._audioDefs[response.name];
-        console.debug(response.action, response.name, def);
         if(def) {
             if(response.action.search('started') == 0) {
                 def.before.callback(true);

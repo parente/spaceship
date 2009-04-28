@@ -14,7 +14,7 @@ spaceship.minigame.matchit._repeatPrompted = false;
 
 dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGame, {
     // available content types
-    games: ['states', 'animals', 'numbers', 'colors', 'sports'],
+    games: ['solfege', 'states', 'animals', 'numbers', 'colors', 'sports'],
     // template html for match game
     templatePath: dojo.moduleUrl('spaceship.minigame.matchit', 'MatchItGame.html'),
     // template css for match game
@@ -82,10 +82,16 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         tds.style('visibility', 'hidden');
         dojo.forEach(this._goal, function(target, index) {
             // say part of goal
-            var def = this.say(target.speech);
+            if(target.sound) {
+                def = this.play(target.sound);
+            } else {
+                def = this.say(target.speech);
+            }
             // show part of goal as it starts speaking
             def.before.addCallback(dojo.hitch(this, function() {
-                tds[index].innerHTML = target.visual;
+                if(target.visual) {
+                    tds[index].innerHTML = target.visual;
+                }
                 dojo.style(tds[index], 'visibility', '');
             }));
         }, this);
@@ -194,7 +200,7 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             if(value == undefined) {
                 // clear out old value
                 td.innerHTML = '';
-            } else {
+            } else if(value.visual) {
                 // show the cell value
                 td.innerHTML = value.visual;
             }
@@ -202,12 +208,17 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             dojo.style(td, 'visibility', '');
         }, this);
         // say the most recent addition
-        var def = this.say(input.speech, true);
+        var def;
+        if(input.sound) {
+            def = this.play(input.sound, true);
+        } else {
+            def = this.say(input.speech, true);
+        }
         // check for a win immediately
         var win = dojo.every(this._goal, function(item, index) {
             var input = this._currentInput[index];
             if(!input) return false;
-            return input.visual == item.visual;
+            return (input.visual == item.visual);
         }, this);
         if(win) { 
             // don't allow the user to pause or do anything else right now
