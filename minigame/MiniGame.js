@@ -8,9 +8,12 @@ dojo.provide('spaceship.minigame.MiniGame');
 dojo.require('dijit._Widget');
 dojo.require('dijit._Templated');
 dojo.require('spaceship.utils.Timer');
+dojo.require('spaceship.preferences.PreferencesModel');
 
 dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
                                              dijit._Templated], {
+    // user preferences
+    prefs: spaceship.preferences.PreferencesModel,
     // configuration for the minigame based on level only
     config: null,
     // audio manager instance set by the minigame manager
@@ -158,6 +161,8 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
         var defAfter = new dojo.Deferred();
         var obj = {before:defBefore, after:defAfter};
         this._audioDefs[key] = obj;
+        this.audio.setProperty('volume', this.prefs.speechVolume.value,
+            spaceship.sounds.MINIGAME_CHANNEL);
         this.audio.say(text, spaceship.sounds.MINIGAME_CHANNEL, key);
         return obj;
     },
@@ -181,12 +186,18 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
         var defAfter = new dojo.Deferred();
         var obj = {before:defBefore, after:defAfter};
         this._audioDefs[key] = obj;
+        this.audio.setProperty('volume', this.prefs.soundVolume.value,
+            spaceship.sounds.MINIGAME_CHANNEL);
         if(stream) {
             this.audio.stream(url, spaceship.sounds.MINIGAME_CHANNEL, key); 
         } else {
             this.audio.play(url, spaceship.sounds.MINIGAME_CHANNEL, key);
         }
         return obj;
+    },
+    
+    stopAll: function() {
+        this.audio.stop(spaceship.sounds.MINIGAME_CHANNEL);
     },
     
     /**

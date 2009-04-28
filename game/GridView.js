@@ -163,7 +163,6 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
      * @subscribe RESUME_GAME_TOPIC
      */
     onResumeGame: function() {
-        console.debug('onResumeGame', this.id);
         if(this.model.getState() == spaceship.game.PREPARE_SHOT_TOPIC) {
             this._frozen = false;
         }
@@ -184,7 +183,6 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
      * @subscribe PREPARE_SHOT_TOPIC
      */
     onPrepareShot: function(bar) {
-        console.debug('GameGrid:onPrepareShot');
         // allow user control
         this._frozen = false;
         // add this as responder to barrier and store it
@@ -257,7 +255,6 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
      * table.
      */
     onShow: function() {
-        console.debug('GameGrid:onShow');
         // give the table focus
         dijit.focus(this._panelNode);
     },

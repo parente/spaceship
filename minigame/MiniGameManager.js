@@ -43,6 +43,8 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         // win and lose subscribe tokens
         this._winTok = null;
         this._loseTok = null;
+        // disallow input?
+        this._frozen = false;
     },
     
     /**
@@ -144,6 +146,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
             console.warn(e);
             var urls = [];
         }
+        this._frozen = false;
         if(urls.length) {
             // @todo: precache and wait for complete before doing anything else
         } else {
@@ -191,6 +194,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
     },
     
     onWinMiniGame: function() {
+        this._frozen = true;
         // trigger the outcome
         this._outcome.win(this.model);
         // give an audio report
@@ -200,6 +204,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
     },
     
     onLoseMiniGame: function() {
+        this._frozen = true;
         // trigger the outcome
         this._outcome.lose(this.model);
         // give an audio report
@@ -240,12 +245,17 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
     },
     
     onKeyPress : function(event) {
+        if(this._frozen) return;
         // get the appropriate code for the key
         var code = event.charCode || event.keyCode;
         if(code == dojo.keys.ESCAPE) {
             // pause the minigame
             try {
-                if(this._game) this._game.onPause();
+                if(this._game) {
+                    this._game.onPause();
+                    // stop all minigame output
+                    this._game.stopAll();
+                }
             } catch(e) {
                 console.warn(e);
             }

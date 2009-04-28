@@ -45,7 +45,7 @@ spaceship.sounds.SPEECH_CHANNEL = 0;
 spaceship.sounds.SOUND_CHANNEL = 1;
 spaceship.sounds.SOUND_TRANSITION_CHANNEL = 2;
 spaceship.sounds.MUSIC_CHANNEL = 3;
-spaceship.sounds.MINIGAME_CHANNEL = 0;
+spaceship.sounds.MINIGAME_CHANNEL = 4;
 
 dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
     // bundle of user preferences
@@ -107,6 +107,8 @@ dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
         if(key == 'speechRate' || key == undefined) {
             this.setPropertyNow('rate', this.prefs.speechRate.value, 
                 spaceship.sounds.SPEECH_CHANNEL);
+            this.setPropertyNow('rate', this.prefs.speechRate.value, 
+                spaceship.sounds.MINIGAME_CHANNEL);
         }
         if(key == 'soundVolume' || key == undefined) {
             this.setPropertyNow('volume', this.prefs.soundVolume.value, 

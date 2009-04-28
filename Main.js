@@ -337,11 +337,9 @@ dojo.declare('spaceship.Main', null, {
      */
     _startMenu: function(args, choose, cancel) {
         // store the last active panel
-        console.debug('_startMenu 1', choose, cancel, this._lastPane)
         if(!this._lastPanel) {
             this._lastPanel = this._stackWidget.selectedChildWidget;
         }
-        console.debug('_startMenu 2', this._lastPanel);
         
         // let the menu options drive this controller
         this._subs['menu-choose'] = dojo.subscribe(spaceship.menu.CHOOSE_ITEM_TOPIC, 
@@ -441,7 +439,6 @@ dojo.declare('spaceship.Main', null, {
      * @param resumeTopic Topic to publish when resuming game
      */
     pauseGame: function(resumeTopic) {
-        console.debug('RESUME TOPIC', resumeTopic);
         // destroy any existing menu
         this._endMenu(false);
         // store resume topic
@@ -455,7 +452,6 @@ dojo.declare('spaceship.Main', null, {
      * Resumes a game
      */
     resumeGame: function() {
-        console.debug('RESUME GAME', this._resumeTopic);
         // destroy any existing menu
         this._endMenu(true);
         dojo.publish(this._resumeTopic);
