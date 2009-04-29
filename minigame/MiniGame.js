@@ -196,6 +196,9 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
         return obj;
     },
     
+    /**
+     * Stops all output and clears all queued commands, speech and sound.
+     */
     stopAll: function() {
         this.audio.stop(spaceship.sounds.MINIGAME_CHANNEL);
     },

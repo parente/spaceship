@@ -146,6 +146,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
             console.warn(e);
             var urls = [];
         }
+        // allow pause command now
         this._frozen = false;
         if(urls.length) {
             // @todo: precache and wait for complete before doing anything else

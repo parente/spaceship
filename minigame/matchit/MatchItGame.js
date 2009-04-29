@@ -163,15 +163,40 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         var i = this._inputMap.indexOf(event.charOrCode);
         // not valid input
         if(i < 0) return;
+        
+        // insert and render the new input
         var input = this._values[i];
-        if(this._currentInput.length == this._goal.length) {
-            // rotate off the oldest input
-            this._currentInput.shift();
-        }
-        // insert the new input
         this._currentInput.push(input);
-        // render the input and check for a win
-        this._reportInput(input);
+        var def = this._reportInput(input);
+        
+        // check for a win
+        var mismatch = false;
+        var win = dojo.every(this._goal, function(item, index) {
+            var input = this._currentInput[index];
+            if(!input) {
+                // at end of input, but good so far
+                return false;
+            } else if(input.visual != item.visual) {
+                // latest value is bad, need to start over
+                mismatch = true;
+                return false;
+            }
+            return true;
+        }, this);
+        if(win) { 
+            // don't allow the user to pause or do anything else right now
+            this._frozen = true;
+            this._loseTimer.pause();
+        } else if(mismatch) {
+            // clear out input after a bad value
+            this._currentInput = [];
+        }
+
+        // wait for all audio to stop before we decide to win or not
+        this._lastDef = def.after;
+        this._lastDef.addCallback(dojo.hitch(this, function() {
+            if(win) this.win();
+        }));
     },
     
     _fillTemplates: function(templates) {
@@ -194,7 +219,8 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         if(this._lastDef) {
             this._lastDef.cancel();
         }
-        // show the visuals
+        
+        // show the most recent addition (really, render everything)
         dojo.query('td', this.patternRow).forEach(function(td, index) {
             var value = this._currentInput[index];
             if(value == undefined) {
@@ -207,28 +233,14 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             // make sure the cell is visible
             dojo.style(td, 'visibility', '');
         }, this);
-        // say the most recent addition
+        
+        // say/play the most recent addition
         var def;
         if(input.sound) {
             def = this.play(input.sound, true);
         } else {
             def = this.say(input.speech, true);
         }
-        // check for a win immediately
-        var win = dojo.every(this._goal, function(item, index) {
-            var input = this._currentInput[index];
-            if(!input) return false;
-            return (input.visual == item.visual);
-        }, this);
-        if(win) { 
-            // don't allow the user to pause or do anything else right now
-            this._frozen = true;
-            this._loseTimer.pause();
-        }
-        // wait for all audio to stop before we decide to win or not
-        this._lastDef = def.after;
-        this._lastDef.addCallback(dojo.hitch(this, function() {
-            if(win) this.win();            
-        }));
+        return def;
     }
 });
