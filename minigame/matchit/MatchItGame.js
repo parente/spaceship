@@ -176,7 +176,9 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             if(!input) {
                 // at end of input, but good so far
                 return false;
-            } else if(input.visual != item.visual) {
+            } else if(input.visual != item.visual ||
+                      input.speech != item.speech ||
+                      item.sound != item.sound) {
                 // latest value is bad, need to start over
                 mismatch = true;
                 return false;
@@ -199,7 +201,7 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         }));
     },
     
-    _fillTemplates: function(templates) {
+    _fillTemplates: function(templates, i) {
         if(templates.visual) {
             templates.visual = dojo.string.substitute(templates.visual, 
                 this._templateBundle);

@@ -24,7 +24,9 @@ dojo.declare('spaceship.utils.Timer', null, {
      * result.
      */
     onTimeout: function() {
-        this._deferred.callback(this);
+        if(this._timer != null) {  
+            this._deferred.callback(this);
+        }
     },
     
     /**
@@ -48,6 +50,7 @@ dojo.declare('spaceship.utils.Timer', null, {
     stop: function() {
         // stop the timer
         clearTimeout(this._timer);
+        this._timer = null;
         // return deferred error
         try {
             this._deferred.errback(this._timer);
@@ -62,6 +65,7 @@ dojo.declare('spaceship.utils.Timer', null, {
     pause: function() {
         // stop the timer
         clearTimeout(this._timer);
+        this._timer = null;
         // compute time elapse
         var elapsed = new Date - this._startedAt;
         // adjust duration to remaining time
