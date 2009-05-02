@@ -50,7 +50,7 @@ dojo.declare('spaceship.Main', null, {
         dojo.requireLocalization('spaceship', 'labels');
         
         // bundle of locale strings
-        this._labels = null;
+        this._labels = dojo.i18n.getLocalization('spaceship', 'labels');
         // bundle of game config
         this._config = null;
         // bag of dojo.subscribe handles
@@ -71,14 +71,20 @@ dojo.declare('spaceship.Main', null, {
         this._lastPanel = null;
         // number of ready reports
         this._readyCount = 0;
+        // error dialog reference
+        this._errorDialog
 
         // register for when the page unloads
         dojo.addOnUnload(dojo.hitch(this, this.uninitialize));        
         // register for when all modules load
         var readyFunc = dojo.hitch(this, 'onLibReady');
+        var missingFunc = dojo.hitch(this, 'onMissingAudio');
         dojo.addOnLoad(readyFunc);
         // register for when audio is ready
-        spaceship.sounds.AudioManager.startup().addCallback(readyFunc);
+        var def = spaceship.sounds.AudioManager.startup();
+        def.addCallback(readyFunc).addErrback(missingFunc);
+        // register for when images are ready
+        spaceship.images.GraphicsManager.startup().addCallback(readyFunc);
     },
     
     
@@ -87,9 +93,26 @@ dojo.declare('spaceship.Main', null, {
      */
     onLibReady: function() {
         ++this._readyCount;
-        if(this._readyCount == 2) {
+        if(this._readyCount == 3) {
             this.initialize();
         }
+    },
+    
+    /** 
+     * Called when audio fails to initialize. Shows a dialog instructing the
+     * user to download Outfox.
+     */
+    onMissingAudio: function() {
+        dojo.require("dijit.Dialog");
+        var args = {
+            href : 'html/audio.html',
+            title : this._labels.MISSING_REQ_TITLE,
+            draggable : false
+        };
+        this._errorDialog = new dijit.Dialog(args);
+        // don't allow the dialog to hide
+        this._errorDialog.hide = function() {};
+        this._errorDialog.show();
     },
     
     /**
@@ -108,9 +131,6 @@ dojo.declare('spaceship.Main', null, {
     initialize: function() {
         // parse the inline page widgets
         dojo.parser.parse();
-        
-        // get the localized strings bundle
-        this._labels = dojo.i18n.getLocalization('spaceship', 'labels');
         
         // get a reference to parsed widgets
         this._stackWidget = dijit.byId('stack');

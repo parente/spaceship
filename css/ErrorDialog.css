@@ -1,0 +1,22 @@
+/**
+ * Spaceship! styling for error dialogs.
+ *
+ * Copyright (c) 2008, 2009 Peter Parente under the terms of the BSD license.
+ * http://creativecommons.org/licenses/BSD/
+ */
+.dijitDialogCloseIcon {
+    display: none;
+}
+ 
+.ssErrorDialog {
+    font-size: 1.5em;
+    max-width: 300px;
+}
+
+.ssErrorDialog p:first-child {
+    margin-top: 0px;
+}
+
+.ssErrorDialog p:last-child {
+    margin: 0px;
+}

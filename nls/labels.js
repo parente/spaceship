@@ -84,5 +84,7 @@
                          'Congratulations!'],
     LOSE_GAME_MESSAGES : ["Your shields have failed.",
                           'The game is over.',
-                          'Better luck next time!']
+                          'Better luck next time!'],
+    // error dialog
+    MISSING_REQ_TITLE : 'Missing Requirement'
 }

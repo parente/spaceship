@@ -60,9 +60,14 @@ dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
     startup: function() {
         // create a deferred
         var ready = new dojo.Deferred();
+        this._ready = ready;
+        // set a timeout in case 
+        this._timer = setTimeout(dojo.hitch(this, 'onUnavailable'), 1000);
         // start initializing outfox
-        outfox.init("outfox", dojo.toJson, dojo.fromJson);
-        //outfox.addObserver(function(of, msg) { console.debug(msg); }, 'audio');
+        var version = outfox.init("outfox", dojo.toJson, dojo.fromJson);
+        version.addCallback(dojo.hitch(this, 'onAvailable'));
+        version.addErrback(dojo.hitch(this, 'onUnavailable'));
+        // start the audio service
         var def = outfox.startService('audio');
         var self = this;
         def.addCallback(function() {
@@ -90,6 +95,20 @@ dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
         // listen for preference changes
         this.subscribe(spaceship.preferences.UPDATE_PREFERENCE_TOPIC, 'onUpdatePref');
         return ready;
+    },
+    
+    /** 
+     * Called when Outfox initializes properly.
+     */
+    onAvailable: function() {
+        clearTimeout(this._timer);
+    },
+    
+    /**
+     * Called when a timer expires or Outfox fails to initialize.
+     */
+    onUnavailable: function() {
+        this._ready.errback();
     },
     
     /**

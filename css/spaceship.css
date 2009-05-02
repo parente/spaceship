@@ -12,6 +12,7 @@
 @import url("GridView.css");
 @import url("HtmlView.css");
 @import url("MiniGameView.css");
+@import url("ErrorDialog.css");
 
 body, html {
     width:100%; 
