@@ -13,6 +13,10 @@ dojo.declare('spaceship.menu.options.OptionsMenuModel', spaceship.menu.MenuModel
     prefs: spaceship.preferences.PreferencesModel,
     // always cancellable
     cancelable: true,
+    /**
+     * Replaces the base class method to store option objects and labels
+     * in menu order.
+     */
     postMixInProperties: function() {
         // ordered item ids
         this._itemIds = [
@@ -32,38 +36,85 @@ dojo.declare('spaceship.menu.options.OptionsMenuModel', spaceship.menu.MenuModel
         }, this);
     },
     
+    /**
+     * Resets all options to their defaults.
+     */
     resetAll: function() {
         dojo.forEach(this._itemObjects, function(item) { item.reset(); });
     },
     
+    /**
+     * Gets all option objects.
+     *
+     * @return Array of spaceship.preferences.types.OptionTypes
+     */
     getItemObjects: function() {
         return this._itemObjects;
     },
     
+    /**
+     * Gets the preference key of the option at the given menu index.
+     *
+     * @param Integer index
+     * @return String pref name
+     */
     getIdByIndex: function(index) {
         return this._itemObjects[index].getId();
     },
     
+    /**
+     * Gets the menu index of the preference with the given key.
+     *
+     * @param key String pref name
+     * @return Integer index
+     */
     getIndexById: function(key) {
         return this._itemIds.indexOf(key);
     },
     
+    /**
+     * Gets a preference by its key.
+     *
+     * @param key String pref name
+     * @return spaceship.preferences.types.OptionType
+     */
     getItemById: function(key) {
         return this.prefs[key];
     },
     
+    /**
+     * Gets a preference by its index.
+     *
+     * @param index Integer index
+     * @return spaceship.preferences.types.OptionType
+     */
     getItemByIndex: function(index) {
         return this._itemObjects[index];
     },
 
+    /**
+     * Gets the preference object for the selected index.
+     *
+     * @return spaceship.preferences.types.OptionType
+     */
     getSelectedItem: function() {
         return this._itemObjects[this.selectedIndex];
     },
     
+    /**
+     * Sets the preference value of the selected preference.
+     *
+     * @param value New value to set
+     */
     setSelectedValue: function(value) {
         this._itemObjects[this.selectedIndex].setValue(value);
     },
     
+    /**
+     * Increases or decreases the selected preference by its step amount.
+     *
+     * @param direction Positive integer for increase, negative for decrease
+     */
     deltaSelectedValue: function(direction) {
         var obj = this._itemObjects[this.selectedIndex];
         // try increment/decrement methods

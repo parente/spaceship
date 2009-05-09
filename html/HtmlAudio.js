@@ -12,5 +12,5 @@ dojo.require('spaceship.utils.Subscriber');
 
 dojo.declare('spaceship.html.HtmlAudio', [dijit._Widget,
                                           spaceship.utils.Subscriber], {
-
+    // @todo: support reading of html by chunks
 });

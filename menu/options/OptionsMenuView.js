@@ -14,8 +14,7 @@ dojo.declare('spaceship.menu.options.OptionsMenuView', spaceship.menu.MenuView, 
     // path to template file
     templatePath: dojo.moduleUrl('spaceship', 'templates/OptionsMenuView.html'),
     /**
-     * Called after widget creation. Builds the visual menu items. Subscribes
-     * to menu and preference topics.
+     * Replaces the base class method to render option labels and their values.
      */
     postCreate: function() {
         // hide title if no text
@@ -75,7 +74,8 @@ dojo.declare('spaceship.menu.options.OptionsMenuView', spaceship.menu.MenuView, 
     },
     
     /**
-     * Called when the user presses a key to navigate the menu or end the menu.
+     * Replaces the base class method to handle key strokes for navigating the
+     * menu and changing item values.
      *
      * @param event Dojo event
      */

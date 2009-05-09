@@ -17,14 +17,26 @@ dojo.declare('spaceship.preferences.types.RangeType', spaceship.preferences.type
     step: 0,
     // unit label
     unitLabel: '',
+    /**
+     * Increments the value by the step.
+     */
     incrementValue: function() {
         this.setValue(this.value + this.step);
     },
     
+    /**
+     * Decrements the value by the step.
+     */
     decrementValue: function() {
         this.setValue(this.value - this.step);
     },
 
+    /**
+     * Extends the base class method to bound the new value to the allowed 
+     * range.
+     *
+     * @param value New value
+     */
     setValue: function(value) {
         if(value < this.minimum) {
             value = this.minimum;
@@ -35,6 +47,9 @@ dojo.declare('spaceship.preferences.types.RangeType', spaceship.preferences.type
         this.inherited(arguments);
     },
 
+    /**
+     * Replaces the base class method to return the value with units attached.
+     */
     getValueLabel: function() {
         return dojo.string.substitute(this.unitLabel, [this.value]);
     }

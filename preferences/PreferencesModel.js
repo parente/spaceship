@@ -12,6 +12,10 @@ dojo.require('dojo.i18n');
 dojo.requireLocalization('spaceship.preferences', 'labels');
 
 dojo.declare('spaceship.preferences.PreferencesModel', spaceship.utils.Subscriber, {
+    /**
+     * Object constructor. Creates option objects with their default values
+     * and values saved in a cookie from the last session.
+     */
     constructor: function() {
         // load labels
         var labels = dojo.i18n.getLocalization('spaceship.preferences', 'labels');

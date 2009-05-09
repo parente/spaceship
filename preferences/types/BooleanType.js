@@ -10,11 +10,17 @@ dojo.require('spaceship.preferences.types.OptionType');
 dojo.requireLocalization('spaceship.preferences', 'labels');
 
 dojo.declare('spaceship.preferences.types.BooleanType', spaceship.preferences.types.OptionType, {
+    /**
+     * Replaces the base class method to return yes/no labels for true/false.
+     */
     getValueLabel: function() {
         var labels = dojo.i18n.getLocalization('spaceship.preferences', 'labels');
         return labels.BOOLEAN_TYPE_LABELS[Number(this.value)];
     },
 
+    /**
+     * Toggles between two possible values, true or false.
+     */
     toggleValue: function() {
         this.setValue(!this.value);
     }
