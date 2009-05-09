@@ -19,6 +19,10 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
     templatePath: dojo.moduleUrl('spaceship.minigame.matchit', 'MatchItGame.html'),
     // template css for match game
     templateCSSPath: dojo.moduleUrl('spaceship.minigame.matchit', 'MatchItGame.css'),
+    
+    /**
+     * Called after widget construction. Initializes instance variables.
+     */
     postMixInProperties: function() {
         // possible goal/input values
         this._values = null;
@@ -51,8 +55,12 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         }
     },
     
+    /**
+     * Called after widget insertion into the DOM. Picks values for this
+     * minigame instance.
+     */
     postCreate: function() {
-        // pick a random game
+        // pick a random set of things to match from the available games list
         var name = this.pickRandom(this.games);
         // load game resources
         dojo.requireLocalization('spaceship.minigame.matchit', name);
@@ -71,6 +79,14 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         }, this);
     },
     
+    /**
+     * Called when the minigame should start. Speaks and shows the listen 
+     * prompt, then speaks/plays/shows the goal the player should match, then 
+     * gives short or long instructions about how to use the keyboard to play.
+     * Allows the user to start playing only after all prompts have finished.
+     * Starts the game timer at that point too with a duration based on 
+     * difficulty.
+     */
     onStart: function() {
         // reset input
         this._currentInput = [];
@@ -104,21 +120,27 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         def.before.addCallback(dojo.hitch(this, function() {
             dojo.style(this.helpNode, 'visibility', '');
         }));
+        // let the user play after the final prompt
         def.after.addCallback(dojo.hitch(this, function() {
             // enable user controls
             this._frozen = false;
             // hide the goal
             tds.style('visibility', 'hidden');
-            // start a new timer or resume an existing one
             if(this._loseTimer) {
+                // result an existing timer (coming back from pause)
                 this._loseTimer.resume();
             } else {
-                // difficulty affects timer duration
+                // start a new timer based on difficulty
                 this._loseTimer = this.startTimer(this.config.timeLimit);
             }
         }));
     },
     
+    /**
+     * Called when a timer expires.
+     *
+     * @param timer spaceship.utils.Timer instance that expired
+     */
     onTimer: function(timer) {
         if(timer == this._loseTimer) {
             this._frozen = true;
@@ -127,6 +149,9 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         }
     },
     
+    /**
+     * Called when the minigame is over.
+     */
     onEnd: function() {
         // stop the timer
         if(this._loseTimer) {
@@ -134,6 +159,9 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         }
     },
     
+    /**
+     * Called when the user pauses the minigame.
+     */
     onPause: function() {
         // pause the timer
         if(this._loseTimer) {
@@ -145,14 +173,24 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         this._currentInput = [];
     },
     
+    /**
+     * Called when the user resumes the minigame.
+     */
     onResume: function() {
         // repeat instructions from the start
         this.onStart();
     },
     
+    /**
+     * Called when the user presses a key in the minigame.
+     *
+     * @param event dojo.Event
+     */
     onKeyPress: function(event) {
+        // abort now if not ready for user input yet
         if(this._frozen) return;
         var code = event.charCode || event.keyCode;
+        
         if(code == dojo.keys.SPACE) {
             // freeze input
             this._frozen = true;
@@ -160,6 +198,7 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             this.onStart();
             return;
         }
+        // arrow keys map here, but nothing else
         var i = this._inputMap.indexOf(event.charOrCode);
         // not valid input
         if(i < 0) return;
@@ -194,14 +233,21 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             this._currentInput = [];
         }
 
-        // wait for all audio to stop before we decide to win or not
+        // wait for all audio to stop before we report the win to the minigame
+        // manager
         this._lastDef = def.after;
         this._lastDef.addCallback(dojo.hitch(this, function() {
             if(win) this.win();
         }));
     },
     
-    _fillTemplates: function(templates, i) {
+    /**
+     * Fills in item templates for sound, speech, and visuals with paths.
+     *
+     * @param templates Object with visual, sound, and speech templates for
+     *   a game item loaded from the nls/ directory
+     */
+    _fillTemplates: function(templates) {
         if(templates.visual) {
             templates.visual = dojo.string.substitute(templates.visual, 
                 this._templateBundle);
@@ -216,6 +262,15 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         }        
     },
     
+    /**
+     * Speaks, plays sound, and/or shows a graphic mapped to the arrow key
+     * the user pressed. Keeps filling the visual box from left to right until
+     * the user makes a mistake in the sequence. The input after the wrong
+     * input resets the box and appears at the far left again.
+     *
+     * @param input Object with visual, sound, speech properties mapped to the
+     *   key the user pressed
+     */
     _reportInput: function(input) {
         // clear the last win check
         if(this._lastDef) {
