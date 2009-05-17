@@ -10,7 +10,5 @@ dojo.provide('spaceship.html.HtmlTopics');
 spaceship.html.END_HTML_TOPIC = 'ss-htmlEnd';
 // fired by the HtmlModel when there is a new root DOM node
 spaceship.html.LOAD_HTML_TOPIC = 'ss-htmlLoad';
-// fired by the HtmlModel when the user navigates to the next readable chunk
-spaceship.html.NEXT_HTML_CHUNK = 'ss-nextHtmlChunk'
-// fired by the HtmlModel when the user navigates to the previous readable chunk
-spaceship.html.PREVIOUS_HTML_CHUNK = 'ss-previousHtmlChunk'
+// fired by the HtmlModel when the user navigates to a readable chunk
+spaceship.html.REGARD_HTML_TOPIC = 'ss-regardHtmlChunk'

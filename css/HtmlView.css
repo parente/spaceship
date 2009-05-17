@@ -10,11 +10,11 @@
 
 .ssHtmlView > div {
     position: absolute;
-    margin-left: -320px;
+    margin-left: -340px;
     left: 50%;
     bottom: 0px;
     top: 0px;
-    width: 600px;
+    width: 640px;
     overflow: auto;
     padding: 20px;
     font-size: 1.4em;
@@ -41,14 +41,62 @@
     color: white;
 }
 
-.ssHtmlView .help-page .center {
+/* Help page styles */
+.ssHtmlView .ssHelpPage .center {
     text-align: center;
 }
 
-.ssHtmlView .help-page li {
-    list-style-type: none;
+.ssHtmlView .ssHelpPage ul {
+    padding-left: 20px;
 }
 
-.ssHtmlView .help-page img {
+.ssHtmlView .ssHelpPage li {
+    list-style-type: none;
+    margin-bottom: 20px;
+}
+
+.ssHtmlView .ssHelpPage img {
     vertical-align: middle;
+}
+
+.ssHtmlView .ssHelpPage .gameIcon {
+    width: 128px;
+    height: 128px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.ssHtmlView .ssHelpPage .enemyIcon {
+    background-image: url("../images/png/ship.png");
+    cue: url("../sounds/mp3/effects/9081__tigersound__disappear.mp3");
+}
+
+.ssHtmlView .ssHelpPage .ammoIcon {
+    background-image: url("../images/png/ammo.png");
+    cue: url("../sounds/mp3/effects/17130__NoiseCollector__ak47_chamber_round.mp3");
+}
+
+.ssHtmlView .ssHelpPage .shieldIcon {
+    background-image: url("../images/png/shield.png");
+    cue: url("../sounds/mp3/effects/58919__mattwasser__coin_up.mp3");
+}
+
+.ssHtmlView .ssHelpPage .hintIcon {
+    background-image: url("../images/png/hint.png");
+    cue: url("../sounds/mp3/effects/6164__NoiseCollector__jillys_sonar.mp3");
+}
+
+.ssHtmlView .ssHelpPage .leechIcon {
+    background-image: url("../images/png/leech.png");
+    cue: url("../sounds/mp3/effects/22788__FranciscoPadilla__Slurp.mp3");
+}
+
+.ssHtmlView .ssHelpPage .bombIcon {
+    background-image: url("../images/png/bomb.png");
+    cue: url("../sounds/mp3/effects/sounds/mp3/effects/51466__smcameron__flak_hit.mp3");
+}
+
+.ssHtmlView .ssHelpPage .warpIcon {
+    background-image: url("../images/png/warp.png");
+    cue: url("../sounds/mp3/effects/3380__patchen__Rhino_05.mp3");
 }

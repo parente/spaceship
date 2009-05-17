@@ -14,6 +14,13 @@ dojo.declare('spaceship.html.HtmlModel', dijit._Widget, {
     url : '',
     // root DOM node
     root: null,
+    /**
+     * Called after widget construction.
+     */
+    postMixInProperties: function() {
+        // currently selected chunk
+        this._currentChunk = -1;
+    },
     
     /**
      * Called after widget cleanup. Notifies all listeners that the HTML is
@@ -39,7 +46,11 @@ dojo.declare('spaceship.html.HtmlModel', dijit._Widget, {
         dojo.query('a', this.root).forEach(function(a) {
             dojo.attr(a, 'target', '_blank');
         });
+        // inform HTML loaded
         dojo.publish(spaceship.html.LOAD_HTML_TOPIC); 
+        // go to the first chunk
+        this._currentChunk = -1;
+        this.regardNextChunk();
     },
     
     /**
@@ -71,5 +82,38 @@ dojo.declare('spaceship.html.HtmlModel', dijit._Widget, {
      */
     getDOM: function() {
         return this.root;
+    },
+    
+    regardNextChunk: function() {
+        if(!this.root) return;
+        var chunks = dojo.query('.chunk', this.root);
+        if(this._currentChunk == chunks.length-1) {
+            // do nothing if no more chunks to navigate
+            return;
+        }
+        this._currentChunk += 1;
+        var node = chunks[this._currentChunk];
+        node.scrollIntoView(false);
+        dojo.publish(spaceship.html.REGARD_HTML_TOPIC, [node]); 
+    },
+    
+    regardPreviousChunk: function() {
+        if(!this.root) return;
+        var chunks = dojo.query('.chunk', this.root);
+        if(this._currentChunk == 0) {
+            // do nothing if no more chunks to navigate
+            return;
+        }
+        this._currentChunk -= 1;
+        var node = chunks[this._currentChunk];
+        node.scrollIntoView(false);
+        dojo.publish(spaceship.html.REGARD_HTML_TOPIC, [node]); 
+    },
+    
+    getCurrentRegard: function() {
+        if(!this.root) return null;
+        var chunks = dojo.query('.chunk', this.root);
+        var node = chunks[this._currentChunk];
+        return node;
     }
 });

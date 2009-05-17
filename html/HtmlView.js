@@ -74,8 +74,18 @@ dojo.declare('spaceship.html.HtmlView', [dijit.layout.ContentPane,
      * @param event Event object
      */
     onKeyPress: function(event) {
-        if(event.keyCode == dojo.keys.ESCAPE) {
+        switch(event.keyCode) {
+        case dojo.keys.ESCAPE:
             this.model.destroyRecursive();
+            break;
+        case dojo.keys.DOWN_ARROW:
+        case dojo.keys.RIGHT_ARROW:
+            this.model.regardNextChunk();
+            break;
+        case dojo.keys.LEFT_ARROW:
+        case dojo.keys.UP_ARROW:
+            this.model.regardPreviousChunk();
+            break;
         }
     }
 });

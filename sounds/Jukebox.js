@@ -68,7 +68,7 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
             volume = this.prefs.musicVolume.value;
         }
         this.audio.setPropertyNow('volume', volume, spaceship.sounds.MUSIC_CHANNEL); 
-        this.audio.stream(track, spaceship.sounds.MUSIC_CHANNEL);
+        this.audio.stream(track, spaceship.sounds.MUSIC_CHANNEL, track);
         this._currentTrack = track;
         this._looping = loop;
     },
@@ -116,10 +116,11 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
      * random track and plays it. Ensures the next track isn't the same as
      * the last.
      */
-    onMusicDone: function(response) {
-        if(response.url != this._currentTrack) return;
+    onMusicDone: function(audio, response) {
+        if(response.name != this._currentTrack) return;
         if(this._looping) {
             // start playing the track over again
+            this._currentTrack = null;
             this._startTrack(this._currentTrack, true);
         } else {
             do {
