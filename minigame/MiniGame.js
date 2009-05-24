@@ -27,6 +27,7 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
     constructor: function() {
         this._audioTok = null;
         this._audioDefs = {};
+        this._origVolume = 1.0;
     },
     
     /**
@@ -38,6 +39,9 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
             this._audioTok = null;
         }
         this._audioDefs = null;
+        // restore original volume
+        this.audio.setPropertyNow('volume', this.prefs.speechVolume.value,
+            spaceship.sounds.MINIGAME_CHANNEL);        
     },
     
     /**
