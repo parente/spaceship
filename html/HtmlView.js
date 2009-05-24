@@ -69,7 +69,7 @@ dojo.declare('spaceship.html.HtmlView', [dijit.layout.ContentPane,
     },
     
     /**
-     * Called when the user presses a key. Ends the viewer.
+     * Called when the user presses a key.
      *
      * @param event Event object
      */
@@ -81,10 +81,12 @@ dojo.declare('spaceship.html.HtmlView', [dijit.layout.ContentPane,
         case dojo.keys.DOWN_ARROW:
         case dojo.keys.RIGHT_ARROW:
             this.model.regardNextChunk();
+            dojo.stopEvent(event);
             break;
         case dojo.keys.LEFT_ARROW:
         case dojo.keys.UP_ARROW:
             this.model.regardPreviousChunk();
+            dojo.stopEvent(event);
             break;
         }
     }

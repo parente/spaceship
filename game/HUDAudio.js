@@ -34,7 +34,7 @@ dojo.declare('spaceship.game.HUDAudio', [dijit._Widget,
     postCreate: function(args) {
         // register for key presses on the body of the document
         var node = dojo.body();
-        dojo.connect(node, 'onkeypress', this, 'onKeyPress')
+        dojo.connect(node, 'onkeypress', this, 'onKeyPress');
 
         this.subscribe(spaceship.game.LAND_SHOT_TOPIC, 'onLandShot');
         this.subscribe(spaceship.game.PREPARE_SHOT_TOPIC, 'onPrepareShot');

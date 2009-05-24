@@ -120,8 +120,9 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
         if(response.name != this._currentTrack) return;
         if(this._looping) {
             // start playing the track over again
+            var curr = this._currentTrack;
             this._currentTrack = null;
-            this._startTrack(this._currentTrack, true);
+            this._startTrack(curr, true);
         } else {
             do {
                 // pick a different track randomly
