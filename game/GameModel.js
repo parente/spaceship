@@ -406,16 +406,18 @@ dojo.declare('spaceship.game.GameModel', dijit._Widget, {
      *
      * @publish WARP_TOPIC String, Array of integers, Integer
      */    
-    warpTime: function(count) {
+    warpTime: function(count, warp_index) {
         var arr = [];
         var args = {config : this.config, labels: this.labels};
         // choose random tiles
         for(var i=0; i < count; i++) {
             var index = Math.floor(Math.random() * this._tiles.length);
+            // don't replace the tile that just caused the warp
+            if(index == warp_index) continue;
             var tile = this._tiles[index];
             if(tile.isRevealed() || !tile.isShip()) {
-                // replace tile with a hidden ship tile if it is not already
-                // a hidden ship tile
+                // if the tile is revealed or if the tile is hidden but not already
+                // a ship, replace it with a ship tile
                 args.index = index;
                 this._tiles[index] = new spaceship.game.ShipTile(args);
                 arr.push(index);

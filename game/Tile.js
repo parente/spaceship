@@ -220,7 +220,7 @@ dojo.declare('spaceship.game.WarpTile', spaceship.game.Tile, {
     },
     
     notify: function(model) {
-        model.warpTime(this._value);
+        model.warpTime(this._value, this.index);
         this.inherited(arguments);
     },
     

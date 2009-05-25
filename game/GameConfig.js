@@ -51,14 +51,14 @@ spaceship.game.GameConfig = (function(){
                 {category : 'GOOD_TILES', cumProb : 1.0}
             ],
             minigames: [
-                {category : 'GOOD_OUTCOMES', cumProb: 0.5},
+                {category : 'GOOD_OUTCOMES', cumProb: 0.65},
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
             ],
             maxBonusTileValue: 2,
             maxHazardTileValue: 3,
             requiredMinigames: 4,
             matchit : {
-                goalSize : 4,
+                goalSize : 3,
                 timeLimit : 30
             }
         },
