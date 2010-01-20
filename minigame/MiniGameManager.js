@@ -120,7 +120,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         var clsName = obj['class'];
         var modName = 'spaceship.minigame.'+obj.module+'.'+clsName;
         // load the game module
-        dojo.require(modName);
+        dojo['require'](modName);
         // pack up the game arguments
         var args = {
             config : this.config[obj.config] || {},

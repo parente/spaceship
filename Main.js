@@ -5,7 +5,6 @@
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.Main');
-dojo.require('spaceship.utils.LoaderOverlay');
 
 // sent by the main loop after the main menu shows
 spaceship.START_MAIN_MENU_TOPIC = 'ss-startMainMenu';
@@ -15,9 +14,6 @@ dojo.declare('spaceship.Main', null, {
      * Shows a loading overlay. Imports all required modules.
      */
     constructor: function() {
-        // show the loading overlay immediately
-        this._overlayNode = spaceship.utils.LoaderOverlay.show();
-
         // require modules now
         dojo.require('dojo.i18n');
         dojo.require("dijit.layout.StackContainer");
@@ -183,8 +179,8 @@ dojo.declare('spaceship.Main', null, {
         // show the main menu immediately
         this.startMain();
         // hide the busy overlay
-        spaceship.utils.LoaderOverlay.hide(this._overlayNode);
-        this._overlayNode = null;
+        spaceship.utils.LoaderOverlay.hide(overlayNode);
+        delete overlayNode;
     },
     
     /**
@@ -491,9 +487,4 @@ dojo.declare('spaceship.Main', null, {
         // show the main menu immediately
         this.startMain();
     }
-});
-
-dojo.addOnLoad(function() {
-    // build the singleton controller on first page load
-    var s = new spaceship.Main();
 });
