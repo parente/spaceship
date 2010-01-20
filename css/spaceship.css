@@ -26,6 +26,14 @@ body, html {
     -moz-outline-style: none;
 }
 
+.blank {
+    background-color: white;
+}
+
+.blank #layout {
+    display: none;
+}
+
 .spaceship {
     background-color: black;
     /* http://flickr.com/photos/dg_pics/2509259255/ */
