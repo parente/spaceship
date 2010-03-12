@@ -68,7 +68,7 @@ dojo.declare('spaceship.Main', null, {
         // number of ready reports
         this._readyCount = 0;
         // error dialog reference
-        this._errorDialog
+        this._errorDialog = null;
 
         // register for when the page unloads
         dojo.addOnUnload(dojo.hitch(this, this.uninitialize));        
