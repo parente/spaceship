@@ -114,13 +114,13 @@ dojo.declare('spaceship.game.HUDAudio', [dijit._Widget,
      */
     speakStatus: function() {
         // stop all speech
-        this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
-        this.audio.say(String(this.model.getShips()));
-        this.audio.say(this.labels.HUD_SHIPS);
-        this.audio.say(String(this.model.getShields()));
-        this.audio.say(this.labels.HUD_SHIELDS);
+        this.audio.stop({channel : spaceship.sounds.SPEECH_CHANNEL});
+        this.audio.say({text : String(this.model.getShips()), cache: true});
+        this.audio.say({text : this.labels.HUD_SHIPS, cache: true});
+        this.audio.say({text : String(this.model.getShields()), cache: true});
+        this.audio.say({text : this.labels.HUD_SHIELDS, cache: true});
         // add one to count the current shot
-        this.audio.say(String(this.model.getAmmo() + 1));
-        this.audio.say(this.labels.HUD_AMMO);
+        this.audio.say({text : String(this.model.getAmmo() + 1), cache: true});
+        this.audio.say({text : this.labels.HUD_AMMO, cache: true});
     }
 });

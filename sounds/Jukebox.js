@@ -62,13 +62,21 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
             return;
         }
         // stop current music
-        this.audio.stop(spaceship.sounds.MUSIC_CHANNEL);
+        this.audio.stop({channel : spaceship.sounds.MUSIC_CHANNEL});
         if(volume == undefined) {
             // default to user prefs for music volume
             volume = this.prefs.musicVolume.value;
         }
-        this.audio.setPropertyNow('volume', volume, spaceship.sounds.MUSIC_CHANNEL); 
-        this.audio.stream(track, spaceship.sounds.MUSIC_CHANNEL, track);
+        this.audio.setProperty({
+            name: 'volume', 
+            value: volume, 
+            channel: spaceship.sounds.MUSIC_CHANNEL
+        }); 
+        this.audio.play({
+            url : track, 
+            channel : spaceship.sounds.MUSIC_CHANNEL, 
+            name: track
+        });
         this._currentTrack = track;
         this._looping = loop;
     },

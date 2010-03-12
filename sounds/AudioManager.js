@@ -1,10 +1,11 @@
 /**
- * Audio manager for the Spaceship! game using Outfox.
+ * Audio manager for the Spaceship! game using JSonic.
  *
  * Copyright (c) 2008, 2009 Peter Parente under the terms of the BSD license.
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.sounds.AudioManager');
+dojo.require('info.mindtrove.JSonic');
 dojo.require('spaceship.utils.Subscriber');
 dojo.require('spaceship.preferences.PreferencesTopics');
 dojo.require('spaceship.preferences.PreferencesModel');
@@ -47,13 +48,13 @@ spaceship.sounds.SOUND_TRANSITION_CHANNEL = 2;
 spaceship.sounds.MUSIC_CHANNEL = 3;
 spaceship.sounds.MINIGAME_CHANNEL = 4;
 
-dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
+dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, info.mindtrove.JSonic], {
     // bundle of user preferences
     prefs: spaceship.preferences.PreferencesModel,
     /** 
-     * Initializes the Outfox audio service. Precaches all sound files when
-     * the service is ready. Mixes the outfox audio API into this object
-     * Configures audio output based on the initial preferences.
+     * Initializes the JSonic audio service. Precaches all sound files when
+     * the service is ready. Configures audio output based on the initial 
+     * preferences.
      *
      * @return dojo.Deferred which notifies audio init success or error
      */
@@ -61,54 +62,21 @@ dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
         // create a deferred
         var ready = new dojo.Deferred();
         this._ready = ready;
-        // set a timeout in case 
-        this._timer = setTimeout(dojo.hitch(this, 'onUnavailable'), 1000);
-        // start initializing outfox
-        var version = outfox.init("outfox", dojo.toJson, dojo.fromJson);
-        version.addCallback(dojo.hitch(this, 'onAvailable'));
-        version.addErrback(dojo.hitch(this, 'onUnavailable'));
-        // start the audio service
-        var def = outfox.startService('audio');
-        var self = this;
-        def.addCallback(function() {
-            // take over all of the audio functions
-            dojo.mixin(self, outfox.audio);
-            // update preferences to initial values
-            self.onUpdatePref();
-            // pre-cache all sounds
-            var snds = [];
-            for(var key in spaceship.sounds) {
-                if(key.search('_SOUND') != -1) {
-                    snds.push(spaceship.sounds[key]);
-                }
+        // update preferences to initial values
+        self.onUpdatePref();
+        // @todo: pre-cache all sounds
+        var snds = [];
+        for(var key in spaceship.sounds) {
+            if(key.search('_SOUND') != -1) {
+                snds.push(spaceship.sounds[key]);
             }
-            var def = outfox.audio.precache(snds);
-            def.addCallback(function() {
-                // notify all sounds precached
-                ready.callback(); 
-            });
-        });
-        def.addErrback(function() {
-            // inform listeners
-            ready.errback();
-        });
+        }
         // listen for preference changes
         this.subscribe(spaceship.preferences.UPDATE_PREFERENCE_TOPIC, 'onUpdatePref');
+        // @todo: notify after all sounds precached
+        ready.callback(); 
+        // return deferred
         return ready;
-    },
-    
-    /** 
-     * Called when Outfox initializes properly.
-     */
-    onAvailable: function() {
-        clearTimeout(this._timer);
-    },
-    
-    /**
-     * Called when a timer expires or Outfox fails to initialize.
-     */
-    onUnavailable: function() {
-        this._ready.errback();
     },
     
     /**
@@ -120,22 +88,37 @@ dojo.declare('spaceship.sounds.AudioManager', spaceship.utils.Subscriber, {
      */
     onUpdatePref: function(key) {
         if(key == 'speechVolume' || key == undefined) {
-            this.setPropertyNow('volume', this.prefs.speechVolume.value, 
-                spaceship.sounds.SPEECH_CHANNEL);
+            this.setProperty({
+                name: 'volume', 
+                value : this.prefs.speechVolume.value, 
+                channel : spaceship.sounds.SPEECH_CHANNEL
+            });
         }
         if(key == 'speechRate' || key == undefined) {
-            this.setPropertyNow('rate', this.prefs.speechRate.value, 
-                spaceship.sounds.SPEECH_CHANNEL);
-            this.setPropertyNow('rate', this.prefs.speechRate.value, 
-                spaceship.sounds.MINIGAME_CHANNEL);
+            this.setProperty({
+                name: 'rate', 
+                value: this.prefs.speechRate.value,
+                spaceship.sounds.SPEECH_CHANNEL
+            });
+            this.setPropertyNow({
+                name: 'rate',
+                value: this.prefs.speechRate.value, 
+                channel: spaceship.sounds.MINIGAME_CHANNEL
+            });
         }
         if(key == 'soundVolume' || key == undefined) {
-            this.setPropertyNow('volume', this.prefs.soundVolume.value, 
-                spaceship.sounds.SOUND_CHANNEL);
+            this.setPropertyNow({
+                name: 'volume', 
+                value: this.prefs.soundVolume.value, 
+                channel: spaceship.sounds.SOUND_CHANNEL
+            });
         }
         if(key == 'musicVolume' || key == undefined) {
-            this.setPropertyNow('volume', this.prefs.musicVolume.value,
-                spaceship.sounds.MUSIC_CHANNEL);
+            this.setPropertyNow({
+                name: 'volume', 
+                value: this.prefs.musicVolume.value,
+                channel: spaceship.sounds.MUSIC_CHANNEL
+            });
         }
     }
 });

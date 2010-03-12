@@ -75,24 +75,34 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
      */
     onTargetTile: function(index) {
         // stop current speech and sound
-        this.audio.stop(spaceship.sounds.SOUND_CHANNEL);
-        this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
+        this.audio.stop({channel : spaceship.sounds.SOUND_CHANNEL});
+        this.audio.stop({channel : spaceship.sounds.SPEECH_CHANNEL});
         // play the selection sound
-        this.audio.play(spaceship.sounds.GRID_SELECT_SOUND,
-            spaceship.sounds.SOUND_CHANNEL);
+        this.audio.play({
+            url : spaceship.sounds.GRID_SELECT_SOUND,
+            channel : spaceship.sounds.SOUND_CHANNEL
+        });
         // speak the tile state
         var tile = this.model.getTile(index);
         var text;
         if(tile.isRevealed()) {
             text = tile.getLabel();
-            this.audio.say(text, spaceship.sounds.SPEECH_CHANNEL);            
+            this.audio.say({
+                text : text, 
+                cache: true,
+                channel : spaceship.sounds.SPEECH_CHANNEL
+            });
         }
         // speak the index as row/column
         var obj = {};
         obj.row = Math.floor(index / this.config.columns) + 1;
         obj.column = (index % this.config.columns) + 1;
         text = dojo.string.substitute(this.labels.HINT_CELL_MESSAGE, obj);
-        this.audio.say(text, spaceship.sounds.SPEECH_CHANNEL);
+        this.audio.say({
+            text : text, 
+            cache : true,
+            channel : spaceship.sounds.SPEECH_CHANNEL
+        });
     },
     
     /**
@@ -103,15 +113,11 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
     onHitTile: function(tile) {
         var snd = tile.getSoundUrl();
         // stop current speech and sound
-        this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
-        this.audio.stop(spaceship.sounds.SOUND_CHANNEL);
-        // register observer for sound finish
-        var token = this.audio.addObserver(dojo.hitch(this, function() {
-            this.audio.removeObserver(token);
-            this.onSoundDone();
-        }), spaceship.sounds.SOUND_CHANNEL, ['finished-play', 'error']);
+        this.audio.stop({channel : spaceship.sounds.SPEECH_CHANNEL});
+        this.audio.stop({channel : spaceship.sounds.SOUND_CHANNEL});
         // play sound
-        this.audio.play(snd, spaceship.sounds.SOUND_CHANNEL);
+        var def = this.audio.play(snd, spaceship.sounds.SOUND_CHANNEL);
+        def.anyAfter(dojo.hitch(this, 'onSoundDone'));
         // add this as responder to barrier and store it
         this._barrier.addResponder(this.id);
     },
