@@ -85,7 +85,7 @@ dojo.declare('spaceship.Main', null, {
     
     
     /**
-     * Called when all libraries are loaded. Initializes the game.
+     * Called when all resources are loaded. Initializes the game.
      */
     onLibReady: function() {
         ++this._readyCount;
@@ -132,7 +132,7 @@ dojo.declare('spaceship.Main', null, {
         this._stackWidget = dijit.byId('stack');
         this._footerWidget = dijit.byId('footer');
         this._layoutWidget = dijit.byId('layout');
-        
+
         // show the watermark
         var wm = dojo.byId('watermark');
         wm.style.display = '';
@@ -165,7 +165,6 @@ dojo.declare('spaceship.Main', null, {
             title: this._labels.QUIT_TITLE,
             cancelable: true
         };
-        
         // build a jukebox for music
         this._jukebox = new spaceship.sounds.Jukebox();
         
@@ -187,7 +186,7 @@ dojo.declare('spaceship.Main', null, {
      * Called when the browser resizes. Adjusts the watermark background size.
      */
     onResizeStack: function() {
-        var size = this._stackWidget._contentBox;
+        var size = dojo.contentBox(this._stackWidget.domNode);
         // center the background graphic
         var img = dojo.byId('watermark');
         var is = dojo.marginBox(img);

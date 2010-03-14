@@ -51,6 +51,16 @@ spaceship.sounds.MINIGAME_CHANNEL = 'mini';
 dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, info.mindtrove.JSonic], {
     // bundle of user preferences
     prefs: spaceship.preferences.PreferencesModel,
+    postMixInProperties: function() {
+        // create a deferred to indicate ready or not
+        this._ready = new dojo.Deferred();
+        try {
+            this.inherited(arguments);
+        } catch(e) {
+            this._ready.errback();
+        }
+    },
+    
     /** 
      * Initializes the JSonic audio service. Precaches all sound files when
      * the service is ready. Configures audio output based on the initial 
@@ -59,9 +69,8 @@ dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, info.
      * @return dojo.Deferred which notifies audio init success or error
      */
     startup: function() {
-        // create a deferred
-        var ready = new dojo.Deferred();
-        this._ready = ready;
+        // if an error during jsonic init, just abort now
+        if(this._ready.fired == 1) return this._ready;
         // update preferences to initial values
         this.onUpdatePref();
         // @todo: pre-cache all sounds
@@ -74,9 +83,9 @@ dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, info.
         // listen for preference changes
         this.subscribe(spaceship.preferences.UPDATE_PREFERENCE_TOPIC, 'onUpdatePref');
         // @todo: notify after all sounds precached
-        ready.callback(); 
+        this._ready.callback(); 
         // return deferred
-        return ready;
+        return this._ready;
     },
     
     /**
