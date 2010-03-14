@@ -25,8 +25,6 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
     // path to CSS to load for this widget; throwback to dojo 0.4 for minigames
     templateCSSPath: '',
     constructor: function() {
-        this._audioTok = null;
-        this._audioDefs = {};
         this._origVolume = 1.0;
     },
     
@@ -34,21 +32,17 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      * Stops observing audio callbacks.
      */
     uninitialize: function() {
-        if(this._audioTok) {
-            this.audio.removeObserver(this._audioTok);
-            this._audioTok = null;
-        }
-        this._audioDefs = null;
         // restore original volume
-        this.audio.setPropertyNow('volume', this.prefs.speechVolume.value,
-            spaceship.sounds.MINIGAME_CHANNEL);        
+        this.audio.setProperty({name : 'volume', 
+            value : this.prefs.speechVolume.value,
+            channel : spaceship.sounds.MINIGAME_CHANNEL});
     },
     
     /**
      * Returns a deferred response when a sound or utterance finishes
      * completely or because of an interruption.
      */
-    _onAudioNotice: function(audio, response) {
+    /*_onAudioNotice: function(audio, response) {
         var def = this._audioDefs[response.name];
         if(def) {
             if(response.action.search('started') == 0) {
@@ -58,7 +52,7 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
                 def.after.callback(true);
             }
         }
-    },
+    },*/
 
     /**
      * Loads the stylesheet for the minigame if it needs one.
@@ -66,10 +60,6 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
     postMixInProperties: function() {
         // register for audio notifications immediately
         var cb = dojo.hitch(this, '_onAudioNotice');
-        this._audioTok = this.audio.addObserver(cb,
-            spaceship.sounds.MINIGAME_CHANNEL, 
-            ['started-say', 'started-play', 'finished-play', 'finished-say',
-             'error']);
         if(this.templateCSSPath) {
             var head = dojo.doc.getElementsByTagName("head")[0];         
             var cssNode = document.createElement('link');
@@ -154,21 +144,17 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      *
      * @param text Utterance to speak
      * @param stop True to stop previous sound before playing, false to queue
-     * @return Object with two dojo.Deferreds that fire before/after the speech
+     * @return JSonicDeferred
      */   
     say: function(text, stop) {
         if(stop) {
-            this.audio.stop(spaceship.sounds.MINIGAME_CHANNEL);
+            this.audio.stop({channel : spaceship.sounds.MINIGAME_CHANNEL});
         }
-        var key = text + '' + Math.random();
-        var defBefore = new dojo.Deferred();
-        var defAfter = new dojo.Deferred();
-        var obj = {before:defBefore, after:defAfter};
-        this._audioDefs[key] = obj;
-        this.audio.setProperty('volume', this.prefs.speechVolume.value,
-            spaceship.sounds.MINIGAME_CHANNEL);
-        this.audio.say(text, spaceship.sounds.MINIGAME_CHANNEL, key);
-        return obj;
+        this.audio.setProperty({name : 'volume', 
+            value : this.prefs.speechVolume.value,
+            channel : spaceship.sounds.MINIGAME_CHANNEL});
+        return this.audio.say({text : text, 
+            channel : spaceship.sounds.MINIGAME_CHANNEL});
     },
     
     /**
@@ -177,34 +163,24 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      *
      * @param String URL
      * @param stop True to stop previous sound before playing, false to queue
-     * @param stream True to stream the sound instead of downloading it before
-     *   playing it
-     * @return Object with two dojo.Deferreds that fire before/after the sound
+     * @return JSonicDeferred
      */
-    play: function(url, stop, stream) {
+    play: function(url, stop) {
         if(stop) {
             this.audio.stop(spaceship.sounds.MINIGAME_CHANNEL);
         }
-        var key = Math.random() + '';
-        var defBefore = new dojo.Deferred();
-        var defAfter = new dojo.Deferred();
-        var obj = {before:defBefore, after:defAfter};
-        this._audioDefs[key] = obj;
-        this.audio.setProperty('volume', this.prefs.soundVolume.value,
-            spaceship.sounds.MINIGAME_CHANNEL);
-        if(stream) {
-            this.audio.stream(url, spaceship.sounds.MINIGAME_CHANNEL, key); 
-        } else {
-            this.audio.play(url, spaceship.sounds.MINIGAME_CHANNEL, key);
-        }
-        return obj;
+        this.audio.setProperty({name: 'volume', 
+            value: this.prefs.soundVolume.value,
+            channel : spaceship.sounds.MINIGAME_CHANNEL});
+        return this.audio.play({url : url, 
+            channel : spaceship.sounds.MINIGAME_CHANNEL});
     },
     
     /**
      * Stops all output and clears all queued commands, speech and sound.
      */
     stopAll: function() {
-        this.audio.stop(spaceship.sounds.MINIGAME_CHANNEL);
+        this.audio.stop({channel : spaceship.sounds.MINIGAME_CHANNEL});
     },
     
     /**

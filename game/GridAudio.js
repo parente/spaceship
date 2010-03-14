@@ -116,7 +116,8 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
         this.audio.stop({channel : spaceship.sounds.SPEECH_CHANNEL});
         this.audio.stop({channel : spaceship.sounds.SOUND_CHANNEL});
         // play sound
-        var def = this.audio.play(snd, spaceship.sounds.SOUND_CHANNEL);
+        var def = this.audio.play({url : snd, 
+            channel: spaceship.sounds.SOUND_CHANNEL});
         def.anyAfter(dojo.hitch(this, 'onSoundDone'));
         // add this as responder to barrier and store it
         this._barrier.addResponder(this.id);

@@ -57,20 +57,22 @@ dojo.declare('spaceship.menu.MenuAudio', [dijit._Widget,
      */
     onResumeMenu: function() {
         if(this.interrupt) {
-            this.audio.stop(spaceship.sounds.SOUND_TRANSITION_CHANNEL);
-            this.audio.play(spaceship.sounds.MENU_CANCEL_SOUND, 
-                spaceship.sounds.SOUND_TRANSITION_CHANNEL);
+            this.audio.stop({channel : spaceship.sounds.SOUND_TRANSITION_CHANNEL});
+            this.audio.play({url : spaceship.sounds.MENU_CANCEL_SOUND, 
+                channel : spaceship.sounds.SOUND_TRANSITION_CHANNEL});
         }
         // stop all preceding speech
-        this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
+        this.audio.stop({channel : spaceship.sounds.SPEECH_CHANNEL});
         // announce the title if we have one
         var title = this.model.getTitle();
         if(title) {
-            this.audio.say(title, spaceship.sounds.SPEECH_CHANNEL, title);
+            this.audio.say({text : title, 
+                channel : spaceship.sounds.SPEECH_CHANNEL, name: title});
         }
         // announce the initial selection
         var label = this.model.getSelectedLabel();
-        this.audio.say(label, spaceship.sounds.SPEECH_CHANNEL, label);
+        this.audio.say({text : label, 
+            channel : spaceship.sounds.SPEECH_CHANNEL, name : label});
         // any later resume is the result of an interruption
         this.interrupt = true;
     },
@@ -81,9 +83,9 @@ dojo.declare('spaceship.menu.MenuAudio', [dijit._Widget,
      *  @subscribe CANCEL_MENU_TOPIC
      */
     onCancelMenu: function() {
-        this.audio.stop(spaceship.sounds.SOUND_TRANSITION_CHANNEL);
-        this.audio.play(spaceship.sounds.MENU_CANCEL_SOUND, 
-            spaceship.sounds.SOUND_TRANSITION_CHANNEL);
+        this.audio.stop({channel : spaceship.sounds.SOUND_TRANSITION_CHANNEL});
+        this.audio.play({url : spaceship.sounds.MENU_CANCEL_SOUND, 
+            channel : spaceship.sounds.SOUND_TRANSITION_CHANNEL});
     },
 
     /**
@@ -92,11 +94,12 @@ dojo.declare('spaceship.menu.MenuAudio', [dijit._Widget,
      * @subscribe SELECT_ITEM_TOPIC
      */    
     onSelectItem: function(item, label) {
-        this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
-        this.audio.stop(spaceship.sounds.SOUND_CHANNEL);
-        this.audio.play(spaceship.sounds.MENU_SELECT_SOUND, 
-            spaceship.sounds.SOUND_CHANNEL);
-        this.audio.say(label, spaceship.sounds.SPEECH_CHANNEL, label);
+        this.audio.stop({channel : spaceship.sounds.SPEECH_CHANNEL});
+        this.audio.stop({channel : spaceship.sounds.SOUND_CHANNEL});
+        this.audio.play({url : spaceship.sounds.MENU_SELECT_SOUND, 
+            channel : spaceship.sounds.SOUND_CHANNEL});
+        this.audio.say({text : label, 
+            channel : spaceship.sounds.SPEECH_CHANNEL, name : label});
     },
 
     /**
@@ -105,8 +108,8 @@ dojo.declare('spaceship.menu.MenuAudio', [dijit._Widget,
      * @subscribe CHOOSE_ITEM_TOPIC
      */        
     onChooseItem: function() {
-        this.audio.stop(spaceship.sounds.SOUND_TRANSITION_CHANNEL);
-        this.audio.play(spaceship.sounds.MENU_CHOOSE_SOUND, 
-            spaceship.sounds.SOUND_TRANSITION_CHANNEL);
+        this.audio.stop({channel : spaceship.sounds.SOUND_TRANSITION_CHANNEL});
+        this.audio.play({url : spaceship.sounds.MENU_CHOOSE_SOUND,
+            channel : spaceship.sounds.SOUND_TRANSITION_CHANNEL});
     }
 });

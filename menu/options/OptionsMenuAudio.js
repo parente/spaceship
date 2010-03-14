@@ -26,7 +26,8 @@ dojo.declare('spaceship.menu.options.OptionsMenuAudio', spaceship.menu.MenuAudio
         this.inherited(arguments);
         // announce the current value
         var obj = this.model.getSelectedItem();
-        this.audio.say(obj.getValueLabel(), spaceship.sounds.SPEECH_CHANNEL);
+        this.audio.say({text : obj.getValueLabel(), 
+            channel : spaceship.sounds.SPEECH_CHANNEL});
     },
     
     /**
@@ -37,7 +38,8 @@ dojo.declare('spaceship.menu.options.OptionsMenuAudio', spaceship.menu.MenuAudio
     onSelectItem: function(item, label) {
         this.inherited(arguments);
         var obj = this.model.getSelectedItem();
-        this.audio.say(obj.getValueLabel(), spaceship.sounds.SPEECH_CHANNEL);
+        this.audio.say({text : obj.getValueLabel(), 
+            channel : spaceship.sounds.SPEECH_CHANNEL});
     },
     
     /**
@@ -47,13 +49,14 @@ dojo.declare('spaceship.menu.options.OptionsMenuAudio', spaceship.menu.MenuAudio
      */
     onUpdatePref: function(key) {
         var obj = this.model.getItemById(key);
-        this.audio.stop(spaceship.sounds.SOUND_CHANNEL);
-        this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
-        this.audio.say(obj.getValueLabel(), spaceship.sounds.SPEECH_CHANNEL);
+        this.audio.stop({channel : spaceship.sounds.SOUND_CHANNEL});
+        this.audio.stop({channel : spaceship.sounds.SPEECH_CHANNEL});
+        this.audio.say({text : obj.getValueLabel(), 
+            channel : spaceship.sounds.SPEECH_CHANNEL});
         if(obj.id == 'soundVolume') {
             // play a sound as a test
-            this.audio.play(spaceship.sounds.EMPTY_TILE_SOUND,
-                spaceship.sounds.SOUND_CHANNEL);
+            this.audio.play({url : spaceship.sounds.EMPTY_TILE_SOUND,
+                channel : spaceship.sounds.SOUND_CHANNEL});
         }
     }
 });
