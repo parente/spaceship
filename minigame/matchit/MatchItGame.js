@@ -104,7 +104,7 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
                 def = this.say(target.speech);
             }
             // show part of goal as it starts speaking
-            def.before.addCallback(dojo.hitch(this, function() {
+            def.callBefore(dojo.hitch(this, function() {
                 if(target.visual) {
                     tds[index].innerHTML = target.visual;
                 }
@@ -117,11 +117,11 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         spaceship.minigame.matchit._repeatPrompted = true;
         
         // show controls prompt as it starts speaking
-        def.before.addCallback(dojo.hitch(this, function() {
+        def.callBefore(dojo.hitch(this, function() {
             dojo.style(this.helpNode, 'visibility', '');
         }));
         // let the user play after the final prompt
-        def.after.addCallback(dojo.hitch(this, function() {
+        def.callAfter(dojo.hitch(this, function() {
             // enable user controls
             this._frozen = false;
             // hide the goal
@@ -235,8 +235,8 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
 
         // wait for all audio to stop before we report the win to the minigame
         // manager
-        this._lastDef = def.after;
-        this._lastDef.addCallback(dojo.hitch(this, function() {
+        this._lastDef = def;
+        this._lastDef.callAfter(dojo.hitch(this, function() {
             if(win) this.win();
         }));
     },
@@ -274,7 +274,8 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
     _reportInput: function(input) {
         // clear the last win check
         if(this._lastDef) {
-            this._lastDef.cancel();
+            // @todo: expose via jsonic
+            this._lastDef._after.cancel();
         }
         
         // show the most recent addition (really, render everything)

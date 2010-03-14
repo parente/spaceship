@@ -83,9 +83,10 @@ dojo.declare('spaceship.html.HtmlAudio', [dijit._Widget,
      * @subscribe REGARD_HTML_TOPIC
      */
     onRegardHtml: function(node) {
-        this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
-        this.audio.say(node.textContent, spaceship.sounds.SPEECH_CHANNEL, 
-            'chunk');
+        this.audio.stop({channel : spaceship.sounds.SPEECH_CHANNEL});
+        this.audio.say({text: node.textContent, 
+            channel : spaceship.sounds.SPEECH_CHANNEL, 
+            name : 'chunk'});
     },
 
     /**

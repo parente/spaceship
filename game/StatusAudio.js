@@ -87,27 +87,31 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
             return !!msg;
         });
         // stop current speech
-        this.audio.stop(spaceship.sounds.SPEECH_CHANNEL);
+        this.audio.stop({channel: spaceship.sounds.SPEECH_CHANNEL});
         var count = 0;
         // register observer to count speech messages
-        var token = this.audio.addObserver(dojo.hitch(this, function(audio, event) {
+        /*var token = this.audio.addObserver(dojo.hitch(this, function(event) {
             if(event.name != 'status') return;
             ++count;
             if (count == msgs.length) {
                 audio.removeObserver(token);
                 this.onMessageDone();
             }
-        }), spaceship.sounds.SPEECH_CHANNEL, ['finished-say']);
+        }), spaceship.sounds.SPEECH_CHANNEL, ['finished-say']);*/
         // speak messages and play sounds
+        var def;
         for(var i=0; i < msgs.length; i++) {
             if(this._transition && i == msgs.length-1) {
                 // play the transition sound before the challenge or shot
                 // announcement, using the speech channel to ensure queuing
-                this.audio.play(spaceship.sounds.TRANSITION_SOUND,
-                    spaceship.sounds.SPEECH_CHANNEL, 'status');
+                this.audio.play({url : spaceship.sounds.TRANSITION_SOUND,
+                    channel : spaceship.sounds.SPEECH_CHANNEL});
             }
-            this.audio.say(msgs[i], spaceship.sounds.SPEECH_CHANNEL, 'status');
+            def = this.audio.say({url : msgs[i], 
+                channel : spaceship.sounds.SPEECH_CHANNEL});
         }
+        // observe last message so we can continue
+        def.anyAfter(dojo.hitch(this, 'onMessageDone'));
         // reset transition
         this._transition = false;
         // add this as responder to barrier and store it

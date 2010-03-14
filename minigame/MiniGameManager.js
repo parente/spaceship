@@ -201,7 +201,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         // give an audio report
         var url = this._outcome.getResultSoundUrl();
         var def = this._game.play(url, true);
-        def.after.addCallback(dojo.hitch(this, '_notifyGameEnd'));
+        def.anyAfter(dojo.hitch(this, '_notifyGameEnd'));
     },
     
     onLoseMiniGame: function() {
@@ -211,7 +211,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         // give an audio report
         var url = this._outcome.getResultSoundUrl();
         var def = this._game.play(url, true);
-        def.after.addCallback(dojo.hitch(this, '_notifyGameEnd'));
+        def.anyAfter(dojo.hitch(this, '_notifyGameEnd'));
     },
     
     /**

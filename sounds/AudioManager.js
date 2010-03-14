@@ -42,11 +42,11 @@ spaceship.sounds = {
 };
 
 // channel constants
-spaceship.sounds.SPEECH_CHANNEL = 0;
-spaceship.sounds.SOUND_CHANNEL = 1;
-spaceship.sounds.SOUND_TRANSITION_CHANNEL = 2;
-spaceship.sounds.MUSIC_CHANNEL = 3;
-spaceship.sounds.MINIGAME_CHANNEL = 4;
+spaceship.sounds.SPEECH_CHANNEL = 'default';
+spaceship.sounds.SOUND_CHANNEL = 'sound';
+spaceship.sounds.SOUND_TRANSITION_CHANNEL = 'sound2';
+spaceship.sounds.MUSIC_CHANNEL = 'music';
+spaceship.sounds.MINIGAME_CHANNEL = 'mini';
 
 dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, info.mindtrove.JSonic], {
     // bundle of user preferences
@@ -63,7 +63,7 @@ dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, info.
         var ready = new dojo.Deferred();
         this._ready = ready;
         // update preferences to initial values
-        self.onUpdatePref();
+        this.onUpdatePref();
         // @todo: pre-cache all sounds
         var snds = [];
         for(var key in spaceship.sounds) {
@@ -98,23 +98,23 @@ dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, info.
             this.setProperty({
                 name: 'rate', 
                 value: this.prefs.speechRate.value,
-                spaceship.sounds.SPEECH_CHANNEL
+                channel: spaceship.sounds.SPEECH_CHANNEL
             });
-            this.setPropertyNow({
+            this.setProperty({
                 name: 'rate',
                 value: this.prefs.speechRate.value, 
                 channel: spaceship.sounds.MINIGAME_CHANNEL
             });
         }
         if(key == 'soundVolume' || key == undefined) {
-            this.setPropertyNow({
+            this.setProperty({
                 name: 'volume', 
                 value: this.prefs.soundVolume.value, 
                 channel: spaceship.sounds.SOUND_CHANNEL
             });
         }
         if(key == 'musicVolume' || key == undefined) {
-            this.setPropertyNow({
+            this.setProperty({
                 name: 'volume', 
                 value: this.prefs.musicVolume.value,
                 channel: spaceship.sounds.MUSIC_CHANNEL
