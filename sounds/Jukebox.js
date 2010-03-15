@@ -73,7 +73,7 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
             channel: spaceship.sounds.MUSIC_CHANNEL
         }); 
         this.audio.play({
-            url : track, 
+            url : window.location.href + track, 
             channel : spaceship.sounds.MUSIC_CHANNEL, 
             name: track
         });
@@ -124,7 +124,8 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
      * random track and plays it. Ensures the next track isn't the same as
      * the last.
      */
-    onMusicDone: function(audio, response) {
+    onMusicDone: function(response) {
+        return;
         if(response.name != this._currentTrack) return;
         if(this._looping) {
             // start playing the track over again
