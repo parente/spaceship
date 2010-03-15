@@ -13,32 +13,32 @@ dojo.require('spaceship.preferences.PreferencesModel');
 // catalog of sound files
 spaceship.sounds = {
     // short sounds
-    MENU_CHOOSE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50565__broumbroum__sf3_sfx_menu_validate.mp3').uri,
-    MENU_CANCEL_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50557__broumbroum__sf3_sfx_menu_back.mp3').uri,
-    MENU_SELECT_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50561__broumbroum__sf3_sfx_menu_select.mp3').uri,
-    GRID_SELECT_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50561__broumbroum__sf3_sfx_menu_select.mp3').uri,
-    EMPTY_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '18382__inferno__hvylas.mp3').uri,
-    SHIP_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '9081__tigersound__disappear.mp3').uri,
-    AMMO_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '17130__NoiseCollector__ak47_chamber_round.mp3').uri,
-    HINT_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '6164__NoiseCollector__jillys_sonar.mp3').uri,
-    SHIELD_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '58919__mattwasser__coin_up.mp3').uri,
-    LEECH_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '22788__FranciscoPadilla__Slurp.mp3').uri,
-    BOMB_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '51466__smcameron__flak_hit.mp3').uri,
-    WARP_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '3380__patchen__Rhino_05.mp3').uri,
-    TRANSITION_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '32987__HardPCM__Alarm003.mp3').uri,
-    LOSE_REWARD_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '26375__DJ_Chronos__created_siren.mp3').uri,
-    AVOID_HAZARD_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '9088__tigersound__jetbike_flypast.mp3').uri,
+    MENU_CHOOSE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50565__broumbroum__sf3_sfx_menu_validate').uri,
+    MENU_CANCEL_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50557__broumbroum__sf3_sfx_menu_back').uri,
+    MENU_SELECT_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50561__broumbroum__sf3_sfx_menu_select').uri,
+    GRID_SELECT_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50561__broumbroum__sf3_sfx_menu_select').uri,
+    EMPTY_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '18382__inferno__hvylas').uri,
+    SHIP_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '9081__tigersound__disappear').uri,
+    AMMO_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '17130__NoiseCollector__ak47_chamber_round').uri,
+    HINT_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '6164__NoiseCollector__jillys_sonar').uri,
+    SHIELD_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '58919__mattwasser__coin_up').uri,
+    LEECH_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '22788__FranciscoPadilla__Slurp').uri,
+    BOMB_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '51466__smcameron__flak_hit').uri,
+    WARP_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '3380__patchen__Rhino_05').uri,
+    TRANSITION_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '32987__HardPCM__Alarm003').uri,
+    LOSE_REWARD_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '26375__DJ_Chronos__created_siren').uri,
+    AVOID_HAZARD_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '9088__tigersound__jetbike_flypast').uri,
     // music tracks
-    TITLE_MUSIC : dojo.moduleUrl('spaceship.sounds.mp3.music', '173680_Entering_the_Stronghold.mp3').uri,
-    GAME_MUSIC : [dojo.moduleUrl('spaceship.sounds.mp3.music', '180154_Trial_One.mp3').uri,
-                  dojo.moduleUrl('spaceship.sounds.mp3.music', '212992_soundtrack.mp3').uri,
-                  dojo.moduleUrl('spaceship.sounds.mp3.music', '40877_newgrounds_warson.mp3').uri,
-                  dojo.moduleUrl('spaceship.sounds.mp3.music', '139468_Paid_in_Blood.mp3').uri,
-                  dojo.moduleUrl('spaceship.sounds.mp3.music', '217374_High_Sea.mp3').uri,
-                  dojo.moduleUrl('spaceship.sounds.mp3.music', '196995_The_Pirates.mp3').uri,
-                  dojo.moduleUrl('spaceship.sounds.mp3.music', '131207_Orion_sBelt_1st.mp3').uri],
-    WIN_MUSIC : dojo.moduleUrl('spaceship.sounds.mp3.music', '192660_Village_Symphony_5560__dobroide__fireworks_18365__jasinski__yells.mp3').uri,
-    LOSE_MUSIC : dojo.moduleUrl('spaceship.sounds.mp3.music', '196951_SadnessSorrowFinal.mp3').uri
+    TITLE_MUSIC : dojo.moduleUrl('spaceship.sounds.mp3.music', '173680_Entering_the_Stronghold').uri,
+    GAME_MUSIC : [dojo.moduleUrl('spaceship.sounds.mp3.music', '180154_Trial_One').uri,
+                  dojo.moduleUrl('spaceship.sounds.mp3.music', '212992_soundtrack').uri,
+                  dojo.moduleUrl('spaceship.sounds.mp3.music', '40877_newgrounds_warson').uri,
+                  dojo.moduleUrl('spaceship.sounds.mp3.music', '139468_Paid_in_Blood').uri,
+                  dojo.moduleUrl('spaceship.sounds.mp3.music', '217374_High_Sea').uri,
+                  dojo.moduleUrl('spaceship.sounds.mp3.music', '196995_The_Pirates').uri,
+                  dojo.moduleUrl('spaceship.sounds.mp3.music', '131207_Orion_sBelt_1st').uri],
+    WIN_MUSIC : dojo.moduleUrl('spaceship.sounds.mp3.music', '192660_Village_Symphony_5560__dobroide__fireworks_18365__jasinski__yells').uri,
+    LOSE_MUSIC : dojo.moduleUrl('spaceship.sounds.mp3.music', '196951_SadnessSorrowFinal').uri
 };
 
 // channel constants
@@ -133,4 +133,5 @@ dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, info.
 });
 
 // build a singleton audio manager
-spaceship.sounds.AudioManager = new spaceship.sounds.AudioManager();
+spaceship.sounds.AudioManager = new spaceship.sounds.AudioManager(
+    {jsonicURI : '/jsonic/'});
