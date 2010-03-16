@@ -3,8 +3,8 @@
   <head>
     <title>Spaceship!</title>
     <style type="text/css">
-      @import "http://ajax.googleapis.com/ajax/libs/dojo/1.4.0/dojo/resources/dojo.css";
-      @import "http://ajax.googleapis.com/ajax/libs/dojo/1.4.0/dijit/themes/nihilo/nihilo.css";
+      @import "http://ajax.googleapis.com/ajax/libs/dojo/1.4.1/dojo/resources/dojo.css";
+      @import "http://ajax.googleapis.com/ajax/libs/dojo/1.4.1/dijit/themes/nihilo/nihilo.css";
       @import "css/spaceship.css";
     </style>
     <script type="text/javascript">
@@ -15,25 +15,24 @@
             modulePaths: {'spaceship' : '', 'info.mindtrove' : '/jsonic/static'}
         };
     </script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.4.0/dojo/dojo.xd.js"></script>
-    <script type="text/javascript" src="lib/outfox.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.4.1/dojo/dojo.xd.js"></script>
     <script type="text/javascript">
       dojo.require('spaceship.utils.LoaderOverlay');
       dojo.addOnLoad(function() {
-        var node = spaceship.utils.LoaderOverlay.show();
+        //var node = spaceship.utils.LoaderOverlay.show();
         dojo.require('spaceship.Main');
-        dojo.addOnLoad(function() {
+        dojo.ready(function() {
           var s = new spaceship.Main();
-          dojo.connect(s, 'initialize', function() {
+          /*dojo.connect(s, 'initialize', function() {
             spaceship.utils.LoaderOverlay.hide(node);
             dojo.removeClass(dojo.body(), 'blank');
             dojo.addClass(dojo.body(), 'spaceship');
-          })
+          });*/
         });
       });
     </script>
   </head>
-  <body class="nihilo blank" role="application">
+  <body class="nihilo spaceship" role="application">
     <div dojoType="dijit.layout.BorderContainer" design="headline" liveSplitters="false" id="layout">
       <div dojoType="dijit.layout.ContentPane" region="top" class="header">
         <img src="images/png/logo.png" alt="Spaceship!" id="logo"/>
