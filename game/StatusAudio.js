@@ -107,7 +107,7 @@ dojo.declare('spaceship.game.StatusAudio', [dijit._Widget,
                 this.audio.play({url : spaceship.sounds.TRANSITION_SOUND,
                     channel : spaceship.sounds.SPEECH_CHANNEL});
             }
-            def = this.audio.say({url : msgs[i], 
+            def = this.audio.say({text : msgs[i], 
                 channel : spaceship.sounds.SPEECH_CHANNEL});
         }
         // observe last message so we can continue

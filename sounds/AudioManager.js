@@ -134,4 +134,4 @@ dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, info.
 
 // build a singleton audio manager
 spaceship.sounds.AudioManager = new spaceship.sounds.AudioManager(
-    {jsonicURI : '/jsonic/'});
+    {jsonicURI : '/jsonic/', defaultCaching : true});

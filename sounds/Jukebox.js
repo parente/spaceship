@@ -125,7 +125,6 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
      * the last.
      */
     onMusicDone: function(response) {
-        return;
         if(response.name != this._currentTrack) return;
         if(this._looping) {
             // start playing the track over again
