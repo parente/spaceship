@@ -139,7 +139,8 @@ dojo.declare('spaceship.Main', null, {
         // track stack size to fit watermark graphic in region
         dojo.connect(this._stackWidget, 'resize', this, 'onResizeStack');
         // reflow the border layout widget and watermark
-        this.onResizeStack();
+        //this.onResizeStack();
+        this._stackWidget.resize();
         
         // store menu args
         this._mainArgs = {
