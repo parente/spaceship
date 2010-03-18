@@ -100,33 +100,38 @@ dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, info.
             this.setProperty({
                 name: 'volume', 
                 value : this.prefs.speechVolume.value, 
-                channel : spaceship.sounds.SPEECH_CHANNEL
+                channel : spaceship.sounds.SPEECH_CHANNEL,
+                immediate: true
             });
         }
         if(key == 'speechRate' || key == undefined) {
             this.setProperty({
                 name: 'rate', 
                 value: this.prefs.speechRate.value,
-                channel: spaceship.sounds.SPEECH_CHANNEL
+                channel: spaceship.sounds.SPEECH_CHANNEL,
+                immediate: true
             });
             this.setProperty({
                 name: 'rate',
                 value: this.prefs.speechRate.value, 
-                channel: spaceship.sounds.MINIGAME_CHANNEL
+                channel: spaceship.sounds.MINIGAME_CHANNEL,
+                immediate: true
             });
         }
         if(key == 'soundVolume' || key == undefined) {
             this.setProperty({
                 name: 'volume', 
                 value: this.prefs.soundVolume.value, 
-                channel: spaceship.sounds.SOUND_CHANNEL
+                channel: spaceship.sounds.SOUND_CHANNEL,
+                immediate: true
             });
         }
         if(key == 'musicVolume' || key == undefined) {
             this.setProperty({
                 name: 'volume', 
                 value: this.prefs.musicVolume.value,
-                channel: spaceship.sounds.MUSIC_CHANNEL
+                channel: spaceship.sounds.MUSIC_CHANNEL,
+                immediate: true
             });
         }
     }
