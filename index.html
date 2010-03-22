@@ -24,9 +24,10 @@
         dojo.ready(function() {
           var s = new spaceship.Main();
           dojo.connect(s, 'initialize', function() {
-            spaceship.utils.LoaderOverlay.hide(node);
+            var anim = spaceship.utils.LoaderOverlay.hide(node);
             dojo.removeClass(dojo.body(), 'blank');
             dojo.addClass(dojo.body(), 'spaceship');
+            dijit.byId('layout').resize();
           });
         });
       });
