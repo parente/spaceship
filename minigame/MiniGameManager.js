@@ -133,27 +133,29 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         this._winTok = dojo.subscribe(args.win_topic, this, 'onWinMiniGame');
         this._loseTok = dojo.subscribe(args.lose_topic, this, 'onLoseMiniGame');
         
-        // create the game
-        var node = dojo.doc.createElement('div');
-        this.containerNode.appendChild(node);
-        var cls = spaceship.minigame[obj.module][clsName];
-        this._game = new cls(args, node);
+        // create the game after the module finishes loading
+        dojo.addOnLoad(dojo.hitch(this, function() {
+            var node = dojo.doc.createElement('div');
+            this.containerNode.appendChild(node);
+            var cls = spaceship.minigame[obj.module][clsName];
+            this._game = new cls(args, node);
         
-        // check if game wants to prefetch sounds
-        try {
-            var urls = this._game.onGetPreCache();
-        } catch(e) {
-            console.warn(e);
-            var urls = [];
-        }
-        // allow pause command now
-        this._frozen = false;
-        if(urls.length) {
-            // @todo: precache and wait for complete before doing anything else
-        } else {
-            // continue with start immediately
-            this._notifyGameStart();
-        }
+            // check if game wants to prefetch sounds
+            try {
+                var urls = this._game.onGetPreCache();
+            } catch(e) {
+                console.warn(e);
+                var urls = [];
+            }
+            // allow pause command now
+            this._frozen = false;
+            if(urls.length) {
+                // @todo: precache and wait for complete before doing anything else
+            } else {
+                // continue with start immediately
+                this._notifyGameStart();
+            }
+        }));
     },
     
     _notifyGameStart: function() {

@@ -59,7 +59,7 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      */
     postMixInProperties: function() {
         // register for audio notifications immediately
-        var cb = dojo.hitch(this, '_onAudioNotice');
+        //var cb = dojo.hitch(this, '_onAudioNotice');
         if(this.templateCSSPath) {
             var head = dojo.doc.getElementsByTagName("head")[0];         
             var cssNode = document.createElement('link');
