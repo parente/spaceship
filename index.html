@@ -19,20 +19,20 @@
     <script type="text/javascript">
       dojo.require('spaceship.utils.LoaderOverlay');
       dojo.addOnLoad(function() {
-        //var node = spaceship.utils.LoaderOverlay.show();
+        var node = spaceship.utils.LoaderOverlay.show();
         dojo.require('spaceship.Main');
         dojo.ready(function() {
           var s = new spaceship.Main();
-          /*dojo.connect(s, 'initialize', function() {
+          dojo.connect(s, 'initialize', function() {
             spaceship.utils.LoaderOverlay.hide(node);
             dojo.removeClass(dojo.body(), 'blank');
             dojo.addClass(dojo.body(), 'spaceship');
-          });*/
+          });
         });
       });
     </script>
   </head>
-  <body class="nihilo spaceship" role="application">
+  <body class="nihilo blank" role="application">
     <div dojoType="dijit.layout.BorderContainer" design="headline" liveSplitters="false" id="layout">
       <div dojoType="dijit.layout.ContentPane" region="top" class="header">
         <img src="images/png/logo.png" alt="Spaceship!" id="logo"/>
@@ -42,6 +42,5 @@
       </div>
       <div dojoType="dijit.layout.ContentPane" region="bottom" id="footer"></div>
     </div>
-    <div id="outfox"></div> 
   </body>
 </html>
