@@ -76,6 +76,8 @@ dojo.declare('spaceship.Main', null, {
         var readyFunc = dojo.hitch(this, 'onLibReady');
         var missingFunc = dojo.hitch(this, 'onMissingAudio');
         dojo.addOnLoad(readyFunc);
+        // enable preferences
+        spaceship.preferences.PreferencesModel.startup();
         // register for when audio is ready
         var def = spaceship.sounds.AudioManager.startup();
         def.addCallback(readyFunc).addErrback(missingFunc);

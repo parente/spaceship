@@ -64,7 +64,9 @@ dojo.declare('spaceship.preferences.PreferencesModel', spaceship.utils.Subscribe
                 defaultValue : false
                };
         this[args.id] = new spaceship.preferences.types.BooleanType(args);
-        
+    },
+    
+    startup: function() {  
         // listen for preference changes
         this.subscribe(spaceship.preferences.UPDATE_PREFERENCE_TOPIC, 'onUpdatePref');
     },

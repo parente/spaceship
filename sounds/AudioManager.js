@@ -59,6 +59,23 @@ dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, info.
         } catch(e) {
             this._ready.errback();
         }
+
+        /*this.addObserver(function(notice) {
+            console.log('speech');
+            console.log(notice);
+        }, spaceship.sounds.SPEECH_CHANNEL);
+        this.addObserver(function(notice) {
+            console.log('sound');
+            console.log(notice);
+        }, spaceship.sounds.SOUND_CHANNEL);
+        this.addObserver(function(notice) {
+            console.log('sound trans');
+            console.log(notice);
+        }, spaceship.sounds.SOUND_TRANSITION_CHANNEL);
+        this.addObserver(function(notice) {
+            console.log('music');
+            console.log(notice);
+        }, spaceship.sounds.MUSIC_CHANNEL);*/
     },
     
     /** 
