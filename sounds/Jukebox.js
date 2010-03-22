@@ -29,7 +29,6 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
             dojo.hitch(this,'onMusicDone'), 
             spaceship.sounds.MUSIC_CHANNEL, 
             ['finished-play', 'error']);
-        
         // listen for certain events which will dictate the sound track
         this.subscribe(spaceship.START_MAIN_MENU_TOPIC, 'onStartTitle');
         this.subscribe(spaceship.game.START_GAME_TOPIC, 'onStartGame');
@@ -61,6 +60,11 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
             // do nothing if already playing given music
             return;
         }
+        
+        // store new params
+        this._currentTrack = track;
+        this._looping = loop;
+        
         // stop current music
         this.audio.stop({channel : spaceship.sounds.MUSIC_CHANNEL});
         if(volume == undefined) {
@@ -77,8 +81,6 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
             channel : spaceship.sounds.MUSIC_CHANNEL, 
             name: track
         });
-        this._currentTrack = track;
-        this._looping = loop;
     },
 
     /**
