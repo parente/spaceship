@@ -275,7 +275,7 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         // clear the last win check
         if(this._lastDef) {
             // @todo: expose via jsonic
-            this._lastDef._after.cancel();
+            this._lastDef.after.cancel();
         }
         
         // show the most recent addition (really, render everything)
