@@ -84,6 +84,16 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
     },
     
     /**
+     * Called when the container resizes. Recomputes the size of the status 
+     * box.
+     *
+     * @param size Box object
+     */
+    resize: function(size) {
+        dojo.marginBox(this.domNode, size);
+    },
+    
+    /**
      * Called when the minigame panel shows. Gives keyboard focus to the 
      * root domNode.
      */
