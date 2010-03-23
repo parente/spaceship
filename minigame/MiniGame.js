@@ -167,7 +167,7 @@ dojo.declare('spaceship.minigame.MiniGame', [dijit._Widget,
      */
     play: function(url, stop) {
         if(stop) {
-            this.audio.stop(spaceship.sounds.MINIGAME_CHANNEL);
+            this.audio.stop({channel : spaceship.sounds.MINIGAME_CHANNEL});
         }
         this.audio.setProperty({name: 'volume', 
             value: this.prefs.soundVolume.value,
