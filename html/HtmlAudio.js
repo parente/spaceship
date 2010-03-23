@@ -92,11 +92,10 @@ dojo.declare('spaceship.html.HtmlAudio', [dijit._Widget,
     /**
      * Called when the text of the current regard is finished being said.
      *
-     * @param audio Audio manager
      * @param response Audio response object
      */
-    onSayDone: function(audio, response) {
-        if(this._continuous && response.name == 'chunk') {
+    onSayDone: function(response) {
+        if(this._continuous && response.name == 'chunk' && response.completed) {
             // regard the next chunk
             this.model.regardNextChunk();
         }
