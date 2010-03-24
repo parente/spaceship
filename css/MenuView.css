@@ -5,11 +5,11 @@
  * http://creativecommons.org/licenses/BSD/
  */
 .ssMenuView {
-    display: table !important; 
+    display: table; 
     position: relative; 
     overflow: hidden;
-    color: white;
-    text-align: center;
+    width: 100%;
+    height: 100%;
 }
 
 .ssMenuViewBox {
@@ -19,6 +19,7 @@
 }
 
 .ssMenuViewList {
+    color: white;
     margin: 0px auto;
     list-style-type: none;
     padding: 0px;
