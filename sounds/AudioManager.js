@@ -5,7 +5,7 @@
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.sounds.AudioManager');
-dojo.require('info.mindtrove.JSonic');
+dojo.require('uow.audio.JSonic');
 dojo.require('spaceship.utils.Subscriber');
 dojo.require('spaceship.preferences.PreferencesTopics');
 dojo.require('spaceship.preferences.PreferencesModel');
@@ -48,7 +48,7 @@ spaceship.sounds.SOUND_TRANSITION_CHANNEL = 'sound2';
 spaceship.sounds.MUSIC_CHANNEL = 'music';
 spaceship.sounds.MINIGAME_CHANNEL = 'mini';
 
-dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, info.mindtrove.JSonic], {
+dojo.declare('spaceship.sounds.AudioManager', [spaceship.utils.Subscriber, uow.audio.JSonic], {
     // bundle of user preferences
     prefs: spaceship.preferences.PreferencesModel,
     postMixInProperties: function() {

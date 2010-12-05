@@ -4,16 +4,15 @@
  * Copyright (c) 2008, 2009 Peter Parente under the terms of the BSD license.
  * http://creativecommons.org/licenses/BSD/
  */
-dojo.provide('spaceship.game.GameConfig');
+dojo.provide('spaceship.game.GameLevel');
 dojo.require('dojo.i18n');
 dojo.requireLocalization('spaceship', 'labels');
 
-spaceship.game.GameConfig = (function(){
+spaceship.game.GameLevel = (function(){
     var labels = dojo.i18n.getLocalization('spaceship', 'labels');
     return [
         {
             level : 'easy',
-            label: labels.EASY_LEVEL,
             initialAmmo : 3,
             initialShields : 5,
             initialShips : 5,
@@ -39,7 +38,6 @@ spaceship.game.GameConfig = (function(){
         
         {
             level : 'medium',
-            label: labels.MEDIUM_LEVEL,
             initialAmmo : 3,
             initialShields : 5,
             initialShips : 10,
@@ -65,7 +63,6 @@ spaceship.game.GameConfig = (function(){
 
         {
             level : 'hard',
-            label: labels.HARD_LEVEL,
             initialAmmo : 1,
             initialShields : 5,
             initialShips : 20,

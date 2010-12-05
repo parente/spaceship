@@ -22,7 +22,7 @@ dojo.declare('spaceship.Main', null, {
         dojo.require('spaceship.sounds.AudioManager');
         dojo.require('spaceship.sounds.Jukebox');
         dojo.require('spaceship.images.GraphicsManager');
-        dojo.require('spaceship.game.GameConfig');
+        dojo.require('spaceship.game.GameLevel');
         dojo.require('spaceship.game.GameModel');
         dojo.require('spaceship.game.GridView');
         dojo.require('spaceship.game.GridAudio');
@@ -130,6 +130,9 @@ dojo.declare('spaceship.Main', null, {
         // parse the inline page widgets
         dojo.parser.parse();
         
+        // @todo
+        this._config = spaceship.game.GameLevel[0];
+        
         // get a reference to parsed widgets
         this._stackWidget = dijit.byId('stack');
         this._footerWidget = dijit.byId('footer');
@@ -146,20 +149,11 @@ dojo.declare('spaceship.Main', null, {
         
         // store menu args
         this._mainArgs = {
-            itemLabels: [this._labels.NEW_GAME_ITEM, this._labels.OPTIONS_ITEM, 
-                         this._labels.NEWS_ITEM, this._labels.CREDITS_ITEM, 
-                         this._labels.HELP_ITEM]
+            itemLabels: [this._labels.NEW_GAME_ITEM]
         };
         this._returnArgs = {
             itemLabels: [this._labels.RESUME_GAME_ITEM, 
-                         this._labels.OPTIONS_ITEM, this._labels.QUIT_GAME_ITEM],
-            cancelable: true
-        };
-        this._difficultyArgs = {
-            itemLabels: dojo.map(spaceship.game.GameConfig, function(cfg) {
-                return cfg.label;
-            }),
-            title: this._labels.DIFFICULTY_TITLE,
+                         this._labels.QUIT_GAME_ITEM],
             cancelable: true
         };
         this._quitArgs = {
@@ -201,32 +195,10 @@ dojo.declare('spaceship.Main', null, {
      * Called in response to CHOOSE_ITEM_TOPIC from the main menu.
      */
     onChooseMain: function(index, label) {
-        switch(label) {
-        case this._labels.NEW_GAME_ITEM:
-            // destroy the menu immediately
-            this._endMenu(false);
-            // pick a difficulty
-            this._startMenu(this._difficultyArgs, 'onChooseDifficulty',
-                'startMain');
-            break;
-        case this._labels.OPTIONS_ITEM:
-            // destroy the menu immediately
-            this._endMenu(false);
-            this._startOptions('startMain');
-            break;
-        case this._labels.NEWS_ITEM:
-            // show the main game news, but leave the main menu
-            this._startHtml('html/news.html');
-            break;        
-        case this._labels.CREDITS_ITEM:
-            // show the main game credits, but leave the main menu
-            this._startHtml('html/credits.html');
-            break;
-        case this._labels.HELP_ITEM:
-            // show the main game help, but leave the main menu
-            this._startHtml('html/help.html');
-            break;
-        }
+        // destroy the menu immediately
+        this._endMenu(false);
+        // pick a difficulty
+        this.startGame();
     },
 
     /**
@@ -234,11 +206,6 @@ dojo.declare('spaceship.Main', null, {
      */
     onChooseReturn: function(index, label) {
         switch(label) {
-        case this._labels.OPTIONS_ITEM:
-            // destroy the menu immediately
-            this._endMenu(false);
-            this._startOptions('pauseGame');
-            break;
         case this._labels.RESUME_GAME_ITEM:
             this.resumeGame();
             break;            
@@ -282,65 +249,6 @@ dojo.declare('spaceship.Main', null, {
             // restart the resume menu
             this._startMenu(this._returnArgs, 'onChooseReturn', 'resumeGame');
         }
-    },
-
-    /**
-     * Start a HTML panel.
-     *
-     * @param url URL of the HTML doc to show
-     */
-    _startHtml: function(url) {
-        // store the last active panel
-        if(!this._lastPanel) {
-            this._lastPanel = this._stackWidget.selectedChildWidget;
-        }
-        
-        // create the html model and add it to the bag
-        var model = new spaceship.html.HtmlModel({url : url});
-        var args = {model: model};
-        var view = new spaceship.html.HtmlView(args);
-        var audio = new spaceship.html.HtmlAudio(args);
-        // add the visual view to the stack
-        this._stackWidget.addChild(view);
-        this._stackWidget.selectChild(view);
-    },
-    
-    /**
-     * Ends a HTML panel.
-     */
-    _endHtml: function() {
-        // show the last active panel
-        if(this._lastPanel) {
-            this._stackWidget.selectChild(this._lastPanel);
-            this._lastPanel = null;
-        }
-    },
-    
-    /**
-     * Start the options panel.
-     * 
-     * @param end String name of method to handle cancel
-     */
-    _startOptions: function(end) {
-        // store the last active panel
-        if(!this._lastPanel) {
-            this._lastPanel = this._stackWidget.selectedChildWidget;
-        }
-        
-        // let the menu options drive this controller
-        this._subs['menu-choose'] = dojo.subscribe(spaceship.menu.CHOOSE_ITEM_TOPIC, 
-            this, end);
-        this._subs['menu-cancel'] = dojo.subscribe(spaceship.menu.CANCEL_MENU_TOPIC, 
-            this, end);
-        
-        // create the html model and add it to the bag
-        this._menuModel = new spaceship.menu.options.OptionsMenuModel();
-        var args = {model: this._menuModel};
-        var view = new spaceship.menu.options.OptionsMenuView(args);
-        var audio = new spaceship.menu.options.OptionsMenuAudio(args);
-        // add the visual view to the stack
-        this._stackWidget.addChild(view);
-        this._stackWidget.selectChild(view);
     },
     
     /**
