@@ -74,17 +74,17 @@ dojo.declare('spaceship.Main', null, {
         dojo.addOnUnload(dojo.hitch(this, this.uninitialize));        
         // register for when all modules load
         var readyFunc = dojo.hitch(this, 'onLibReady');
-        var missingFunc = dojo.hitch(this, 'onMissingAudio');
+        // when all resources finish loading
         dojo.addOnLoad(readyFunc);
         // enable preferences
         spaceship.preferences.PreferencesModel.startup();
         // register for when audio is ready
         var def = spaceship.sounds.AudioManager.startup();
-        def.addCallback(readyFunc).addErrback(missingFunc);
+        def.addCallback(readyFunc);
         // register for when images are ready
-        spaceship.images.GraphicsManager.startup().addCallback(readyFunc);
+        def = spaceship.images.GraphicsManager.startup();
+        def.addCallback(readyFunc);
     },
-    
     
     /**
      * Called when all resources are loaded. Initializes the game.
@@ -94,23 +94,6 @@ dojo.declare('spaceship.Main', null, {
         if(this._readyCount == 3) {
             this.initialize();
         }
-    },
-    
-    /** 
-     * Called when audio fails to initialize. Shows a dialog instructing the
-     * user to download Outfox.
-     */
-    onMissingAudio: function() {
-        dojo.require("dijit.Dialog");
-        var args = {
-            href : 'html/audio.html',
-            title : this._labels.MISSING_REQ_TITLE,
-            draggable : false
-        };
-        this._errorDialog = new dijit.Dialog(args);
-        // don't allow the dialog to hide
-        this._errorDialog.hide = function() {};
-        this._errorDialog.show();
     },
     
     /**
@@ -130,10 +113,10 @@ dojo.declare('spaceship.Main', null, {
         // parse the inline page widgets
         dojo.parser.parse();
         
-        // @todo
+        // @todo: read config name from hash value
         this._config = spaceship.game.GameLevel[0];
         
-        // get a reference to parsed widgets
+        // get references to parsed widgets
         this._stackWidget = dijit.byId('stack');
         this._footerWidget = dijit.byId('footer');
         this._layoutWidget = dijit.byId('layout');
