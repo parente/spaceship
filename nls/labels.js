@@ -1,7 +1,7 @@
 {
     GAME_TITLE : 'Spaceship!',
     // menu items
-    NEW_GAME_ITEM : 'New Game',
+    NEW_GAME_ITEM : 'Press Enter to Start',
     RESUME_GAME_ITEM : 'Resume Game',
     OPTIONS_ITEM : 'Options',
     SCORES_ITEM : 'Scores',
