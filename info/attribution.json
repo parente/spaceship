@@ -4,246 +4,391 @@
         "license" : "GNU LGPL",
         "creator" : "Everaldo Coelho",
         "year" : ""
-        "url" : "http://commons.wikimedia.org/wiki/Crystal_Clear"
+        "url" : "http://commons.wikimedia.org/wiki/Crystal_Clear",
+        "type" : "image"
     },
     {
         "name" : "State maps",
         "license" : "GNU Free Documentation License",
         "creator" : "Huebi",
         "year" : "2006"
-        "url" : "http://commons.wikimedia.org/wiki/File:US_Locator_Blank.svg#Clickable_version"
+        "url" : "http://commons.wikimedia.org/wiki/File:US_Locator_Blank.svg#Clickable_version",
+        "type" : "image"
     },
     {
         "name" : "Spaceship! logo",
         "license" : "Public domain",
         "creator" : "Stellaris",
         "year" : "",
-        "url" : "http://openclipart.org/media/people/Stellaris"
+        "url" : "http://openclipart.org/media/people/Stellaris",
+        "type" : "image"
     },
     {
         "name" : "Spaceship! logo",
         "license" : "Public domain",
         "creator" : "Stellaris",
         "year" : "",
-        "url" : "http://openclipart.org/media/people/Stellaris"
+        "url" : "http://openclipart.org/media/people/Stellaris",
+        "type" : "image"
     },
     {
         "name" : "fireworks.wav",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "dobroide",
         "year" : "2005",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=5560"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=5560",
+        "type" : "sound"
     },
     {
         "name" : "yells.mp3",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "jasinski",
         "year" : "2006",
-        "url" : "http://www.freesound.org/usersViewSingle.php?id=71309"
+        "url" : "http://www.freesound.org/usersViewSingle.php?id=71309",
+        "type" : "sound"
     },
     {
         "name" : "alarm003.wav",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "HardPCM",
         "year" : "2007",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=32987"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=32987",
+        "type" : "sound"
     },
     {
         "name" : "ak47_chamber_round.wav",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "NoiseCollector",
         "year" : "2006",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=17130"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=17130",
+        "type" : "sound"
     },
     {
         "name" : "jillys sonar.wav",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "NoiseCollector",
         "year" : "2006",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=6164"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=6164",
+        "type" : "sound"
     },
     {
         "name" : "cat2.wav",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "NoiseCollector",
         "year" : "2006",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=4914"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=4914",
+        "type" : "sound"
     },
     {
         "name" : "barks.wav",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "NoiseCollector",
         "year" : "2006",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=4912"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=4912",
+        "type" : "sound"
     },
     {
         "name" : "disappear.aif",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "tigersound",
         "year" : "2005",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=9081"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=9081",
+        "type" : "sound"
     },
     {
         "name" : "jetbike flypast.aif",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "tigersound",
         "year" : "2005",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=9088"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=9088",
+        "type" : "sound"
     },
     {
         "name" : "flak_hit.wav",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "smcameron",
         "year" : "2008",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=51466"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=51466",
+        "type" : "sound"
     },
     {
         "name" : "Rhino-05.wav",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "patchen",
         "year" : "2005",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=3380"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=3380",
+        "type" : "sound"
     },
     {
         "name" : "coin-up.aif",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "mattwasser",
         "year" : "2008",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=58919"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=58919",
+        "type" : "sound"
     },
     {
         "name" : "sf3-sfx-menu-back.wav",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "broumbroum",
         "year" : "2008",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=50557"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=50557",
+        "type" : "sound"
     },
     {
         "name" : "sf3-sfx-menu-validate.wav",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "broumbroum",
         "year" : "2008",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=50565"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=50565",
+        "type" : "sound"
     },
     {
         "name" : "sf3-sfx-menu-select.wav",
-        "license" : "",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
         "creator" : "broumbroum",
         "year" : "2008",
-        "url" : "http://www.freesound.org/samplesViewSingle.php?id=50561"
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=50561",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "UFOblip.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "SppedY",
+        "year" : "2005",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=3060",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "hvylas.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "inferno",
+        "year" : "2006",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=18382",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "Slurp.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "FranciscoPadilla",
+        "year" : "2006",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=22788",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "created siren.mp3",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "Dam Pberbauer a.k.a. DJ Chronus",
+        "year" : "2006",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=26375",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "Solfege - Do.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "digifishmusic",
+        "year" : "2007",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=44929",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "Solfege - Re.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "digifishmusic",
+        "year" : "2007",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=44934",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "Solfege - Me.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "digifishmusic",
+        "year" : "2007",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=44933",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "Solfege - Fa.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "digifishmusic",
+        "year" : "2007",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=44931",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "Solfege - So.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "digifishmusic",
+        "year" : "2007",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=44935",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "Solfege - La.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "digifishmusic",
+        "year" : "2007",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=44932",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "Solfege - Ti.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "digifishmusic",
+        "year" : "2007",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=44936",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "Solfege - Do_2.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "digifishmusic",
+        "year" : "2007",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=44930",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "elaine-growl.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "Miselaineous",
+        "year" : "2008",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=63668",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "TwoCows.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "acclivity",
+        "year" : "2006",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=16568",
+        "type" : "sound"
     },
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "1202_goat.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "reinsamba",
+        "year" : "2008",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=57794",
+        "type" : "sound"
     },
-
     {
-        "name" : "",
-        "license" : "",
-        "creator" : "",
-        "year" : "",
-        "url" : ""
+        "name" : "Owl.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "Johnc",
+        "year" : "2006",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=20684",
+        "type" : "sound"
     },
-    
+    {
+        "name" : "bear-roar.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "mrbubble110",
+        "year" : "2009",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=70333",
+        "type" : "sound"
+    },
+    {
+        "name" : "pinguin_vox.wav",
+        "license" : "Creative Commons Sampling Plus 1.0 License",
+        "creator" : "NOISE.INC",
+        "year" : "2007",
+        "url" : "http://www.freesound.org/samplesViewSingle.php?id=45394",
+        "type" : "sound"
+    },
+    {
+        "name" : "Songs of War and Triumph",
+        "license" : "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License",
+        "creator" : "surfertmex",
+        "year" : "2006",
+        "url" : "http://www.newgrounds.com/audio/listen/40877",
+        "type" : "music"
+    },
+    {
+        "name" : ".:( Orion's Belt ):.",
+        "license" : "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License",
+        "creator" : "NickPerrin",
+        "year" : "2008",
+        "url" : "http://www.newgrounds.com/audio/listen/131207",
+        "type" : "music"
+    },
+    {
+        "name" : "Paid in Blood",
+        "license" : "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License",
+        "creator" : "Michael Siemon (Sentinel94)",
+        "year" : "2008",
+        "url" : "http://www.newgrounds.com/audio/listen/139468",
+        "type" : "music"
+    },
+    {
+        "name" : "Entering the Stronghold",
+        "license" : "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License",
+        "creator" : "Denny Schneidemesser (Danman87)",
+        "year" : "2008",
+        "url" : "http://www.newgrounds.com/audio/listen/173680",
+        "type" : "music"
+    },
+    {
+        "name" : "Epic Trials and Tribulations 1",
+        "license" : "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License",
+        "creator" : "paradoxphenomena",
+        "year" : "2008",
+        "url" : "http://www.newgrounds.com/audio/listen/180154",
+        "type" : "music"
+    },
+    {
+        "name" : "Village Symphony",
+        "license" : "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License",
+        "creator" : "OctoEntandre",
+        "year" : "2008",
+        "url" : "http://www.newgrounds.com/audio/listen/192660",
+        "type" : "music"
+    },
+    {
+        "name" : "Sadness and Sorrow Remake",
+        "license" : "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License",
+        "creator" : "Celestial-Sticker",
+        "year" : "2008",
+        "url" : "http://www.newgrounds.com/audio/listen/196951",
+        "type" : "music"
+    },
+    {
+        "name" : "The Pirates",
+        "license" : "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License",
+        "creator" : "Deniz Akbulut (Intero)",
+        "year" : "2008",
+        "url" : "http://www.newgrounds.com/audio/listen/196995",
+        "type" : "music"
+    },
+    {
+        "name" : "The Last One",
+        "license" : "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License",
+        "creator" : "silencefreedom",
+        "year" : "2009",
+        "url" : "http://www.newgrounds.com/audio/listen/212992",
+        "type" : "music"
+    },
+    {
+        "name" : "High Sea",
+        "license" : "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License",
+        "creator" : "silencefreedom",
+        "year" : "2009",
+        "url" : "http://www.newgrounds.com/audio/listen/217374",
+        "type" : "music"
+    },
+    {
+        "name" : "Spaceship!",
+        "license" : "New BSD",
+        "creator" : "Peter Parente",
+        "year" : "2009",
+        "url" : "https://github.com/parente/spaceship",
+        "type" : "code"
+    },
+    {
+        "name" : "UNC Open Web Framework",
+        "license" : "New BSD",
+        "creator" : "UNC Open Web Group",
+        "year" : "2010",
+        "url" : "https://github.com/uncopenweb/",
+        "type" : "code"
+    }
 ]
