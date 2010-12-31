@@ -1,10 +1,11 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
     <title>Spaceship!</title>
     <style type="text/css">
-      @import "http://ajax.googleapis.com/ajax/libs/dojo/1.4.1/dojo/resources/dojo.css";
-      @import "http://ajax.googleapis.com/ajax/libs/dojo/1.4.1/dijit/themes/nihilo/nihilo.css";
+      @import "http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/resources/dojo.css";
+      @import "http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/nihilo/nihilo.css";
       @import "css/spaceship.css";
     </style>
     <script type="text/javascript">
@@ -15,16 +16,19 @@
             modulePaths: {'spaceship' : ''}
         };
     </script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.4.1/dojo/dojo.xd.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"></script>
     <script type="text/javascript" src="/libs/uow.js"></script>
     <script type="text/javascript">
       dojo.require('spaceship.utils.LoaderOverlay');
-      dojo.addOnLoad(function() {
+      dojo.ready(function() {
+        // busy while loading
         var node = spaceship.utils.LoaderOverlay.show();
         dojo.require('spaceship.Main');
         dojo.ready(function() {
+          // start main controller
           var s = new spaceship.Main();
           dojo.connect(s, 'initialize', function() {
+            // hide busy and show content when everything loads
             var anim = spaceship.utils.LoaderOverlay.hide(node);
             dojo.removeClass(dojo.body(), 'blank');
             dojo.addClass(dojo.body(), 'spaceship');
