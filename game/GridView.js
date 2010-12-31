@@ -8,7 +8,6 @@ dojo.provide('spaceship.game.GridView');
 dojo.require('dijit._Widget');
 dojo.require('dijit._Templated');
 dojo.require('dijit._Container');
-dojo.require('dojo.string');
 dojo.require('dojo.fx');
 dojo.require('spaceship.preferences.PreferencesModel');
 dojo.require('spaceship.game.GameTopics');

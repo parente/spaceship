@@ -5,7 +5,6 @@
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.preferences.types.RangeType');
-dojo.require('dojo.string');
 dojo.require('spaceship.preferences.types.OptionType');
 
 dojo.declare('spaceship.preferences.types.RangeType', spaceship.preferences.types.OptionType, {
@@ -51,6 +50,6 @@ dojo.declare('spaceship.preferences.types.RangeType', spaceship.preferences.type
      * Replaces the base class method to return the value with units attached.
      */
     getValueLabel: function() {
-        return dojo.string.substitute(this.unitLabel, [this.value]);
+        return dojo.replace(this.unitLabel, [this.value]);
     }
 });

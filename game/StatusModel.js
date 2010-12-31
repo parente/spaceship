@@ -76,7 +76,7 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
         } else {
             var template = (ammo == 1) ? 
                 this.labels.AMMO_REMAIN_MESSAGE : this.labels.AMMOS_REMAIN_MESSAGE;
-            msgs.push(dojo.string.substitute(template, {ammo : ammo}));
+            msgs.push(dojo.replace(template, {ammo : ammo}));
         }
         return msgs;
     },
@@ -92,7 +92,7 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
     getMinigameMessage: function(outcome) {
         var msgs = this.getLastResultMessage();
         var template = this.labels.MINIGAME_MESSAGE;
-        msgs.push(dojo.string.substitute(template, {challenge : outcome.getLabel()}));
+        msgs.push(dojo.replace(template, {challenge : outcome.getLabel()}));
         return msgs;
     },
     
@@ -141,7 +141,7 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
             var ships = this.config.initialShips;
             var template = (ships == 1) ? 
                 this.labels.GOAL_MESSAGE : this.labels.GOALS_MESSAGE;
-            msgs[1] = dojo.string.substitute(template, {enemies : ships});
+            msgs[1] = dojo.replace(template, {enemies : ships});
             return msgs;
         } else {
             // use the messages squirreled away in the last result
@@ -167,7 +167,7 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
         var msgs = [this.labels.HIT_MESSAGE];
         var template = (remain == 1) ? 
             this.labels.HIT_REMAIN_MESSAGE : this.labels.HITS_REMAIN_MESSAGE;
-        msgs[1] = dojo.string.substitute(template, {enemies : remain});
+        msgs[1] = dojo.replace(template, {enemies : remain});
         this._lastResult = {topic: spaceship.game.HIT_SHIP_TOPIC, msgs: msgs};
     },
 
@@ -192,16 +192,16 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
         if(change > 0) {
             template = (change == 1) ? 
                 this.labels.AMMO_MESSAGE : this.labels.AMMOS_MESSAGE;
-            msgs[0] = dojo.string.substitute(template, {ammo : change});
+            msgs[0] = dojo.replace(template, {ammo : change});
         } else {
             change = Math.abs(change);
             template = (change == 1) ? 
                 this.labels.LEECH_MESSAGE : this.labels.LEECHES_MESSAGE;
-            msgs[0] = dojo.string.substitute(template, {ammo : change});            
+            msgs[0] = dojo.replace(template, {ammo : change});            
         }
         template = (remain == 1) ? 
             this.labels.AMMO_REMAIN_MESSAGE : this.labels.AMMOS_REMAIN_MESSAGE;
-        msgs[1] = dojo.string.substitute(template, {ammo : remain});
+        msgs[1] = dojo.replace(template, {ammo : remain});
         this._lastResult = {topic: spaceship.game.CHANGE_AMMO_TOPIC, msgs: msgs};
     },
     
@@ -216,16 +216,16 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
         if(change > 0) {
             template = (change == 1) ? 
                 this.labels.SHIELD_MESSAGE : this.labels.SHIELDS_MESSAGE;
-            msgs[0] = dojo.string.substitute(template, {shields : change});
+            msgs[0] = dojo.replace(template, {shields : change});
         } else {
             change = Math.abs(change);
             template = (change == 1) ? 
                 this.labels.BOMB_MESSAGE : this.labels.BOMBS_MESSAGE;
-            msgs[0] = dojo.string.substitute(template, {shields : change});            
+            msgs[0] = dojo.replace(template, {shields : change});            
         }
         template = (remain == 1) ? 
             this.labels.SHIELD_REMAIN_MESSAGE : this.labels.SHIELDS_REMAIN_MESSAGE;
-        msgs[1] = dojo.string.substitute(template, {shields : remain});
+        msgs[1] = dojo.replace(template, {shields : remain});
         this._lastResult = {topic: spaceship.game.CHANGE_SHIELDS_TOPIC, msgs: msgs};
     },
     
@@ -242,7 +242,7 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
         // build the message
         var template = this.labels.HINT_CELL_MESSAGE;
         var args = {row : row, column: column};
-        msgs[1] = dojo.string.substitute(template, args);
+        msgs[1] = dojo.replace(template, args);
         this._lastResult = {topic: spaceship.game.HINT_TOPIC, msgs: msgs};        
     },
     
@@ -255,7 +255,7 @@ dojo.declare('spaceship.game.StatusModel', [dijit._Widget,
         var msgs = [this.labels.WARP_MESSAGE];
         var template = (remain == 1) ? 
             this.labels.GOAL_MESSAGE : this.labels.GOALS_MESSAGE;
-        msgs[1] = dojo.string.substitute(template, {enemies : remain});
+        msgs[1] = dojo.replace(template, {enemies : remain});
         this._lastResult = {topic: spaceship.game.WARP_TOPIC, msgs: msgs};
     },
     

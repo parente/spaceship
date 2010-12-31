@@ -5,7 +5,6 @@
  * http://creativecommons.org/licenses/BSD/
  */
 dojo.provide('spaceship.preferences.types.PercentType');
-dojo.require('dojo.string');
 dojo.require('dojo.i18n');
 dojo.require('spaceship.preferences.types.RangeType');
 dojo.requireLocalization('spaceship.preferences', 'labels');
@@ -29,6 +28,6 @@ dojo.declare('spaceship.preferences.types.PercentType', spaceship.preferences.ty
      */
     getValueLabel: function() {
         var value = Math.round(this.value*100);
-        return dojo.string.substitute(this.unitLabel, [value]);
+        return dojo.replace(this.unitLabel, [value]);
     }
 });

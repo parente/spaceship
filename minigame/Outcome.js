@@ -6,7 +6,6 @@
  */
 dojo.provide('spaceship.minigame.Outcome');
 dojo.require('spaceship.sounds.AudioManager')
-dojo.require('dojo.string');
 
 dojo.declare('spaceship.minigame.Outcome', null, {
     // bundle of game config
@@ -154,7 +153,7 @@ dojo.declare('spaceship.minigame.AmmoReward', spaceship.minigame.Outcome, {
             return this.labels.WIN_AMMO_MESSAGE;
         } else {
             var template = this.labels.WIN_AMMOS_MESSAGE;
-            return dojo.string.substitute(template, {ammo : this._value});
+            return dojo.replace(template, {ammo : this._value});
         }
     },
     
@@ -190,7 +189,7 @@ dojo.declare('spaceship.minigame.ShieldReward', spaceship.minigame.Outcome, {
             return this.labels.WIN_SHIELD_MESSAGE;
         } else {
             var template = this.labels.WIN_SHIELDS_MESSAGE;
-            return dojo.string.substitute(template, {shields : this._value});
+            return dojo.replace(template, {shields : this._value});
         }
     },
     
@@ -231,7 +230,7 @@ dojo.declare('spaceship.minigame.BombHazard', spaceship.minigame.Outcome, {
             return this.labels.LOSE_BOMB_MESSAGE;
         } else {
             var template = this.labels.LOSE_BOMBS_MESSAGE;
-            return dojo.string.substitute(template, {shields : value});
+            return dojo.replace(template, {shields : value});
         }
     },
     
@@ -269,7 +268,7 @@ dojo.declare('spaceship.minigame.WarpHazard', spaceship.minigame.Outcome, {
             return this.labels.LOSE_WARP_MESSAGE;
         } else {
             var template = this.labels.LOSE_WARPS_MESSAGE;
-            return dojo.string.substitute(template, {ships : value});
+            return dojo.replace(template, {ships : value});
         }
     },
     

@@ -249,15 +249,15 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
      */
     _fillTemplates: function(templates) {
         if(templates.visual) {
-            templates.visual = dojo.string.substitute(templates.visual, 
+            templates.visual = dojo.replace(templates.visual, 
                 this._templateBundle);
         }
         if(templates.sound) {
-            templates.sound = dojo.string.substitute(templates.sound, 
+            templates.sound = dojo.replace(templates.sound, 
                 this._templateBundle);
         }
         if(templates.speech) {
-            templates.speech = dojo.string.substitute(templates.speech, 
+            templates.speech = dojo.replace(templates.speech, 
                 this._templateBundle);
         }        
     },
