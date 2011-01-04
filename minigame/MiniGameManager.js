@@ -124,9 +124,13 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         // show the game space
         dojo.style(this._panelNode, {visibility : 'visible'});
         
-        // pick a minigame
-        var i = Math.floor(Math.random()*this._catalog.length)
-        var obj = this._catalog[i];
+        var obj = this._catalog.games[this._config.minigame];
+        if(!obj) {
+            // pick a minigame
+            var i = Math.floor(Math.random()*this._catalog.names.length)
+            var name = this._catalog.names[i];
+            obj = this._catalog.games[name];
+        }
         var clsName = obj['class'];
         var modName = 'spaceship.minigame.'+obj.module+'.'+clsName;
         // load the game module

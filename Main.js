@@ -16,6 +16,7 @@ dojo.declare('spaceship.Main', null, {
     constructor: function() {
         // require modules now
         dojo.require('dojo.i18n');
+        dojo.require('dojo.hash');
         dojo.require("dijit.layout.StackContainer");
         dojo.require("dijit.layout.ContentPane");
         dojo.require("dijit.layout.BorderContainer");
@@ -113,8 +114,18 @@ dojo.declare('spaceship.Main', null, {
         // parse the inline page widgets
         dojo.parser.parse();
         
-        // @todo: read config name from hash value
-        this._config = spaceship.game.GameLevel[0];
+        // read config name from hash value
+        var h = dojo.hash();
+        var segs = h.split('-');
+        this._config = spaceship.game.GameLevel[segs[0]];
+        console.log(this._config)
+        if(!this._config) {
+            // default to easy
+            this._config = spaceship.game.GameLevel['easy']
+        }
+        // store the name of the minigame to use, or null/undefined/blank
+        // if the minigame manager should pick a random minigame
+        this._config.minigame = segs[1];
         
         // get references to parsed widgets
         this._stackWidget = dijit.byId('stack');

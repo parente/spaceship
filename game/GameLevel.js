@@ -10,9 +10,8 @@ dojo.requireLocalization('spaceship', 'labels');
 
 spaceship.game.GameLevel = (function(){
     var labels = dojo.i18n.getLocalization('spaceship', 'labels');
-    return [
-        {
-            level : 'easy',
+    return {
+        'easy' : {
             initialAmmo : 3,
             initialShields : 5,
             initialShips : 5,
@@ -23,6 +22,7 @@ spaceship.game.GameLevel = (function(){
                 {category : 'NEUTRAL_TILES', cumProb : 0.6},
                 {category : 'GOOD_TILES', cumProb : 1.0}
             ],
+            minigame : null,
             minigames: [
                 {category : 'GOOD_OUTCOMES', cumProb: 0.7},
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
@@ -35,9 +35,7 @@ spaceship.game.GameLevel = (function(){
                 timeLimit : 60
             }
         },
-        
-        {
-            level : 'medium',
+        'medium' : {
             initialAmmo : 3,
             initialShields : 5,
             initialShips : 10,
@@ -48,6 +46,7 @@ spaceship.game.GameLevel = (function(){
                 {category : 'NEUTRAL_TILES', cumProb : 0.75},
                 {category : 'GOOD_TILES', cumProb : 1.0}
             ],
+            minigame : null,
             minigames: [
                 {category : 'GOOD_OUTCOMES', cumProb: 0.65},
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
@@ -60,9 +59,7 @@ spaceship.game.GameLevel = (function(){
                 timeLimit : 30
             }
         },
-
-        {
-            level : 'hard',
+        'hard' : {
             initialAmmo : 1,
             initialShields : 5,
             initialShips : 20,
@@ -73,6 +70,7 @@ spaceship.game.GameLevel = (function(){
                 {category : 'NEUTRAL_TILES', cumProb : 0.8},
                 {category : 'GOOD_TILES', cumProb : 1.0}
             ],
+            minigame : null,
             minigames: [
                 {category : 'GOOD_OUTCOMES', cumProb: 0.5},
                 {category : 'BAD_OUTCOMES', cumProb: 1.0},
@@ -85,5 +83,5 @@ spaceship.game.GameLevel = (function(){
                 timeLimit : 15
             }
         }
-    ];
+    };
 })();
