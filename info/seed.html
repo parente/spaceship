@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Add games database</title>
+    <script type="text/javascript">
+        var djConfig = {
+            isDebug: false, 
+            parseOnLoad: false,
+            baseUrl: './',
+            modulePaths: {'spaceship' : ''}
+        };
+    </script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"></script>
+    <script type="text/javascript" src="/libs/uow.js"></script>
+    <script type="text/javascript">
+      dojo.ready(function() {
+        dojo.xhrGet({
+          url : 'hark.json',
+          handleAs : 'json'
+        }).then(function(info) {
+          uow.data.getDatabase({
+            database : 'harkhome', 
+            collection : 'games',
+            mode : 'cu'
+          }).then(function(db) {
+            dojo.forEach(info.items, function(item) {
+              db.newItem(item);
+            });
+            db.save({onComplete: function() {
+              dojo.byId('done').style.display = '';
+            }});
+          })
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <p>Adding game info to hark.org collection</p>
+    <p id="done" style="display: none;">Complete!</p>
+  </body>
+</html>
