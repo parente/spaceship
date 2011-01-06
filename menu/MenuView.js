@@ -139,7 +139,9 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
             this.model.chooseCurrent();
             break;
         case dojo.keys.ESCAPE:
-            this.model.cancel();
+            if(!event.shiftKey) {
+                this.model.cancel();
+            }
             break;
         }
     },

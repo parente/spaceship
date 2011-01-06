@@ -295,8 +295,10 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
             }
             return;
         case dojo.keys.ESCAPE:
-            // pause the game
-            this.model.pause();
+            if(!event.shiftKey) {
+                // pause the game
+                this.model.pause();
+            }
             break;
         }
         // target the new tile

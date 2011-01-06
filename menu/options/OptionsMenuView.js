@@ -94,7 +94,9 @@ dojo.declare('spaceship.menu.options.OptionsMenuView', spaceship.menu.MenuView, 
             this.model.deltaSelectedValue(1);
             break;
         case dojo.keys.ESCAPE:
-            this.model.cancel();
+            if(!event.shiftKey) {
+                this.model.cancel();
+            }
             break;
         }
     },

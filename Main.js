@@ -118,14 +118,13 @@ dojo.declare('spaceship.Main', null, {
         var h = dojo.hash();
         var segs = h.split('-');
         this._config = spaceship.game.GameLevel[segs[0]];
-        console.log(this._config)
         if(!this._config) {
             // default to easy
             this._config = spaceship.game.GameLevel['easy']
         }
         // store the name of the minigame to use, or null/undefined/blank
         // if the minigame manager should pick a random minigame
-        this._config.minigame = segs[1];
+        // this._config.minigame = segs[1];
         
         // get references to parsed widgets
         this._stackWidget = dijit.byId('stack');

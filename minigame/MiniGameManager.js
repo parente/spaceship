@@ -124,7 +124,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         // show the game space
         dojo.style(this._panelNode, {visibility : 'visible'});
         
-        var obj = this._catalog.games[this._config.minigame];
+        var obj = this._catalog.games[this.config.minigame];
         if(!obj) {
             // pick a minigame
             var i = Math.floor(Math.random()*this._catalog.names.length)
@@ -265,7 +265,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         if(this._frozen) return;
         // get the appropriate code for the key
         var code = event.charCode || event.keyCode;
-        if(code == dojo.keys.ESCAPE) {
+        if(code == dojo.keys.ESCAPE && !event.shiftKey) {
             // pause the minigame
             try {
                 if(this._game) {

@@ -77,7 +77,7 @@ dojo.declare('spaceship.sounds.Jukebox', spaceship.utils.Subscriber, {
             channel: spaceship.sounds.MUSIC_CHANNEL
         }); 
         this.audio.play({
-            url : window.location.href + track, 
+            url : track, 
             channel : spaceship.sounds.MUSIC_CHANNEL, 
             name: track,
             cache: false

@@ -76,7 +76,9 @@ dojo.declare('spaceship.html.HtmlView', [dijit.layout.ContentPane,
     onKeyPress: function(event) {
         switch(event.keyCode) {
         case dojo.keys.ESCAPE:
-            this.model.destroyRecursive();
+            if(!event.shiftKey) {
+                this.model.destroyRecursive();
+            }
             break;
         case dojo.keys.DOWN_ARROW:
         case dojo.keys.RIGHT_ARROW:
