@@ -124,7 +124,7 @@ dojo.declare('spaceship.Main', null, {
         }
         // store the name of the minigame to use, or null/undefined/blank
         // if the minigame manager should pick a random minigame
-        // this._config.minigame = segs[1];
+        this._config.minigame = segs[1];
         
         // get references to parsed widgets
         this._stackWidget = dijit.byId('stack');

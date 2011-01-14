@@ -11,7 +11,7 @@ dojo.requireLocalization('spaceship', 'labels');
 spaceship.game.GameLevel = (function(){
     var labels = dojo.i18n.getLocalization('spaceship', 'labels');
     return {
-        'easy' : {
+        easy : {
             initialAmmo : 3,
             initialShields : 5,
             initialShips : 5,
@@ -35,7 +35,7 @@ spaceship.game.GameLevel = (function(){
                 timeLimit : 60
             }
         },
-        'medium' : {
+        normal : {
             initialAmmo : 3,
             initialShields : 5,
             initialShips : 10,
@@ -59,7 +59,7 @@ spaceship.game.GameLevel = (function(){
                 timeLimit : 30
             }
         },
-        'hard' : {
+        hard : {
             initialAmmo : 1,
             initialShields : 5,
             initialShips : 20,
