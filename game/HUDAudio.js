@@ -32,15 +32,12 @@ dojo.declare('spaceship.game.HUDAudio', [dijit._Widget,
      * Called after widget creation. Subscribes to game topics.
      */
     postCreate: function(args) {
-        // register for key presses on the body of the document
-        var node = dojo.body();
-        dojo.connect(node, 'onkeypress', this, 'onKeyPress');
-
         this.subscribe(spaceship.game.LAND_SHOT_TOPIC, 'onLandShot');
         this.subscribe(spaceship.game.PREPARE_SHOT_TOPIC, 'onPrepareShot');
         this.subscribe(spaceship.game.PAUSE_GAME_TOPIC, 'onPauseGame');
         this.subscribe(spaceship.game.RESUME_GAME_TOPIC, 'onResumeGame');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
+        this.subscribe('/uow/key/press', 'onKeyPress');
     },
     
     /**

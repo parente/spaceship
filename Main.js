@@ -165,6 +165,10 @@ dojo.declare('spaceship.Main', null, {
             spaceship.game.PAUSE_MINIGAME_TOPIC, dojo.hitch(this, 'pauseGame'));
         this._subs['end-game'] = dojo.subscribe(
             spaceship.game.END_GAME_TOPIC, dojo.hitch(this, 'quitGame'));
+
+        // connect for global keys
+        uow.ui.connectKeys();
+
         // show the main menu immediately
         this.startMain();
     },

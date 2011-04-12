@@ -53,6 +53,7 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
         this.subscribe(spaceship.game.PREPARE_SHOT_TOPIC, 'onPrepareShot');
         this.subscribe(spaceship.game.WARP_TOPIC, 'onTimeWarp');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
+        this.subscribe('/uow/key/press', 'onKeyPress');
     },
     
     /**

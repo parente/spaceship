@@ -54,6 +54,7 @@ dojo.declare('spaceship.menu.options.OptionsMenuView', spaceship.menu.MenuView, 
         this.subscribe(spaceship.preferences.UPDATE_PREFERENCE_TOPIC, 'onUpdatePref');
         this.subscribe(spaceship.menu.SELECT_ITEM_TOPIC, 'onSelect');
         this.subscribe(spaceship.menu.END_MENU_TOPIC, 'onEndMenu');
+        this.subscribe('/uow/key/press', 'onKeyPress');
     },
     
     /**
@@ -80,6 +81,8 @@ dojo.declare('spaceship.menu.options.OptionsMenuView', spaceship.menu.MenuView, 
      * @param event Dojo event
      */
     onKeyPress: function(event) {
+        if(this.model.isPaused()) { return; }
+        
         switch(event.keyCode) {
         case dojo.keys.UP_ARROW:
             this.model.selectPrevious();

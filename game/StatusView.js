@@ -37,6 +37,7 @@ dojo.declare('spaceship.game.StatusView', [dijit._Widget,
         // start listening for requests to show messages
         this.subscribe(spaceship.game.SHOW_STATUS_TOPIC, 'onShowMessage');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
+        this.subscribe('/uow/key/press', 'onKeyPress');
     },
     
     /**

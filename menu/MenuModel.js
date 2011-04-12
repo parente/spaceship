@@ -54,6 +54,13 @@ dojo.declare('spaceship.menu.MenuModel', dijit._Widget, {
         }
         this._paused = true;
     },
+    
+    /**
+     * Gets if the menu is paused or active.
+     */
+    isPaused: function() {
+        return this._paused;
+    },
 
     /**
      * Cancels the menu without choosing an option.

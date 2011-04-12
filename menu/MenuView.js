@@ -61,6 +61,7 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
         // register for model notifications
         this.subscribe(spaceship.menu.SELECT_ITEM_TOPIC, 'onSelect');
         this.subscribe(spaceship.menu.END_MENU_TOPIC, 'onEndMenu');
+        this.subscribe('/uow/key/press', 'onKeyPress');
     },
     
     /**
@@ -124,6 +125,7 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
      * @param event Dojo event
      */
     onKeyPress: function(event) {
+        if(this.model.isPaused()) { return; }
         var code = event.charCode || event.keyCode;
         switch(code) {
         case dojo.keys.UP_ARROW:

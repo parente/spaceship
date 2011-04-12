@@ -54,6 +54,9 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
         this.subscribe(spaceship.game.PLAY_MINIGAME_TOPIC, 'onStartMiniGame');
         this.subscribe(spaceship.game.RESUME_MINIGAME_TOPIC, 'onResumeMiniGame');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
+        this.subscribe('/uow/key/down', 'onKeyDown');
+        this.subscribe('/uow/key/up', 'onKeyUp');
+        this.subscribe('/uow/key/press', 'onKeyPress');
         // fetch the catalog of games
         var request = {
           url : 'minigame/catalog.json',
@@ -239,7 +242,10 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
     
     onResumeMiniGame: function() {
         try {
-            if(this._game) this._game.onResume();
+            if(this._game) {
+                this._frozen = false;
+                this._game.onResume();
+            }
         } catch(e) {
             console.warn(e);
         }
@@ -269,6 +275,7 @@ dojo.declare('spaceship.minigame.MiniGameManager', [dijit._Widget,
             // pause the minigame
             try {
                 if(this._game) {
+                    this._frozen = true;
                     this._game.onPause();
                     // stop all minigame output
                     this._game.stopAll();
