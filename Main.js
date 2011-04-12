@@ -31,15 +31,15 @@ dojo.declare('spaceship.Main', null, {
         dojo.require('spaceship.menu.MenuView');
         dojo.require('spaceship.menu.MenuAudio');
         dojo.require('spaceship.menu.MenuTopics');
-        dojo.require('spaceship.menu.options.OptionsMenuModel');
-        dojo.require('spaceship.menu.options.OptionsMenuView');
-        dojo.require('spaceship.menu.options.OptionsMenuAudio');
+        // dojo.require('spaceship.menu.options.OptionsMenuModel');
+        // dojo.require('spaceship.menu.options.OptionsMenuView');
+        // dojo.require('spaceship.menu.options.OptionsMenuAudio');
         dojo.require('spaceship.game.StatusModel')
         dojo.require('spaceship.game.StatusView')
         dojo.require('spaceship.game.StatusAudio');
-        dojo.require('spaceship.html.HtmlModel')
-        dojo.require('spaceship.html.HtmlView')
-        dojo.require('spaceship.html.HtmlAudio');
+        // dojo.require('spaceship.html.HtmlModel')
+        // dojo.require('spaceship.html.HtmlView')
+        // dojo.require('spaceship.html.HtmlAudio');
         dojo.require('spaceship.game.HUDView');
         dojo.require('spaceship.game.HUDAudio');
         dojo.require('spaceship.minigame.MiniGameManager');
@@ -157,7 +157,7 @@ dojo.declare('spaceship.Main', null, {
         };
         // build a jukebox for music
         this._jukebox = new spaceship.sounds.Jukebox();
-        
+                
         // start listening for menu related events
         this._subs['pause-game'] = dojo.subscribe(
             spaceship.game.PAUSE_GAME_TOPIC, dojo.hitch(this, 'pauseGame'));
