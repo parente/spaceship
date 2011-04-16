@@ -17,10 +17,16 @@ dojo.declare('spaceship.preferences.PreferencesModel', spaceship.utils.Subscribe
      * to hark.org site for current pref values.
      */
     startup: function() {  
+        this._initialized = false;
         // listen for external preference changes (e.g., hark site)
         this.subscribe('/org/hark/prefs/response', 'onUpdateExternalPref');
         // request initial pref values
         dojo.publish('/org/hark/prefs/request');
+        // assuming synchronous response, if not initialized then manually
+        // init because we're running outside of hark.org
+        if(!this._initialized) {
+            this.buildPrefs({});
+        }
     },
 
     /**
@@ -28,6 +34,7 @@ dojo.declare('spaceship.preferences.PreferencesModel', spaceship.utils.Subscribe
      * cookie from the last session.
      */
     buildPrefs: function(prefs) {
+        this._initialized = true;
         // load labels
         var labels = dojo.i18n.getLocalization('spaceship.preferences', 'labels');
         // build preference type objects

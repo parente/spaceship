@@ -21,7 +21,7 @@ dojo.declare('spaceship.preferences.types.OptionType', null, {
      */
     constructor: function(args) {
         dojo.mixin(this, args);
-        if(this.value == null || this.value == undefined || isNaN(this.value)) {
+        if(this.value === null || this.value === undefined || isNaN(this.value)) {
             this.value = this.defaultValue;
         }
     },
