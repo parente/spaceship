@@ -16,6 +16,7 @@ spaceship.sounds = {
     MENU_CHOOSE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50565__broumbroum__sf3_sfx_menu_validate').uri,
     MENU_CANCEL_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50557__broumbroum__sf3_sfx_menu_back').uri,
     MENU_SELECT_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50561__broumbroum__sf3_sfx_menu_select').uri,
+    GRID_BOUNDARY_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', 'timpani_hit').uri,
     GRID_SELECT_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '50561__broumbroum__sf3_sfx_menu_select').uri,
     EMPTY_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '18382__inferno__hvylas').uri,
     SHIP_TILE_SOUND : dojo.moduleUrl('spaceship.sounds.mp3.effects', '9081__tigersound__disappear').uri,

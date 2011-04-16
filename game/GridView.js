@@ -276,16 +276,32 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
         var code = event.charCode || event.keyCode;
         switch(code) {
         case dojo.keys.UP_ARROW:
-            if(row > 0) --row;
+            if(row > 0) {
+                --row;
+            } else {
+                dojo.publish(spaceship.game.BAD_TARGET_TOPIC, [index]);
+            }
             break;
         case dojo.keys.LEFT_ARROW:
-            if(col > 0) --col;
+            if(col > 0) {
+                --col;
+            } else {
+                dojo.publish(spaceship.game.BAD_TARGET_TOPIC, [index]);
+            }
             break;
         case dojo.keys.DOWN_ARROW:
-            if(row < this.config.rows - 1) ++row;
+            if(row < this.config.rows - 1) {
+                ++row;
+            } else {
+                dojo.publish(spaceship.game.BAD_TARGET_TOPIC, [index]);
+            }
             break;
         case dojo.keys.RIGHT_ARROW:
-            if(col < this.config.columns - 1) ++col;
+            if(col < this.config.columns - 1) {
+                ++col;
+            } else {
+                dojo.publish(spaceship.game.BAD_TARGET_TOPIC, [index]);
+            }
             break;
         case dojo.keys.SPACE:
         case dojo.keys.ENTER:

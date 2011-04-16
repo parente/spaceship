@@ -37,6 +37,7 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
         this.subscribe(spaceship.game.PREPARE_SHOT_TOPIC, 'onPrepareShot');
         this.subscribe(spaceship.game.LAND_SHOT_TOPIC, 'onHitTile');
         this.subscribe(spaceship.game.END_GAME_TOPIC, 'onEndGame');
+        this.subscribe(spaceship.game.BAD_TARGET_TOPIC, 'onBadTarget');
     },
     
     /**
@@ -101,6 +102,22 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
             text : text, 
             cache : true,
             channel : spaceship.sounds.SPEECH_CHANNEL
+        });
+    },
+
+    /**
+     * Called when the user tries to target a non-existant tile.
+     *
+     * @subscribe BAD_TARGET_TOPIC
+     */    
+    onBadTarget: function(index) {
+        // stop current speech and sound
+        this.audio.stop({channel : spaceship.sounds.SOUND_CHANNEL});
+        this.audio.stop({channel : spaceship.sounds.SPEECH_CHANNEL});
+        // play the boundary sound
+        this.audio.play({
+            url : spaceship.sounds.GRID_BOUNDARY_SOUND,
+            channel : spaceship.sounds.SOUND_CHANNEL
         });
     },
     

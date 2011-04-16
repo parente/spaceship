@@ -37,6 +37,8 @@ spaceship.game.LAND_SHOT_TOPIC = 'ss-landShot';
 spaceship.game.TARGET_TILE_TOPIC = 'ss-targetTile';
 // sent by a Tile when the user stops aiming at it
 spaceship.game.UNTARGET_TILE_TOPIC = 'ss-untargetTile';
+// sent by the GridView when it cannot target a tile
+spaceship.game.BAD_TARGET_TOPIC = 'ss-badTarget';
 
 // reward and hazard topics
 // sent by a Tile when hit to reward or steal ammo
