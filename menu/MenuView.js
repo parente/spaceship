@@ -155,7 +155,7 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
      * @param event Dojo event
      */
     onHover: function(index, event) {
-        if(!this.prefs.mouseControl.value) return;
+        if(!this.prefs.mouseEnabled.value) return;
         this.model.selectIndex(index);
     },
 
@@ -166,7 +166,7 @@ dojo.declare('spaceship.menu.MenuView', [dijit._Widget,
      * @param event Dojo event
      */ 
     onClick: function(index, event) {
-        if(!this.prefs.mouseControl.value) return;
+        if(!this.prefs.mouseEnabled.value) return;
         this.model.selectIndex(index);
         this.model.chooseCurrent();
     }

@@ -314,7 +314,7 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
      * @param event Event object
      */
     onHover: function(index, event) {
-        if(!this.prefs.mouseControl.value || 
+        if(!this.prefs.mouseEnabled.value || 
            event.target == event.currentTarget) {
             return;
         }
@@ -329,7 +329,7 @@ dojo.declare('spaceship.game.GridView', [dijit._Widget,
      * @param event Event object
      */        
     onClick: function(index, event) {
-        if(this._frozen || !this.prefs.mouseControl.value) return;
+        if(this._frozen || !this.prefs.mouseEnabled.value) return;
         // make sure the tile is selected
         this.model.targetTile(index);
         // now reveal the tile

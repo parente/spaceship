@@ -112,7 +112,7 @@ dojo.declare('spaceship.menu.options.OptionsMenuView', spaceship.menu.MenuView, 
      * @param event Dojo event
      */ 
     onClick: function(index, delta, event) {
-        if(!this.prefs.mouseControl.value) return;
+        if(!this.prefs.mouseEnabled.value) return;
         this.model.selectIndex(index);
         this.model.deltaSelectedValue(delta);
     },

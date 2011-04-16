@@ -24,7 +24,7 @@ dojo.declare('spaceship.menu.options.OptionsMenuModel', spaceship.menu.MenuModel
             'speechVolume',
             'soundVolume',
             'musicVolume',
-            'mouseControl'
+            'mouseEnabled'
         ];
         // ordered item objects
         this._itemObjects = dojo.map(this._itemIds, function(id) {
