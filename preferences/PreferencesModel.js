@@ -35,7 +35,7 @@ dojo.declare('spaceship.preferences.PreferencesModel', spaceship.utils.Subscribe
         args = {id : 'speechRate',
                 label : labels.SPEECH_RATE_LABEL,
                 value : prefs.speechRate,
-                defaultValue : 200,
+                defaultValue : 250,
                 minimum : 80, 
                 maximum : 600,
                 step: 50,
@@ -62,8 +62,8 @@ dojo.declare('spaceship.preferences.PreferencesModel', spaceship.utils.Subscribe
         this[args.id] = new spaceship.preferences.types.PercentType(args);
         args = {id : 'musicVolume', 
                 label : labels.MUSIC_VOLUME_LABEL,
-                value : Number(dojo.cookie('musicVolume')),
-                defaultValue : prefs.musicVolume,
+                value : prefs.musicVolume,
+                defaultValue : 0.40,
                 minimum : 0.0,
                 maximum : 1.0,
                 step : 0.05
