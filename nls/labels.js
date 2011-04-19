@@ -51,6 +51,8 @@
     BOMBS_MESSAGE : 'Space mines destroyed {shields} shields!', 
     HINT_MESSAGE : 'Enemy ship detected!',
     HINT_CELL_MESSAGE : 'Row {row}, column {column}.',
+    PROMPT_SHOOT_MESSAGE : 'Press space to shoot here.',
+    PROMPT_MOVE_MESSAGE : 'You shot here already. Try moving elsewhere.',
     WARP_MESSAGE : 'Enemy reinforcements warp-in!',
     // next action messages
     SHOT_MESSAGE: 'Prepare to fire!',

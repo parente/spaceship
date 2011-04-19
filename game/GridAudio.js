@@ -27,6 +27,8 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
     postMixInProperties: function() {
         // barrier to notify after playing grid audio
         this._barrier = null;
+        // timer for delayed speech
+        this._timer = null;
     },
     
     /**
@@ -74,6 +76,8 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
      * @subscribe TARGET_TILE_TOPIC
      */
     onTargetTile: function(index) {
+        // clear last timer
+        clearTimeout(this._timer);
         // stop current speech and sound
         this.audio.stop({channel : spaceship.sounds.SOUND_CHANNEL});
         this.audio.stop({channel : spaceship.sounds.SPEECH_CHANNEL});
@@ -98,11 +102,22 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
         obj.row = Math.floor(index / this.config.columns) + 1;
         obj.column = (index % this.config.columns) + 1;
         text = dojo.replace(this.labels.HINT_CELL_MESSAGE, obj);
-        this.audio.say({
-            text : text, 
-            cache : true,
-            channel : spaceship.sounds.SPEECH_CHANNEL
-        });
+        this._timer = setTimeout(dojo.hitch(this, function() {
+            this.audio.say({
+                text : text, 
+                cache : true,
+                channel : spaceship.sounds.SPEECH_CHANNEL
+            });
+            // @todo: might want to start timer after deferred fires
+            this._timer = setTimeout(dojo.hitch(this, function() {
+                text = tile.isRevealed() ? this.labels.PROMPT_MOVE_MESSAGE : this.labels.PROMPT_SHOOT_MESSAGE;
+                this.audio.say({
+                    text : text, 
+                    cache : true,
+                    channel : spaceship.sounds.SPEECH_CHANNEL
+                });
+            }), 4000);
+        }), 500);
     },
 
     /**
@@ -111,6 +126,7 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
      * @subscribe BAD_TARGET_TOPIC
      */    
     onBadTarget: function(index) {
+        clearTimeout(this._timer);
         // stop current speech and sound
         this.audio.stop({channel : spaceship.sounds.SOUND_CHANNEL});
         this.audio.stop({channel : spaceship.sounds.SPEECH_CHANNEL});
@@ -127,6 +143,7 @@ dojo.declare('spaceship.game.GridAudio', [dijit._Widget,
      * @subscribe LAND_SHOT_TOPIC
      */
     onHitTile: function(tile) {
+        clearTimeout(this._timer);
         var snd = tile.getSoundUrl();
         // stop current speech and sound
         this.audio.stop({channel : spaceship.sounds.SPEECH_CHANNEL});
