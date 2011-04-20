@@ -1,5 +1,6 @@
 {
     LISTEN_PROMPT : 'Listen to these notes.',
+    SUBJECT : 'note',
     CHOICES : [
         {visual : 'do', sound : '{sounds}solfege/44929__digifishmusic__Solfege_Do'},
         {visual : 're', sound : '{sounds}solfege/44934__digifishmusic__Solfege_Re'},

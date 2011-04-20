@@ -1,5 +1,6 @@
 {
     LISTEN_PROMPT : 'Listen to these sports.',
+    SUBJECT : 'sport',
     CHOICES : [
         {visual : '<img class="sport" src="{images}sports/baseball.png" />', 
          speech : 'baseball'},

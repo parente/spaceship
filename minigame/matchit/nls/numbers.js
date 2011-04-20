@@ -1,5 +1,6 @@
 {
     LISTEN_PROMPT : 'Listen to these numbers.',
+    SUBJECT : 'number',
     CHOICES : [
         {visual : '0', speech : '0'},
         {visual : '1', speech : '1'},

@@ -49,10 +49,8 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
         this.inherited(arguments);
         // load strings
         this.prompts = dojo.i18n.getLocalization('spaceship.minigame.matchit', 'prompts');
-        // don't keep giving repeat help if the user has seen/heard it before
-        if(spaceship.minigame.matchit._repeatPrompted) {
-            this.prompts.PLAY_PROMPT = this.prompts.PLAY_PROMPT_N;
-        }
+        // count of prompts to decide short / long
+        this._promptCount = 0;
     },
     
     /**
@@ -88,11 +86,15 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
      * difficulty.
      */
     onStart: function() {
+        var def;
         // reset input
         this._currentInput = [];
         // say listen prompt
-        this.say(this.gamePrompts.LISTEN_PROMPT);
-        var def;
+        def = this.say(this.gamePrompts.LISTEN_PROMPT);
+        def.callBefore(dojo.hitch(this, function() {
+            this.helpNode.innerHTML = this.gamePrompts.LISTEN_PROMPT;
+        }));
+        // get pattern to match nodes        
         var tds = dojo.query('td', this.patternRow);
         // start all cells hidden
         tds.style('visibility', 'hidden');
@@ -112,14 +114,27 @@ dojo.declare('spaceship.minigame.matchit.MatchItGame', spaceship.minigame.MiniGa
             }));
         }, this);
         
-        // say controls prompt
-        def = this.say(this.prompts.PLAY_PROMPT);
-        spaceship.minigame.matchit._repeatPrompted = true;
+        if(!spaceship.minigame.matchit._repeatPrompted || this._promptCount >= 2) {
+            // long prompt
+            spaceship.minigame.matchit._repeatPrompted = true;
+            dojo.forEach(this.prompts.PLAY_PROMPTS, function(label) {
+                label = dojo.replace(label, this.gamePrompts);
+                def = this.say(label);
+                // show controls prompt as it starts speaking
+                def.callBefore(dojo.hitch(this, function() {
+                    this.helpNode.innerHTML = label;
+                }));
+            }, this);
+        } else {
+            // short prompt
+            def = this.say(this.prompts.PLAY_PROMPT_N);
+            // show controls prompt as it starts speaking
+            def.callBefore(dojo.hitch(this, function() {
+                this.helpNode.innerHTML = this.prompts.PLAY_PROMPT_N;
+            }));
+        }
+        this._promptCount += 1;
         
-        // show controls prompt as it starts speaking
-        def.callBefore(dojo.hitch(this, function() {
-            dojo.style(this.helpNode, 'visibility', '');
-        }));
         // let the user play after the final prompt
         def.callAfter(dojo.hitch(this, function() {
             // enable user controls

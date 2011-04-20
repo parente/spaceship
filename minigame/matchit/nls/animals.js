@@ -1,5 +1,6 @@
 {
     LISTEN_PROMPT : 'Listen to these animals.',
+    SUBJECT : 'animal',
     CHOICES : [
         {visual : '<img class="animal" src="{images}animals/dog.png" />', 
          speech : 'dog', 

@@ -1,5 +1,6 @@
 {
     LISTEN_PROMPT : 'Listen to these states.',
+    SUBJECT : 'state',
     CHOICES : [
         {visual : '<img class="state" src="{images}states/ME.png" />', speech : 'Maine'},
         {visual : '<img class="state" src="{images}states/NH.png" />', speech : 'New Hampshire'},

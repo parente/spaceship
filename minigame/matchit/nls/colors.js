@@ -1,5 +1,6 @@
 {
     LISTEN_PROMPT : 'Listen to these colors.',
+    SUBJECT : 'color',
     CHOICES : [
         {visual : '<div style="background-color: red">&nbsp;</div>', speech : 'red'},
         {visual : '<div style="background-color: blue">&nbsp;</div>', speech : 'blue'},
